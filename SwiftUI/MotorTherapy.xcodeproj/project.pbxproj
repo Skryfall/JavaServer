@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A93BE682234EF6340041E2AD /* models in Resources */ = {isa = PBXBuildFile; fileRef = A93BE681234EF6340041E2AD /* models */; };
 		A986E332234EEC4200A71338 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A986E331234EEC4200A71338 /* AppDelegate.swift */; };
 		A986E334234EEC4200A71338 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A986E333234EEC4200A71338 /* ViewController.swift */; };
 		A986E336234EEC4200A71338 /* Experience.rcproject in Sources */ = {isa = PBXBuildFile; fileRef = A986E335234EEC4200A71338 /* Experience.rcproject */; };
@@ -15,6 +16,8 @@
 		A986E33E234EEC4300A71338 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A986E33C234EEC4300A71338 /* LaunchScreen.storyboard */; };
 		A986E349234EEC4300A71338 /* MotorTherapyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A986E348234EEC4300A71338 /* MotorTherapyTests.swift */; };
 		A986E354234EEC4300A71338 /* MotorTherapyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A986E353234EEC4300A71338 /* MotorTherapyUITests.swift */; };
+		A986E362234EECF700A71338 /* MessageLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A986E361234EECF700A71338 /* MessageLabel.swift */; };
+		A986E364234EED2100A71338 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = A986E363234EED2100A71338 /* Utilities.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,6 +38,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A93BE681234EF6340041E2AD /* models */ = {isa = PBXFileReference; lastKnownFileType = folder; path = models; sourceTree = "<group>"; };
 		A986E32E234EEC4200A71338 /* MotorTherapy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MotorTherapy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A986E331234EEC4200A71338 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A986E333234EEC4200A71338 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -49,6 +53,8 @@
 		A986E34F234EEC4300A71338 /* MotorTherapyUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MotorTherapyUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A986E353234EEC4300A71338 /* MotorTherapyUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotorTherapyUITests.swift; sourceTree = "<group>"; };
 		A986E355234EEC4300A71338 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A986E361234EECF700A71338 /* MessageLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MessageLabel.swift; path = "ui-elements/MessageLabel.swift"; sourceTree = "<group>"; };
+		A986E363234EED2100A71338 /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +105,7 @@
 		A986E330234EEC4200A71338 /* MotorTherapy */ = {
 			isa = PBXGroup;
 			children = (
+				A93BE681234EF6340041E2AD /* models */,
 				A986E331234EEC4200A71338 /* AppDelegate.swift */,
 				A986E333234EEC4200A71338 /* ViewController.swift */,
 				A986E335234EEC4200A71338 /* Experience.rcproject */,
@@ -106,6 +113,8 @@
 				A986E33A234EEC4300A71338 /* Assets.xcassets */,
 				A986E33C234EEC4300A71338 /* LaunchScreen.storyboard */,
 				A986E33F234EEC4300A71338 /* Info.plist */,
+				A986E361234EECF700A71338 /* MessageLabel.swift */,
+				A986E363234EED2100A71338 /* Utilities.swift */,
 			);
 			path = MotorTherapy;
 			sourceTree = "<group>";
@@ -232,6 +241,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A93BE682234EF6340041E2AD /* models in Resources */,
 				A986E33E234EEC4300A71338 /* LaunchScreen.storyboard in Resources */,
 				A986E33B234EEC4300A71338 /* Assets.xcassets in Resources */,
 				A986E339234EEC4200A71338 /* Main.storyboard in Resources */,
@@ -261,6 +271,8 @@
 			files = (
 				A986E334234EEC4200A71338 /* ViewController.swift in Sources */,
 				A986E332234EEC4200A71338 /* AppDelegate.swift in Sources */,
+				A986E362234EECF700A71338 /* MessageLabel.swift in Sources */,
+				A986E364234EED2100A71338 /* Utilities.swift in Sources */,
 				A986E336234EEC4200A71338 /* Experience.rcproject in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -441,7 +453,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.schlafenhase.MotorTherapy;
+				PRODUCT_BUNDLE_IDENTIFIER = com.greenteamcr.ARTest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -459,7 +471,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.schlafenhase.MotorTherapy;
+				PRODUCT_BUNDLE_IDENTIFIER = com.greenteamcr.ARTest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
