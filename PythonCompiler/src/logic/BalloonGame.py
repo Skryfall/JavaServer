@@ -1,8 +1,12 @@
+from src.logic.Master import Master
+
+
 class BalloonGame:
     def __init__(self):
         self.iterationList = []
         self.instructions = []
         self.repetitions = 0
+        self.master = Master()
 
     def getIterationList(self):
         return self.iterationList
@@ -27,3 +31,23 @@ class BalloonGame:
 
     def addInstruction(self, instruction):
         self.instructions.append(instruction)
+
+    def handleBalloonLogic(self):
+        while self.repetitions != 0:
+            newAlt = 0
+            newLat = 0
+            for i in self.iterationList:
+                if i[2] == 'Inc':
+                    if i[0] == self.instructions[0][0]:
+                        newAlt = self.master.increment(self.instructions[len(self.instructions) - 1][0], i[1])
+                    else:
+                        newLat = self.master.increment(self.instructions[len(self.instructions) - 1][1], i[1])
+                else:
+                    if i[0] == self.instructions[0][0]:
+                        newAlt = self.master.decrement(self.instructions[len(self.instructions) - 1][0], i[1])
+                    else:
+                        newLat = self.master.decrement(self.instructions[len(self.instructions) - 1][1], i[1])
+            self.instructions.append((newAlt, newLat))
+            self.repetitions -= 1
+        self.master.setBalloonInstructions(self.instructions)
+        print(self.instructions)

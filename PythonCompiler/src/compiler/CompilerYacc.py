@@ -14,9 +14,14 @@ objectGame = ObjectGame()
 names = {}
 currentGame = 1
 
+precedence = (
+    ()
+)
+
 def p_statement_main(p):
     """statement : Begin Game1 BeginParentesis initializer add game1 EndParentesis Game2 BeginParentesis initializer add game2 EndParentesis Game3 BeginParentesis initializer add game3 EndParentesis Game4 BeginParentesis initializer add game4 EndParentesis Finish Semicolon"""
     print(names)
+    balloonGame.handleBalloonLogic()
 
 def p_game1_start(p):
     'game1 : function'
