@@ -3,7 +3,8 @@ import ply.lex as lex
 
 tokens = ['Number', 'Equals', 'Name', 'int', 'LeftParentesis', 'RightParentesis', 'Balloon', 'Semicolon', 'Coma',
           'Dow', 'Inc', 'Dec', 'Enddo', 'Begin', 'Game1', 'Finish', 'BeginParentesis', 'EndParentesis', 'Game2',
-          'texto', 'LeftSquareBracket', 'RightSquareBracket', 'String', 'Random', 'FOR', 'times', 'using', 'FOREND']
+          'texto', 'LeftSquareBracket', 'RightSquareBracket', 'String', 'Random', 'FOR', 'times', 'using', 'FOREND',
+          'Game3', 'Game4', 'TelaArana', 'ForAsignWord', 'DO', 'AsignWord', 'Object', 'FEnd']
 
 t_Equals = r'\='
 t_LeftParentesis = r'\('
@@ -25,14 +26,44 @@ def t_int(t):
     t.type = 'int'
     return t
 
+def t_Object(t):
+    r'Object'
+    t.type = 'Object'
+    return t
+
+def t_AsignWord(t):
+    r'AsignWord'
+    t.type = 'AsignWord'
+    return t
+
+def t_DO(t):
+    r'DO'
+    t.type = 'DO'
+    return t
+
 def t_texto(t):
     r'texto'
     t.type = 'texto'
     return t
 
+def t_TelaArana(t):
+    r'TelaArana'
+    t.type = 'TelaArana'
+    return t
+
 def t_FOREND(t):
     r'FOREND'
     t.type = 'FOREND'
+    return t
+
+def t_FEnd(t):
+    r'FEnd'
+    t.type = 'FEnd'
+    return t
+
+def t_ForAsignWord(t):
+    r'ForAsignWord'
+    t.type = 'ForAsignWord'
     return t
 
 def t_FOR(t):
@@ -63,6 +94,16 @@ def t_Game1(t):
 def t_Game2(t):
     r'Game2'
     t.type = 'Game2'
+    return t
+
+def t_Game3(t):
+    r'Game3'
+    t.type = 'Game3'
+    return t
+
+def t_Game4(t):
+    r'Game4'
+    t.type = 'Game4'
     return t
 
 def t_Finish(t):
