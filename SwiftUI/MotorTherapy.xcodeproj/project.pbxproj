@@ -8,9 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		A93BE682234EF6340041E2AD /* models in Resources */ = {isa = PBXBuildFile; fileRef = A93BE681234EF6340041E2AD /* models */; };
-		A97BB735234FAAE100B6FF83 /* experience.rcproject in Sources */ = {isa = PBXBuildFile; fileRef = A97BB734234FAAE100B6FF83 /* experience.rcproject */; };
-		A97BB737235106B600B6FF83 /* MotorViewCoaching.swift in Sources */ = {isa = PBXBuildFile; fileRef = A97BB736235106B600B6FF83 /* MotorViewCoaching.swift */; };
-		A97BB73B23510A8600B6FF83 /* MotorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A97BB73A23510A8600B6FF83 /* MotorView.swift */; };
+		A941B5AE235FD1460085BECF /* experience.rcproject in Sources */ = {isa = PBXBuildFile; fileRef = A941B5AD235FD1460085BECF /* experience.rcproject */; };
 		A986E332234EEC4200A71338 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A986E331234EEC4200A71338 /* AppDelegate.swift */; };
 		A986E334234EEC4200A71338 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A986E333234EEC4200A71338 /* ViewController.swift */; };
 		A986E339234EEC4200A71338 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A986E337234EEC4200A71338 /* Main.storyboard */; };
@@ -41,9 +39,7 @@
 
 /* Begin PBXFileReference section */
 		A93BE681234EF6340041E2AD /* models */ = {isa = PBXFileReference; lastKnownFileType = folder; path = models; sourceTree = "<group>"; };
-		A97BB734234FAAE100B6FF83 /* experience.rcproject */ = {isa = PBXFileReference; lastKnownFileType = file.rcproject; name = experience.rcproject; path = ../../../../../experience.rcproject; sourceTree = "<group>"; };
-		A97BB736235106B600B6FF83 /* MotorViewCoaching.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotorViewCoaching.swift; sourceTree = "<group>"; };
-		A97BB73A23510A8600B6FF83 /* MotorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotorView.swift; sourceTree = "<group>"; };
+		A941B5AD235FD1460085BECF /* experience.rcproject */ = {isa = PBXFileReference; lastKnownFileType = file.rcproject; name = experience.rcproject; path = ../../../../../experience.rcproject; sourceTree = "<group>"; };
 		A986E32E234EEC4200A71338 /* MotorTherapy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MotorTherapy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A986E331234EEC4200A71338 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A986E333234EEC4200A71338 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -109,7 +105,7 @@
 		A986E330234EEC4200A71338 /* MotorTherapy */ = {
 			isa = PBXGroup;
 			children = (
-				A97BB734234FAAE100B6FF83 /* experience.rcproject */,
+				A941B5AD235FD1460085BECF /* experience.rcproject */,
 				A93BE681234EF6340041E2AD /* models */,
 				A986E331234EEC4200A71338 /* AppDelegate.swift */,
 				A986E333234EEC4200A71338 /* ViewController.swift */,
@@ -119,8 +115,6 @@
 				A986E33F234EEC4300A71338 /* Info.plist */,
 				A986E361234EECF700A71338 /* MessageLabel.swift */,
 				A986E363234EED2100A71338 /* Utilities.swift */,
-				A97BB736235106B600B6FF83 /* MotorViewCoaching.swift */,
-				A97BB73A23510A8600B6FF83 /* MotorView.swift */,
 			);
 			path = MotorTherapy;
 			sourceTree = "<group>";
@@ -276,10 +270,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				A986E334234EEC4200A71338 /* ViewController.swift in Sources */,
-				A97BB73B23510A8600B6FF83 /* MotorView.swift in Sources */,
-				A97BB735234FAAE100B6FF83 /* experience.rcproject in Sources */,
+				A941B5AE235FD1460085BECF /* experience.rcproject in Sources */,
 				A986E332234EEC4200A71338 /* AppDelegate.swift in Sources */,
-				A97BB737235106B600B6FF83 /* MotorViewCoaching.swift in Sources */,
 				A986E362234EECF700A71338 /* MessageLabel.swift in Sources */,
 				A986E364234EED2100A71338 /* Utilities.swift in Sources */,
 			);
