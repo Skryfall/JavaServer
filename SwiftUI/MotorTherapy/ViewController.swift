@@ -14,18 +14,29 @@ import Combine
 
 class ViewController: UIViewController, ARSessionDelegate {
     
-    // -------------------- ATTRIBUTES -------------------- //
-
+    // MARK: - UI Elements
+    
     // Main UI views
     @IBOutlet var arView: ARView!
+    @IBOutlet weak var blurView: UIVisualEffectView!
+    @IBOutlet weak var controlView: UIView!
     @IBOutlet weak var messageLabel: MessageLabel!
     
-    // Anchors and entities
-    var character: BodyTrackedEntity?
-    let characterOffset: SIMD3<Float> = [0, 0, 0] // Offset robot position
-    let characterAnchor = AnchorEntity()
+    // MARK: - Attributes
+    
+    // UI Views
+    let coachingOverlay = ARCoachingOverlayView()
+    
+    // Entity data
+    var balloon: ModelEntity?
     var box: Entity?
+    var character: BodyTrackedEntity?
+    
+    let characterAnchor = AnchorEntity()
     var realityAnchor = AnchorEntity()
+    
+    let characterOffset: SIMD3<Float> = [0, 0, 0] // Offset robot position
+    var planePos: SIMD3<Float> = [0, 0, 0]
     
     // A tracked raycast which is used to place the character accurately
     // in the scene wherever the user taps.
@@ -35,20 +46,20 @@ class ViewController: UIViewController, ARSessionDelegate {
     // Reality Composer scene
     var experienceScene = Experience.Scene()
     
-    // -------------------- FUNCTIONS -------------------- //
+    // MARK: - Functions
     
-    
-    // Loads default elements in AR
+    /// Loads default elements in AR
     func loadReality() {
         // Create new anchor to append entities
         realityAnchor.addChild(experienceScene.box!)
+        realityAnchor.addChild(experienceScene.balloon!)
         arView.scene.addAnchor(realityAnchor)
         
         // Add body tracked character
         arView.scene.addAnchor(characterAnchor)
     }
     
-    // Loads body tracked robot character
+    /// Loads body tracked robot character
     func loadRobot() {
         // Asynchronously load the 3D character.
         var cancellable: AnyCancellable? = nil
@@ -61,7 +72,8 @@ class ViewController: UIViewController, ARSessionDelegate {
         }, receiveValue: { (character: Entity) in
             if let character = character as? BodyTrackedEntity {
                 // Scale the character to human size
-                character.scale = [1.0, 1.0, 1.0]
+                //character.scale = [1.0, 1.0, 1.0]
+                character.scale = [0.4, 0.4, 0.4]
                 self.character = character
                 cancellable?.cancel()
             } else {
@@ -70,6 +82,7 @@ class ViewController: UIViewController, ARSessionDelegate {
         })
     }
     
+    // MARK: - View Control
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -82,6 +95,9 @@ class ViewController: UIViewController, ARSessionDelegate {
         
         // Load Reality Composer scene
         experienceScene = try! Experience.loadScene()
+        
+        // Start coaching
+        setupCoachingOverlay()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -103,7 +119,7 @@ class ViewController: UIViewController, ARSessionDelegate {
         // Load AR elements
         loadRobot()
         loadReality()
-        
+            
         print("ANCHORS ONE")
         print(arView.scene.anchors)
         print("END ONE")
@@ -114,6 +130,7 @@ class ViewController: UIViewController, ARSessionDelegate {
         arView.session.pause()
     }
     
+    // MARK: - Session Control
     public func session(_ session: ARSession, didAdd anchors: [ARAnchor]) {
         // Print when new anchor is added
         if !anchors.isEmpty {
@@ -155,14 +172,9 @@ class ViewController: UIViewController, ARSessionDelegate {
     }
     
     func session(_ session: ARSession, didUpdate anchors: [ARAnchor]) {
-        
         print("ANCHORS TWO")
         print(arView.scene.anchors)
         print("END TWO")
-        
-//        print("ANCHORS THREE")
-//        print(anchors)
-//        print("END THREE")
         
         for anchor in anchors {
             print("READING ANCHOR")
@@ -173,7 +185,7 @@ class ViewController: UIViewController, ARSessionDelegate {
                 
                 // Update the position of the character anchor's position.
                 let bodyPosition = simd_make_float3(bodyAnchor.transform.columns.3)
-                characterAnchor.position = bodyPosition
+                characterAnchor.position = planePos
                     //+ characterOffset
 
                 // Also copy over the rotation of the body anchor, because the skeleton's pose
@@ -194,7 +206,7 @@ class ViewController: UIViewController, ARSessionDelegate {
                 
                 let planeAnchor = anchor
                 
-                let planePos = simd_make_float3(planeAnchor.transform.columns.3)
+                planePos = simd_make_float3(planeAnchor.transform.columns.3)
                 realityAnchor.position = planePos
             }
         }

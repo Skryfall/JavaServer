@@ -11,6 +11,7 @@ import RealityKit
 import ARKit
 
 extension MeshResource {
+    
     /**
      Generate three axes of a coordinate system with x axis = red, y axis = green and z axis = blue
      - parameters:

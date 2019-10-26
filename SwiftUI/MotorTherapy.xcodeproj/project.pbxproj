@@ -7,39 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A93BE682234EF6340041E2AD /* models in Resources */ = {isa = PBXBuildFile; fileRef = A93BE681234EF6340041E2AD /* models */; };
-		A941B5AE235FD1460085BECF /* experience.rcproject in Sources */ = {isa = PBXBuildFile; fileRef = A941B5AD235FD1460085BECF /* experience.rcproject */; };
 		A986E332234EEC4200A71338 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A986E331234EEC4200A71338 /* AppDelegate.swift */; };
 		A986E334234EEC4200A71338 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A986E333234EEC4200A71338 /* ViewController.swift */; };
 		A986E339234EEC4200A71338 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A986E337234EEC4200A71338 /* Main.storyboard */; };
 		A986E33B234EEC4300A71338 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A986E33A234EEC4300A71338 /* Assets.xcassets */; };
 		A986E33E234EEC4300A71338 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A986E33C234EEC4300A71338 /* LaunchScreen.storyboard */; };
-		A986E349234EEC4300A71338 /* MotorTherapyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A986E348234EEC4300A71338 /* MotorTherapyTests.swift */; };
-		A986E354234EEC4300A71338 /* MotorTherapyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A986E353234EEC4300A71338 /* MotorTherapyUITests.swift */; };
-		A986E362234EECF700A71338 /* MessageLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A986E361234EECF700A71338 /* MessageLabel.swift */; };
 		A986E364234EED2100A71338 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = A986E363234EED2100A71338 /* Utilities.swift */; };
+		A9CB2AF72364BCC7000A6F82 /* ViewController+CoachingOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9CB2AF62364BCC7000A6F82 /* ViewController+CoachingOverlay.swift */; };
+		A9CB2B0F2364D866000A6F82 /* models in Resources */ = {isa = PBXBuildFile; fileRef = A9CB2B0E2364D866000A6F82 /* models */; };
+		A9CB2B1A2364D8C5000A6F82 /* MessageLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9CB2B172364D8C5000A6F82 /* MessageLabel.swift */; };
+		A9CB2B232364DB42000A6F82 /* experience.rcproject in Sources */ = {isa = PBXBuildFile; fileRef = A9CB2B222364DB42000A6F82 /* experience.rcproject */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		A986E345234EEC4300A71338 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = A986E326234EEC4200A71338 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = A986E32D234EEC4200A71338;
-			remoteInfo = MotorTherapy;
-		};
-		A986E350234EEC4300A71338 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = A986E326234EEC4200A71338 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = A986E32D234EEC4200A71338;
-			remoteInfo = MotorTherapy;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
-		A93BE681234EF6340041E2AD /* models */ = {isa = PBXFileReference; lastKnownFileType = folder; path = models; sourceTree = "<group>"; };
-		A941B5AD235FD1460085BECF /* experience.rcproject */ = {isa = PBXFileReference; lastKnownFileType = file.rcproject; name = experience.rcproject; path = ../../../../../experience.rcproject; sourceTree = "<group>"; };
 		A986E32E234EEC4200A71338 /* MotorTherapy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MotorTherapy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A986E331234EEC4200A71338 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A986E333234EEC4200A71338 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -47,32 +27,19 @@
 		A986E33A234EEC4300A71338 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A986E33D234EEC4300A71338 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A986E33F234EEC4300A71338 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		A986E344234EEC4300A71338 /* MotorTherapyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MotorTherapyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A986E348234EEC4300A71338 /* MotorTherapyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotorTherapyTests.swift; sourceTree = "<group>"; };
 		A986E34A234EEC4300A71338 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		A986E34F234EEC4300A71338 /* MotorTherapyUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MotorTherapyUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A986E353234EEC4300A71338 /* MotorTherapyUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotorTherapyUITests.swift; sourceTree = "<group>"; };
 		A986E355234EEC4300A71338 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		A986E361234EECF700A71338 /* MessageLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MessageLabel.swift; path = "ui-elements/MessageLabel.swift"; sourceTree = "<group>"; };
 		A986E363234EED2100A71338 /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
+		A9CB2AF62364BCC7000A6F82 /* ViewController+CoachingOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+CoachingOverlay.swift"; sourceTree = "<group>"; };
+		A9CB2B0E2364D866000A6F82 /* models */ = {isa = PBXFileReference; lastKnownFileType = folder; path = models; sourceTree = "<group>"; };
+		A9CB2B172364D8C5000A6F82 /* MessageLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageLabel.swift; sourceTree = "<group>"; };
+		A9CB2B222364DB42000A6F82 /* experience.rcproject */ = {isa = PBXFileReference; lastKnownFileType = file.rcproject; name = experience.rcproject; path = MotorTherapy/experience.rcproject; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		A986E32B234EEC4200A71338 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		A986E341234EEC4300A71338 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		A986E34C234EEC4300A71338 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -96,8 +63,6 @@
 			isa = PBXGroup;
 			children = (
 				A986E32E234EEC4200A71338 /* MotorTherapy.app */,
-				A986E344234EEC4300A71338 /* MotorTherapyTests.xctest */,
-				A986E34F234EEC4300A71338 /* MotorTherapyUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -105,16 +70,14 @@
 		A986E330234EEC4200A71338 /* MotorTherapy */ = {
 			isa = PBXGroup;
 			children = (
-				A941B5AD235FD1460085BECF /* experience.rcproject */,
-				A93BE681234EF6340041E2AD /* models */,
 				A986E331234EEC4200A71338 /* AppDelegate.swift */,
 				A986E333234EEC4200A71338 /* ViewController.swift */,
-				A986E337234EEC4200A71338 /* Main.storyboard */,
-				A986E33A234EEC4300A71338 /* Assets.xcassets */,
-				A986E33C234EEC4300A71338 /* LaunchScreen.storyboard */,
-				A986E33F234EEC4300A71338 /* Info.plist */,
-				A986E361234EECF700A71338 /* MessageLabel.swift */,
+				A9CB2AF62364BCC7000A6F82 /* ViewController+CoachingOverlay.swift */,
 				A986E363234EED2100A71338 /* Utilities.swift */,
+				A986E33F234EEC4300A71338 /* Info.plist */,
+				A9CB2B202364DA3D000A6F82 /* Assets */,
+				A9CB2B1D2364D8CA000A6F82 /* UI Elements */,
+				A9CB2B1F2364D9F2000A6F82 /* Resources */,
 			);
 			path = MotorTherapy;
 			sourceTree = "<group>";
@@ -137,6 +100,33 @@
 			path = MotorTherapyUITests;
 			sourceTree = "<group>";
 		};
+		A9CB2B1D2364D8CA000A6F82 /* UI Elements */ = {
+			isa = PBXGroup;
+			children = (
+				A9CB2B172364D8C5000A6F82 /* MessageLabel.swift */,
+			);
+			path = "UI Elements";
+			sourceTree = "<group>";
+		};
+		A9CB2B1F2364D9F2000A6F82 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				A986E33A234EEC4300A71338 /* Assets.xcassets */,
+				A986E337234EEC4200A71338 /* Main.storyboard */,
+				A986E33C234EEC4300A71338 /* LaunchScreen.storyboard */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		A9CB2B202364DA3D000A6F82 /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				A9CB2B222364DB42000A6F82 /* experience.rcproject */,
+				A9CB2B0E2364D866000A6F82 /* models */,
+			);
+			path = Assets;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -157,42 +147,6 @@
 			productReference = A986E32E234EEC4200A71338 /* MotorTherapy.app */;
 			productType = "com.apple.product-type.application";
 		};
-		A986E343234EEC4300A71338 /* MotorTherapyTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = A986E35B234EEC4300A71338 /* Build configuration list for PBXNativeTarget "MotorTherapyTests" */;
-			buildPhases = (
-				A986E340234EEC4300A71338 /* Sources */,
-				A986E341234EEC4300A71338 /* Frameworks */,
-				A986E342234EEC4300A71338 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				A986E346234EEC4300A71338 /* PBXTargetDependency */,
-			);
-			name = MotorTherapyTests;
-			productName = MotorTherapyTests;
-			productReference = A986E344234EEC4300A71338 /* MotorTherapyTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		A986E34E234EEC4300A71338 /* MotorTherapyUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = A986E35E234EEC4300A71338 /* Build configuration list for PBXNativeTarget "MotorTherapyUITests" */;
-			buildPhases = (
-				A986E34B234EEC4300A71338 /* Sources */,
-				A986E34C234EEC4300A71338 /* Frameworks */,
-				A986E34D234EEC4300A71338 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				A986E351234EEC4300A71338 /* PBXTargetDependency */,
-			);
-			name = MotorTherapyUITests;
-			productName = MotorTherapyUITests;
-			productReference = A986E34F234EEC4300A71338 /* MotorTherapyUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -205,14 +159,6 @@
 				TargetAttributes = {
 					A986E32D234EEC4200A71338 = {
 						CreatedOnToolsVersion = 11.2;
-					};
-					A986E343234EEC4300A71338 = {
-						CreatedOnToolsVersion = 11.2;
-						TestTargetID = A986E32D234EEC4200A71338;
-					};
-					A986E34E234EEC4300A71338 = {
-						CreatedOnToolsVersion = 11.2;
-						TestTargetID = A986E32D234EEC4200A71338;
 					};
 				};
 			};
@@ -230,8 +176,6 @@
 			projectRoot = "";
 			targets = (
 				A986E32D234EEC4200A71338 /* MotorTherapy */,
-				A986E343234EEC4300A71338 /* MotorTherapyTests */,
-				A986E34E234EEC4300A71338 /* MotorTherapyUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -241,24 +185,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A93BE682234EF6340041E2AD /* models in Resources */,
 				A986E33E234EEC4300A71338 /* LaunchScreen.storyboard in Resources */,
 				A986E33B234EEC4300A71338 /* Assets.xcassets in Resources */,
+				A9CB2B0F2364D866000A6F82 /* models in Resources */,
 				A986E339234EEC4200A71338 /* Main.storyboard in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		A986E342234EEC4300A71338 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		A986E34D234EEC4300A71338 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -270,43 +200,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				A986E334234EEC4200A71338 /* ViewController.swift in Sources */,
-				A941B5AE235FD1460085BECF /* experience.rcproject in Sources */,
 				A986E332234EEC4200A71338 /* AppDelegate.swift in Sources */,
-				A986E362234EECF700A71338 /* MessageLabel.swift in Sources */,
+				A9CB2B232364DB42000A6F82 /* experience.rcproject in Sources */,
+				A9CB2AF72364BCC7000A6F82 /* ViewController+CoachingOverlay.swift in Sources */,
+				A9CB2B1A2364D8C5000A6F82 /* MessageLabel.swift in Sources */,
 				A986E364234EED2100A71338 /* Utilities.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		A986E340234EEC4300A71338 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				A986E349234EEC4300A71338 /* MotorTherapyTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		A986E34B234EEC4300A71338 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				A986E354234EEC4300A71338 /* MotorTherapyUITests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		A986E346234EEC4300A71338 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = A986E32D234EEC4200A71338 /* MotorTherapy */;
-			targetProxy = A986E345234EEC4300A71338 /* PBXContainerItemProxy */;
-		};
-		A986E351234EEC4300A71338 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = A986E32D234EEC4200A71338 /* MotorTherapy */;
-			targetProxy = A986E350234EEC4300A71338 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		A986E337234EEC4200A71338 /* Main.storyboard */ = {
@@ -453,7 +355,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.greenteamcr.ARTest;
+				PRODUCT_BUNDLE_IDENTIFIER = com.schlafenhase.MotorTherapy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -471,94 +373,10 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.greenteamcr.ARTest;
+				PRODUCT_BUNDLE_IDENTIFIER = com.schlafenhase.MotorTherapy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Release;
-		};
-		A986E35C234EEC4300A71338 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 6UU452CNJ4;
-				INFOPLIST_FILE = MotorTherapyTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.schlafenhase.MotorTherapyTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MotorTherapy.app/MotorTherapy";
-			};
-			name = Debug;
-		};
-		A986E35D234EEC4300A71338 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 6UU452CNJ4;
-				INFOPLIST_FILE = MotorTherapyTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.schlafenhase.MotorTherapyTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MotorTherapy.app/MotorTherapy";
-			};
-			name = Release;
-		};
-		A986E35F234EEC4300A71338 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 6UU452CNJ4;
-				INFOPLIST_FILE = MotorTherapyUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.schlafenhase.MotorTherapyUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = MotorTherapy;
-			};
-			name = Debug;
-		};
-		A986E360234EEC4300A71338 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 6UU452CNJ4;
-				INFOPLIST_FILE = MotorTherapyUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.schlafenhase.MotorTherapyUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = MotorTherapy;
 			};
 			name = Release;
 		};
@@ -579,24 +397,6 @@
 			buildConfigurations = (
 				A986E359234EEC4300A71338 /* Debug */,
 				A986E35A234EEC4300A71338 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		A986E35B234EEC4300A71338 /* Build configuration list for PBXNativeTarget "MotorTherapyTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				A986E35C234EEC4300A71338 /* Debug */,
-				A986E35D234EEC4300A71338 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		A986E35E234EEC4300A71338 /* Build configuration list for PBXNativeTarget "MotorTherapyUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				A986E35F234EEC4300A71338 /* Debug */,
-				A986E360234EEC4300A71338 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
