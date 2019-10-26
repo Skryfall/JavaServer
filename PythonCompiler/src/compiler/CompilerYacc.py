@@ -1,3 +1,5 @@
+import sys
+
 import ply.yacc as yacc
 
 from src.logic.BalloonGame import BalloonGame
@@ -14,14 +16,12 @@ objectGame = ObjectGame()
 names = {}
 currentGame = 1
 
-precedence = (
-    ()
-)
-
 def p_statement_main(p):
     """statement : Begin Game1 BeginParentesis initializer add game1 EndParentesis Game2 BeginParentesis initializer add game2 EndParentesis Game3 BeginParentesis initializer add game3 EndParentesis Game4 BeginParentesis initializer add game4 EndParentesis Finish Semicolon"""
-    print(names)
     balloonGame.handleBalloonLogic()
+    flagGame.handleFlagLogic()
+    spiderWebGame.handleSpiderWebLogic()
+    objectGame.handleObjectLogic()
 
 def p_game1_start(p):
     'game1 : function'
@@ -58,6 +58,7 @@ def p_expression_name(p):
     except LookupError:
         print("Nombre indeterminado '%s'" % p[1])
         p[0] = 0
+        sys.exit()
 
 def p_initializer_assignOrCreate(p):
     """initializer : assign
@@ -108,6 +109,7 @@ def p_add_toList(p):
         names[p[1]][p[3]] = p[6]
     else:
         print("Error, no se pudo agregar a la lista")
+        sys.exit()
 
 def p_add_empty(p):
     'add : '
@@ -125,6 +127,7 @@ def p_function_dow(p):
             balloonGame.setRepetitions(p[3])
     else:
         print("Error, la funcion Dow solo recibe un numero")
+        sys.exit()
 
 def p_function_balloon(p):
     """function : Balloon LeftParentesis expression Coma expression RightParentesis Semicolon
@@ -133,6 +136,7 @@ def p_function_balloon(p):
         balloon(p[3], p[5])
     else:
         print("Error, la funcion Balloon solo recibe numeros")
+        sys.exit()
 
 def p_function_inc(p):
     """function : Inc LeftParentesis expression Coma expression RightParentesis Semicolon
@@ -141,6 +145,7 @@ def p_function_inc(p):
         inc(p[3], p[5])
     else:
         print("Error, la funcion Inc solo recibe numeros")
+        sys.exit()
 
 def p_function_dec(p):
     """function : Dec LeftParentesis expression Coma expression RightParentesis Semicolon
@@ -149,23 +154,26 @@ def p_function_dec(p):
         dec(p[3], p[5])
     else:
         print("Error, la funcion Dec solo recibe numeros")
+        sys.exit()
 
 def p_function_FORList(p):
     """function : FOR expression times using expression Random LeftParentesis expression Coma expression Coma expression RightParentesis Semicolon function FOREND Semicolon
                 | FOR expression times using expression Random LeftParentesis expression Coma expression Coma expression RightParentesis Semicolon function FOREND Semicolon function"""
-    if isinstance(p[2], int) and isinstance(p[5], list) and isinstance(p[8], list) and isinstance(p[10], int) and isinstance(p[12], int):
+    if isinstance(p[2], int) and isinstance(p[5], list) and isinstance(p[8], list) and isinstance(p[10], int) and isinstance(p[12], int) and 0 < p[10] < 11 and 0 < p[12]:
         flagGame.setHowManyRandoms(p[2])
         random(p[5][1:], p[8][1:], p[10], p[12])
     else:
         print("Error, para usar el FOR es necesario incluirle la cantidad de repeticiones, la lista y la funcion Random de 3 argumentos")
+        sys.exit()
 
 def p_function_random(p):
     """function : Random LeftParentesis expression Coma expression Coma expression Coma expression RightParentesis Semicolon
-                | Random LeftParentesis expression Coma expression Coma expression RightParentesis Semicolon function"""
+                | Random LeftParentesis expression Coma expression Coma expression Coma expression RightParentesis Semicolon function"""
     if isinstance(p[3], list) and isinstance(p[5], list) and isinstance(p[7], int) and isinstance(p[9], int):
         random(p[3][1:], p[5][1:], p[7], p[9])
     else:
         print("Error, la funcion Random debe recibir dos listas, y dos numeros")
+        sys.exit()
 
 def p_function_spiderWeb(p):
     """function : TelaArana LeftParentesis expression Coma expression RightParentesis Semicolon
@@ -174,17 +182,19 @@ def p_function_spiderWeb(p):
         telarana(p[3], p[5])
     else:
         print("Error, la funcion TelaAraña recibe unicamente 2 numeros como argumentos")
+        sys.exit()
 
 def p_function_asignWord(p):
     """function : ForAsignWord LeftParentesis expression Coma expression RightParentesis DO AsignWord LeftParentesis expression Coma expression RightParentesis Semicolon
                 | ForAsignWord LeftParentesis expression Coma expression RightParentesis DO AsignWord LeftParentesis expression Coma expression RightParentesis Semicolon function"""
-    if isinstance(p[3], int) and isinstance(p[5], int) and isinstance(p[10], list) and isinstance(p[12], list):
+    if isinstance(p[3], int) and isinstance(p[5], int) and isinstance(p[10], list) and isinstance(p[12], list) and p[3] > 0 and p[5] > 0:
         spiderWebGame.setRow(p[3])
         spiderWebGame.setColumn(p[5])
         spiderWebGame.setInstruction(p[10][1:])
         spiderWebGame.setPoints(p[12][1:])
     else:
         print("Error, la funcion ForAsignWord recibe unicamente 2 numeros y la funcion AsignWord recibe 2 listas")
+        sys.exit()
 
 def p_function_object(p):
     """function : Object LeftParentesis expression Coma expression Coma expression RightParentesis Semicolon
@@ -193,6 +203,7 @@ def p_function_object(p):
         object(p[3], p[5], p[7])
     else:
         print("Error, la funcion Object recibe solamente 3 numeros")
+        sys.exit()
 
 def p_function_FORInt(p):
     """function : FOR expression times using expression Object LeftParentesis expression Coma expression LeftSquareBracket expression RightSquareBracket Coma expression RightParentesis function FEnd Semicolon
@@ -200,9 +211,11 @@ def p_function_FORInt(p):
     if isinstance(p[2], int) and isinstance(p[5], int) and isinstance(p[8], int) and isinstance(p[10], list) and isinstance(p[12], int) and isinstance(p[15], int) and p[5] == p[12] and len(p[10]) > p[12] > 0:
         objectGame.setRepetitions(p[2])
         objectGame.setIndex(p[5])
-        object(p[8], p[10][p[12]], p[15])
+        objectGame.setDistances(p[10][1:])
+        object(p[8], p[10][1], p[15])
     else:
         print("Error, la funcion FOR esta definida para usarse con la funcion Object")
+        sys.exit()
 
 def p_function_empty(p):
     'function : '
@@ -210,8 +223,10 @@ def p_function_empty(p):
 def p_error(p):
     if p:
         print("Error de sintaxis de '%s'" % p.value)
+        sys.exit()
     else:
         print("Error de sintaxis en EOF")
+        sys.exit()
 
 yacc.yacc()
 
@@ -247,17 +262,22 @@ def random(flagArray, pointsArray, cant, time):
 def telarana(row, column):
     i = 0
     j = 0
-    matrix = []
-    rows = []
+    letterMatrix = []
+    letterRows = []
+    pointsMatrix = []
+    pointsRows = []
     while i < row:
         while j < column:
-            rows.append("")
+            letterRows.append("")
+            pointsRows.append(0)
             j += 1
-        matrix.append(rows)
-        rows = []
+        letterMatrix.append(letterRows)
+        pointsMatrix.append(pointsRows)
+        letterRows = []
+        pointsRows = []
         i += 1
         j = 0
-    spiderWebGame.setWeb(matrix)
+    spiderWebGame.setWeb([letterMatrix, pointsMatrix])
 
 data = """Begin
           Game1{
@@ -271,12 +291,18 @@ data = """Begin
             Enddo;  
           }
           Game2{
-            int cant = 5;
+            int cant = 3;
             int tiempo = 60;
             texto(10) Color[10];
             int puntaje[10];
             Color[1] = "Azul";
+            Color[2] = "Rojo";
+            Color[3] = "Naranja";
+            Color[4] = "Perro";
             puntaje[1] = 10;
+            puntaje[2] = 20;
+            puntaje[3] = 13;
+            puntaje[4] = 200;
             FOR 5 times using Color
                 Random(puntaje, cant, tiempo);
                 Inc(cant, 3);
@@ -287,22 +313,33 @@ data = """Begin
             texto(15) array[5];
             int puntos[5];
             array[1] = "Oceano";
+            array[2] = "Azul";
+            array[3] = "Casa";
+            array[4] = "Plata";
+            array[5] = "Cama";
             puntos[1] = 10;
+            puntos[2] = 34;
+            puntos[3] = 89;
+            puntos[4] = 90;
+            puntos[5] = 54;
             TelaArana(5, 5);
             ForAsignWord(5, 5) DO
                 AsignWord(array, puntos);
           }
           Game4{
             int Dist[5];
-            int a = 5;
+            int var = 1;
+            int cnt = 3;
+            int tme = 60;
             Dist[1] = 2;
             Dist[2] = 3;
             Dist[3] = 4;
             Dist[4] = 5;
             Dist[5] = 6;
-            FOR 5 times using a
-                Object(2, Dist[a], 25)
-                Inc(a, 10);
+            FOR 5 times using var
+                Object(cnt, Dist[var], tme)
+                Inc(cnt, 10);
+                Dec(tme, 10);
             FEnd;
           }
           Finish;"""

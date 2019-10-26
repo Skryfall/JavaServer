@@ -50,4 +50,3 @@ class BalloonGame:
             self.instructions.append((newAlt, newLat))
             self.repetitions -= 1
         self.master.setBalloonInstructions(self.instructions)
-        print(self.instructions)
