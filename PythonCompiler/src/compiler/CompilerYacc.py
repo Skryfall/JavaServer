@@ -1,17 +1,24 @@
+import json
 import sys
 
 import ply.yacc as yacc
 
 from src.logic.BalloonGame import BalloonGame
 from src.logic.FlagGame import FlagGame
+from src.logic.Master import Master
 from src.logic.SpiderWebGame import SpiderWebGame
 from src.logic.ObjectGame import ObjectGame
 from src.compiler.CompilerLex import tokens
+from src.server.ConnectionHandler import ConnectionHandler
+from src.server.Holder import Holder
 
 balloonGame = BalloonGame()
 flagGame = FlagGame()
 spiderWebGame = SpiderWebGame()
 objectGame = ObjectGame()
+serverConnection = ConnectionHandler()
+holder = Holder()
+master = Master()
 
 names = {}
 currentGame = 1
@@ -22,6 +29,12 @@ def p_statement_main(p):
     flagGame.handleFlagLogic()
     spiderWebGame.handleSpiderWebLogic()
     objectGame.handleObjectLogic()
+    holder.setBalloonInstructions(master.getBalloonInstructions())
+    holder.setFlagInstructions(master.getFlagInstructions())
+    holder.setSpiderWebLetterInstructions(master.getSpiderWebInstructions()[0])
+    holder.setSpiderWebPointsInstructions(master.getSpiderWebInstructions()[1])
+    holder.setObjectInstructions(master.getObjectInstructions())
+    serverConnection.sendToServer('http://localhost:9080/MotorTherapy_war_exploded/MotorTherapy/GameData', holder.toJSON())
 
 def p_game1_start(p):
     'game1 : function'
@@ -104,7 +117,7 @@ def p_add_toList(p):
            | Name LeftSquareBracket expression RightSquareBracket Equals expression Semicolon add"""
     array = names[p[1]][0]
     if isinstance(array[0], str) and isinstance(p[6], str) and len(p[6]) < array[1] + 3 and array[1] + 1 > p[3] > 0:
-        names[p[1]][p[3]] = p[6]
+        names[p[1]][p[3]] = p[6][1:len(p[6]) - 1]
     elif isinstance(array[0], int) and isinstance(p[6], int) and array[1] + 1 > p[3] > 0:
         names[p[1]][p[3]] = p[6]
     else:

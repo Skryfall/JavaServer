@@ -2,6 +2,7 @@ import sys
 
 from src.logic.FlagGame import FlagGame
 
+
 class SpiderWebGame(FlagGame):
     def __init__(self):
         FlagGame.__init__(self)
