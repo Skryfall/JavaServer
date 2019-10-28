@@ -236,7 +236,6 @@ class FloatingView: UIViewController, ARSessionDelegate {
                 //let headPos = simd_make_float3(skeleton.modelTransform(for: .head)!.columns.3)
                 
                 let midFingerPos = simd_make_float3(skeleton.jointModelTransforms[75].columns.3)
-            
                 
                 characterAnchor.position = bodyPosition
                 //+ characterOffset
