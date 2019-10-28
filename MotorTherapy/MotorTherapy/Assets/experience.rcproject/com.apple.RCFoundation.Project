@@ -257,6 +257,103 @@
                         1
                       ]
                     }
+                  },
+                  "C05CB0E7-4244-4194-A18B-AFDE47081C27" : {
+                    "overrides" : {
+                      "arguments" : [
+                        [
+                          "item",
+                          {
+                            "typeName" : "String",
+                            "value" : "Tennis Racket"
+                          }
+                        ],
+                        [
+                          "style",
+                          {
+                            "typeName" : "String",
+                            "value" : "Realistic"
+                          }
+                        ]
+                      ],
+                      "children" : {
+                        "iconicItem" : {
+                          "overrides" : {
+                            "factory" : null,
+                            "runtimeAttributes" : [
+                              [
+                                "RuntimeIdentifier",
+                                {
+                                  "typeName" : "UUID",
+                                  "value" : "1367D659-E221-4E16-9125-97E252FDBD39"
+                                }
+                              ]
+                            ]
+                          }
+                        },
+                        "item" : {
+                          "overrides" : {
+                            "factory" : null,
+                            "runtimeAttributes" : [
+                              [
+                                "RuntimeIdentifier",
+                                {
+                                  "typeName" : "UUID",
+                                  "value" : "88697BA9-9458-4A83-935B-7A27E337CCAC"
+                                }
+                              ]
+                            ]
+                          }
+                        }
+                      },
+                      "factory" : {
+                        "identifier" : "com.apple.rc.af.TennisRacket.e0ba9d80-e06c-43f6-9207-cddc8797463c",
+                        "version" : "1.0"
+                      },
+                      "runtimeAttributes" : [
+                        [
+                          "RuntimeIdentifier",
+                          {
+                            "typeName" : "UUID",
+                            "value" : "3F67A119-9659-4A15-9343-CEF88CCAF365"
+                          }
+                        ],
+                        [
+                          "entityName",
+                          {
+                            "typeName" : "String",
+                            "value" : "Racket"
+                          }
+                        ],
+                        [
+                          "rigidBody-enabled",
+                          {
+                            "typeName" : "Bool",
+                            "value" : true
+                          }
+                        ]
+                      ]
+                    },
+                    "transform" : {
+                      "matrix" : [
+                        1.0006927251815796,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1.0006927251815796,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1.0006927251815796,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                      ]
+                    }
                   }
                 },
                 "factory" : null
@@ -264,21 +361,21 @@
               "title" : "Scene",
               "viewTransform" : {
                 "cameraTransform" : [
-                  0.99876165390014648,
-                  3.637978807091713e-12,
-                  -0.049750201404094696,
+                  -0.09002792090177536,
+                  3.6379785902512785e-12,
+                  -0.99593919515609741,
                   0,
-                  -0.018612675368785858,
+                  -0.37260332703590393,
                   0.92737925052642822,
-                  -0.37365928292274475,
+                  0.033681470900774002,
                   0,
-                  0.046137303113937378,
-                  0.37412256002426147,
-                  0.92623084783554077,
+                  0.92361336946487427,
+                  0.37412253022193909,
+                  -0.083490021526813507,
                   0,
-                  0.051617905497550964,
-                  0.63201868534088135,
-                  1.0762791633605957,
+                  4.3469295501708984,
+                  1.6919305324554443,
+                  -0.82792854309082031,
                   1
                 ],
                 "sceneTransform" : [
