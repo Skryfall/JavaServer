@@ -6,10 +6,8 @@
 //  Copyright © 2019 Schlafenhase. All rights reserved.
 //
 
-
 import ARKit
 import UIKit
-
 
 extension FloatingView: ARCoachingOverlayViewDelegate {
     
@@ -20,7 +18,7 @@ extension FloatingView: ARCoachingOverlayViewDelegate {
     
     func coachingOverlayViewDidDeactivate(_ coachingOverlayView: ARCoachingOverlayView) {
         controlView.isHidden = false
-        addObjects()
+        loadObjects()
         //blurView.isHidden = true
     }
 

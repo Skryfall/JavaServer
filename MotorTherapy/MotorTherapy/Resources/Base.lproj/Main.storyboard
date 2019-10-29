@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="wJQ-Sf-ReJ">
     <device id="ipad12_9rounded" orientation="landscape" layout="fullscreen" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15508"/>
@@ -88,7 +88,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="1366" height="1024"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <view hidden="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PRV-VI-zCj" userLabel="Control View">
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PRV-VI-zCj" userLabel="Control View">
                                 <rect key="frame" x="0.0" y="0.0" width="1366" height="109"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
@@ -119,6 +119,24 @@
                                             <action selector="onResetButtonTap:" destination="wJQ-Sf-ReJ" eventType="primaryActionTriggered" id="QAe-Jl-6Zk"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Y8B-Ek-b1Y">
+                                        <rect key="frame" x="1058" y="43" width="109" height="22"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" title="Add Object" image="plus" catalog="system">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="onAddButtonTap:" destination="wJQ-Sf-ReJ" eventType="primaryActionTriggered" id="g3s-HN-Fm8"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2O6-qP-m3O">
+                                        <rect key="frame" x="878" y="43" width="163" height="22"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="tintColor" systemColor="systemGreenColor" red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <state key="normal" title="Select Instrument" image="xmark.circle" catalog="system">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
@@ -137,12 +155,14 @@
                     </view>
                     <navigationItem key="navigationItem" id="2sR-P0-UyA"/>
                     <connections>
+                        <outlet property="addButton" destination="Y8B-Ek-b1Y" id="q8J-Em-kx3"/>
                         <outlet property="arView" destination="FNK-c6-yN7" id="rws-C7-jTO"/>
                         <outlet property="backButton" destination="UEN-4m-PCY" id="v2J-Gr-agc"/>
                         <outlet property="blurView" destination="dEO-Y6-tf8" id="QLZ-lW-pnF"/>
                         <outlet property="controlView" destination="PRV-VI-zCj" id="mjw-IN-uMf"/>
                         <outlet property="messageLabel" destination="Hjw-6O-J8H" id="0Dm-Mq-Ov5"/>
                         <outlet property="resetTrackingButton" destination="Vaj-YB-e9d" id="wBv-en-isx"/>
+                        <outlet property="selectInstrumentButton" destination="2O6-qP-m3O" id="aNR-ZP-3PY"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pr7-M9-FRO" sceneMemberID="firstResponder"/>
@@ -152,5 +172,7 @@
     </scenes>
     <resources>
         <image name="arrow.clockwise" catalog="system" width="56" height="64"/>
+        <image name="plus" catalog="system" width="64" height="56"/>
+        <image name="xmark.circle" catalog="system" width="64" height="60"/>
     </resources>
 </document>

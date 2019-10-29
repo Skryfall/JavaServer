@@ -6,12 +6,10 @@
 //  Copyright © 2019 Schlafenhase. All rights reserved.
 //
 
-
 import ARKit
 import Combine
 import RealityKit
 import UIKit
-
 
 class FloatingView: UIViewController, ARSessionDelegate {
     
@@ -23,9 +21,11 @@ class FloatingView: UIViewController, ARSessionDelegate {
     @IBOutlet weak var controlView: UIView!
     
     // Buttons and other elements
+    @IBOutlet weak var addButton: UIButton!
     @IBOutlet weak var backButton: UIButton!
-    @IBOutlet weak var resetTrackingButton: UIButton!
     @IBOutlet weak var messageLabel: MessageLabel!
+    @IBOutlet weak var resetTrackingButton: UIButton!
+    @IBOutlet weak var selectInstrumentButton: UIButton!
     
     // MARK: - Attributes
     
@@ -33,18 +33,18 @@ class FloatingView: UIViewController, ARSessionDelegate {
     let coachingOverlay = ARCoachingOverlayView()
     
     // Entity data
-    var balloon: Entity?
-    var balloonModel = ModelEntity()
-    var box: Entity?
     var character: BodyTrackedEntity?
-    var racket: Entity?
-    var racketModel = ModelEntity()
+    var headPos = simd_float3()
+    
+    var instrumentList = [Entity]()
+    var objectList = [Entity]()
+    var currentInstrument = Entity()
+    var currentObject = Entity()
     
     let characterAnchor = AnchorEntity()
     var realityAnchor = AnchorEntity()
     
-    let characterOffset: SIMD3<Float> = [0, 0, 0] // Offset robot position
-    var planePos: SIMD3<Float> = [0, 0, 0]
+    var collisionEventStreams = [AnyCancellable]()
     
     // A tracked raycast which is used to place the character accurately
     // in the scene wherever the user taps.
@@ -54,33 +54,60 @@ class FloatingView: UIViewController, ARSessionDelegate {
     // Reality Composer scene
     var experienceScene = Experience.Scene()
     
+    /// Flush Collision events list for memory management
+    deinit {
+        collisionEventStreams.removeAll()
+    }
+    
     // MARK: - Functions
     
-    /// Adds objects to scene
-    func addObjects() {
+    /// Loads objects in scene
+    func loadObjects() {
         loadReality()
         loadRobot()
+    }
+    
+    /// Adds floating object to reality
+    func addObject() {
+        if (headPos.x == 0 && headPos.y == 0 && headPos.z == 0) {
+            // Body doesn't yet exist
+        } else {
+            print("Moving object")
+            currentObject.position = headPos
+        }
     }
     
     /// Loads default elements in AR
     func loadReality() {
         // Assign entities and model entities
-        balloon = experienceScene.balloon
-        box = experienceScene.box
-        racket = experienceScene.racket
+        let balloon = experienceScene.balloon
+        let racket = experienceScene.racket
         
         // Assign components from Reality Composer Entity to full ModelEntity object
-        balloonModel.addChild(balloon!)
+        
+        // Instruments
+        let racketModel = ModelEntity()
         racketModel.addChild(racket!)
         
+        // Objects
+        let balloonModel = ModelEntity()
+        balloonModel.addChild(balloon!)
+        instrumentList.append(racketModel)
+        
+        // Default instrument and object
+//        currentInstrument = racketModel
+//        currentObject = balloonModel
+        currentInstrument = racket!
+        currentObject = balloon!
+        
         // Anchor entities
-        //realityAnchor.addChild(balloonModel)
-        //realityAnchor.addChild(box!)
-        characterAnchor.addChild(racketModel)
-        arView.scene.addAnchor(realityAnchor)
+        //realityAnchor.addChild(currentObject)
+        characterAnchor.addChild(currentObject)
+        characterAnchor.addChild(currentInstrument)
         
         // Add body tracked character
         arView.scene.addAnchor(characterAnchor)
+        arView.scene.addAnchor(realityAnchor)
     }
     
     /// Loads body tracked robot character
@@ -106,6 +133,10 @@ class FloatingView: UIViewController, ARSessionDelegate {
         })
     }
     
+    @IBAction func onAddButtonTap(_ sender: Any) {
+        addObject()
+    }
+    
     @IBAction func onResetButtonTap(_ sender: Any) {
         resetTracking()
     }
@@ -119,7 +150,23 @@ class FloatingView: UIViewController, ARSessionDelegate {
         setupCoachingOverlay()
     }
     
+    func startCollisions() {
+        arView.scene.subscribe(
+            to: CollisionEvents.Began.self,
+            on: currentObject
+        ) { event in
+            //let object = event.entityA as? AnchorEntity
+            //let instrument = event.entityB as? AnchorEntity
+            
+            print("OBJECT")
+            print(event.entityA.name)
+            print(event.entityB.name)
+            print("END OBJECT")
+        }.store(in: &collisionEventStreams)
+    }
+    
     // MARK: - View Control
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -136,7 +183,6 @@ class FloatingView: UIViewController, ARSessionDelegate {
         
         // Start coaching
         //setupCoachingOverlay()
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -152,19 +198,17 @@ class FloatingView: UIViewController, ARSessionDelegate {
         // Run a body tracking configuration.
         let configuration = ARBodyTrackingConfiguration()
         configuration.automaticSkeletonScaleEstimationEnabled = true
-        configuration.planeDetection = .horizontal
         arView.session.run(configuration)
         
-        // Add gestures to elements
-        arView.installGestures(.all, for: balloonModel)
-        
         // TEST
-        loadRobot()
-        loadReality()
+        loadObjects()
+        
+        // Start collision detection system
+        startCollisions()
             
-        print("ANCHORS ONE")
-        print(arView.scene.anchors)
-        print("END ONE")
+//        print("ANCHORS ONE")
+//        print(arView.scene.anchors)
+//        print("END ONE")
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -173,6 +217,7 @@ class FloatingView: UIViewController, ARSessionDelegate {
     }
     
     // MARK: - Session Control
+    
     public func session(_ session: ARSession, didAdd anchors: [ARAnchor]) {
         // Print when new anchor is added
         if !anchors.isEmpty {
@@ -183,33 +228,6 @@ class FloatingView: UIViewController, ARSessionDelegate {
                       The Anchor Translation = X: \(anchor.transform.columns.3.x), Y: \(anchor.transform.columns.3.y), Z: \(anchor.transform.columns.3.z)
                       """)
             }
-        }
-        
-        for anchor in anchors {
-            guard let planeAnchor = anchor as? ARPlaneAnchor else { return }
-            
-            print("PLANE ANCHOR HAS BEEN ADDED")
-            
-            // Measure plane dimensions
-            let width = CGFloat(planeAnchor.extent.x)
-            let height = CGFloat(planeAnchor.extent.z)
-            let plane = SCNPlane(width: width, height: height)
-            
-            // Change plane material/color
-            plane.materials.first?.diffuse.contents = UIColor.blue
-            
-            // 4
-            let planeNode = SCNNode(geometry: plane)
-            
-            // 5
-            let x = CGFloat(planeAnchor.center.x)
-            let y = CGFloat(planeAnchor.center.y)
-            let z = CGFloat(planeAnchor.center.z)
-            planeNode.position = SCNVector3(x,y,z)
-            planeNode.eulerAngles.x = -.pi / 2
-            
-            // 6
-            //node.addChildNode(planeNode)
         }
     }
     
@@ -230,45 +248,26 @@ class FloatingView: UIViewController, ARSessionDelegate {
                 
                 // Update position and orientation of elements
                 let bodyPosition = simd_make_float3(bodyAnchor.transform.columns.3)
-                //let rightHandPos = simd_make_float3(skeleton.modelTransform(for: .rightHand)!.columns.3)
-                let rightHandPos = simd_make_float3(skeleton.jointModelTransforms[73].columns.3)
+                let rightHandMidStartPos = simd_make_float3(skeleton.jointModelTransforms[72].columns.3)
+                let rightHandThumbEndPos = simd_make_float3(skeleton.jointModelTransforms[90].columns.3)
                 
-                //let headPos = simd_make_float3(skeleton.modelTransform(for: .head)!.columns.3)
-                
-                let midFingerPos = simd_make_float3(skeleton.jointModelTransforms[75].columns.3)
+                let bodyOrientation = Transform(matrix: bodyAnchor.transform).rotation
+                let instrumentOrientation = simd_quatf(from: rightHandMidStartPos, to: rightHandThumbEndPos)
                 
                 characterAnchor.position = bodyPosition
-                //+ characterOffset
-                racketModel.position = rightHandPos
-
-                let bodyOrientation = Transform(matrix: bodyAnchor.transform).rotation
-                
-                let racketOrientation = simd_quatf(from: rightHandPos, to: midFingerPos)
-                
-                print("START TRANSFORMS")
-                //print(bodyOrientation)
-                print(racketOrientation.axis)
-                print(racketOrientation.vector)
-                print("END TRANSFORMS")
+                // + characterOffset
+                currentInstrument.position = rightHandMidStartPos
                 
                 characterAnchor.orientation = bodyOrientation
-                racketModel.orientation = racketOrientation
-                    
+                currentInstrument.orientation = instrumentOrientation
+                
+                headPos = rightHandMidStartPos
+                //bodyPosition + [0, 1.5, 0]
+                
                 // Attach character to anchor
                 if let character = character, character.parent == nil {
                     characterAnchor.addChild(character)
                 }
-            } else if anchor is ARPlaneAnchor {
-                
-//                print("PLANE ANCHOR DETECTED")
-//                print(anchor)
-//                print("END PLANE ANCHOR DETECTION")
-                
-                let planeAnchor = anchor
-                
-                planePos = simd_make_float3(planeAnchor.transform.columns.3)
-                box?.position = planePos
-                balloonModel.position = planePos
             }
         }
     }

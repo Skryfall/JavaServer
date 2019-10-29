@@ -70,10 +70,9 @@
 			children = (
 				A986E331234EEC4200A71338 /* AppDelegate.swift */,
 				A986E333234EEC4200A71338 /* ViewController.swift */,
-				A93CB15A236662FC0087130E /* FloatingView.swift */,
-				A93CB15C23666B1B0087130E /* FloatingView+CoachingOverlay.swift */,
 				A986E363234EED2100A71338 /* Utilities.swift */,
 				A986E33F234EEC4300A71338 /* Info.plist */,
+				A9D6510323679FB9009800AF /* Views */,
 				A9CB2B202364DA3D000A6F82 /* Assets */,
 				A9CB2B1D2364D8CA000A6F82 /* UI Elements */,
 				A9CB2B1F2364D9F2000A6F82 /* Resources */,
@@ -106,6 +105,15 @@
 				A9CB2B0E2364D866000A6F82 /* models */,
 			);
 			path = Assets;
+			sourceTree = "<group>";
+		};
+		A9D6510323679FB9009800AF /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				A93CB15A236662FC0087130E /* FloatingView.swift */,
+				A93CB15C23666B1B0087130E /* FloatingView+CoachingOverlay.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
