@@ -1,5 +1,5 @@
 //
-//  FloatingView+CoachingOverlay.swift
+//  MotorView+CoachingOverlay.swift
 //  MotorTherapy
 //
 //  Created by Alejandro Ibarra on 10/27/19.
@@ -23,7 +23,7 @@ extension FloatingView: ARCoachingOverlayViewDelegate {
     }
 
     func coachingOverlayViewDidRequestSessionReset(_ coachingOverlayView: ARCoachingOverlayView) {
-        resetTracking()
+        //resetTracking()
     }
     
     func setupCoachingOverlay() {

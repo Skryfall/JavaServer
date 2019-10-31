@@ -8,8 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		A93CB15323654BD10087130E /* FocusEntity in Frameworks */ = {isa = PBXBuildFile; productRef = A93CB15223654BD10087130E /* FocusEntity */; };
-		A93CB15B236662FC0087130E /* FloatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A93CB15A236662FC0087130E /* FloatingView.swift */; };
 		A93CB15D23666B1B0087130E /* FloatingView+CoachingOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = A93CB15C23666B1B0087130E /* FloatingView+CoachingOverlay.swift */; };
+		A9529EB5236911C400733BD1 /* FeetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9529EB4236911C400733BD1 /* FeetView.swift */; };
+		A9529EB7236911D700733BD1 /* BalloonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9529EB6236911D700733BD1 /* BalloonView.swift */; };
+		A9529EB9236911F200733BD1 /* SpiderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9529EB8236911F200733BD1 /* SpiderView.swift */; };
+		A9529EBB2369122700733BD1 /* FloatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9529EBA2369122700733BD1 /* FloatingView.swift */; };
 		A986E332234EEC4200A71338 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A986E331234EEC4200A71338 /* AppDelegate.swift */; };
 		A986E334234EEC4200A71338 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A986E333234EEC4200A71338 /* ViewController.swift */; };
 		A986E339234EEC4200A71338 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A986E337234EEC4200A71338 /* Main.storyboard */; };
@@ -22,8 +25,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		A93CB15A236662FC0087130E /* FloatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingView.swift; sourceTree = "<group>"; };
 		A93CB15C23666B1B0087130E /* FloatingView+CoachingOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FloatingView+CoachingOverlay.swift"; sourceTree = "<group>"; };
+		A9529EB4236911C400733BD1 /* FeetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeetView.swift; sourceTree = "<group>"; };
+		A9529EB6236911D700733BD1 /* BalloonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalloonView.swift; sourceTree = "<group>"; };
+		A9529EB8236911F200733BD1 /* SpiderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpiderView.swift; sourceTree = "<group>"; };
+		A9529EBA2369122700733BD1 /* FloatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingView.swift; sourceTree = "<group>"; };
 		A986E32E234EEC4200A71338 /* MotorTherapy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MotorTherapy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A986E331234EEC4200A71338 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A986E333234EEC4200A71338 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -110,8 +116,11 @@
 		A9D6510323679FB9009800AF /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				A93CB15A236662FC0087130E /* FloatingView.swift */,
+				A9529EBA2369122700733BD1 /* FloatingView.swift */,
 				A93CB15C23666B1B0087130E /* FloatingView+CoachingOverlay.swift */,
+				A9529EB4236911C400733BD1 /* FeetView.swift */,
+				A9529EB6236911D700733BD1 /* BalloonView.swift */,
+				A9529EB8236911F200733BD1 /* SpiderView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -194,11 +203,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A9529EB7236911D700733BD1 /* BalloonView.swift in Sources */,
+				A9529EB5236911C400733BD1 /* FeetView.swift in Sources */,
 				A986E334234EEC4200A71338 /* ViewController.swift in Sources */,
+				A9529EBB2369122700733BD1 /* FloatingView.swift in Sources */,
 				A93CB15D23666B1B0087130E /* FloatingView+CoachingOverlay.swift in Sources */,
 				A9CB2B262364FCB8000A6F82 /* experience.rcproject in Sources */,
+				A9529EB9236911F200733BD1 /* SpiderView.swift in Sources */,
 				A986E332234EEC4200A71338 /* AppDelegate.swift in Sources */,
-				A93CB15B236662FC0087130E /* FloatingView.swift in Sources */,
 				A9CB2B1A2364D8C5000A6F82 /* MessageLabel.swift in Sources */,
 				A986E364234EED2100A71338 /* Utilities.swift in Sources */,
 			);
