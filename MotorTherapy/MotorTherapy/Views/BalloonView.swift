@@ -21,11 +21,9 @@ class BalloonView: UIViewController, ARSessionDelegate {
     @IBOutlet weak var controlView: UIView!
     
     // Buttons and other elements
-    @IBOutlet weak var addButton: UIButton!
     @IBOutlet weak var backButton: UIButton!
     @IBOutlet weak var messageLabel: MessageLabel!
-    @IBOutlet weak var selectInstrumentButton: UIButton!
-    @IBOutlet weak var timerLabel: UILabel!
+    @IBOutlet weak var startButton: UIButton!
     
     // MARK: - Attributes
     
@@ -62,6 +60,7 @@ class BalloonView: UIViewController, ARSessionDelegate {
     var collisionEventStreams = [AnyCancellable]()
     deinit {
         collisionEventStreams.removeAll()
+        endGame()
     }
     
     // MARK: - Functions
@@ -90,8 +89,6 @@ class BalloonView: UIViewController, ARSessionDelegate {
             
             // Start collision detection
             startCollisions()
-            
-            addButton.isEnabled = false
         }
     }
     
@@ -214,23 +211,6 @@ class BalloonView: UIViewController, ARSessionDelegate {
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: (#selector(FloatingView.updateTimer)), userInfo: nil, repeats: true)
     }
     
-    /// Runs every time timer is updated
-    @objc func updateTimer() {
-        seconds -= 1
-        timerLabel.text = "Time: \(seconds)"
-        if seconds == 0 {
-            // Time's up
-            if timeList.isEmpty {
-                // There are no more times. End session
-                endGame()
-            } else {
-                // Change object position and time
-                nextTimer()
-                nextObjectPosition()
-            }
-        }
-    }
-    
     // MARK: - View Control
     
     override func viewDidLoad() {
@@ -260,6 +240,7 @@ class BalloonView: UIViewController, ARSessionDelegate {
         // Run a body tracking configuration for session
         let configuration = ARBodyTrackingConfiguration()
         configuration.automaticSkeletonScaleEstimationEnabled = true
+        
         arView.session.run(configuration)
         
         // Load objects in scene

@@ -63,6 +63,7 @@ class FloatingView: UIViewController, ARSessionDelegate {
     var collisionEventStreams = [AnyCancellable]()
     deinit {
         collisionEventStreams.removeAll()
+        endGame()
     }
     
     // MARK: - Functions
@@ -263,6 +264,7 @@ class FloatingView: UIViewController, ARSessionDelegate {
         // Run a body tracking configuration for session
         let configuration = ARBodyTrackingConfiguration()
         configuration.automaticSkeletonScaleEstimationEnabled = true
+        
         arView.session.run(configuration)
         
         // Load objects in scene

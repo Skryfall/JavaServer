@@ -18,6 +18,7 @@ class SpiderView: UIViewController, ARSessionDelegate {
     // Main UI views
     @IBOutlet var arView: ARView!
     @IBOutlet weak var blurView: UIVisualEffectView!
+    @IBOutlet weak var gameView: UIView!
     @IBOutlet weak var controlView: UIView!
     
     // Buttons and other elements
@@ -46,6 +47,7 @@ class SpiderView: UIViewController, ARSessionDelegate {
     var collisionEventStreams = [AnyCancellable]()
     deinit {
         collisionEventStreams.removeAll()
+        endGame()
     }
     
     // MARK: - Functions
@@ -219,9 +221,6 @@ class SpiderView: UIViewController, ARSessionDelegate {
         let configuration = ARBodyTrackingConfiguration()
         configuration.automaticSkeletonScaleEstimationEnabled = true
         
-        // Enable people occlusion with depth for a cooler experience
-        configuration.frameSemantics.insert(.personSegmentationWithDepth)
-        
         arView.session.run(configuration)
         
         // Load objects in scene
@@ -275,14 +274,13 @@ class SpiderView: UIViewController, ARSessionDelegate {
                 characterAnchor.position = bodyPosition!
                 characterAnchor.orientation = bodyOrientation
                 
-                // Place balls in the air
+                // Place balls control panel in the air
                 upBall.position = rootPos + [0, 0, 0.3]
                 leftBall.position = rootPos + [0.7, 0, 0]
                 rightBall.position = rootPos + [-0.7, 0, 0]
                 downBall.position = rootPos + [0, 0, -0.3]
                 leftBox.position = leftHandMidStartPos
                 rightBox.position = rightHandMidStartPos
-                
                 
                 // Attach character to anchor
                 if let character = character, character.parent == nil {

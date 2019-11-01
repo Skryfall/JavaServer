@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="7Re-tg-t7e">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="EyN-HB-s1X">
     <device id="ipad12_9rounded" orientation="landscape" layout="fullscreen" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15508"/>
@@ -221,22 +221,16 @@
                                             <segue destination="BYZ-38-t0r" kind="presentation" modalPresentationStyle="fullScreen" id="pYy-w0-lN9"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jg9-ic-yy7">
-                                        <rect key="frame" x="1175" y="33" width="163" height="42"/>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ry6-Qg-Srw">
+                                        <rect key="frame" x="1257" y="43" width="60" height="22"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="tintColor" systemColor="systemOrangeColor" red="1" green="0.58431372550000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <state key="normal" title="Reset Tracking" image="arrow.clockwise" catalog="system"/>
-                                        <connections>
-                                            <action selector="onResetButtonTap:" destination="iVC-7I-OUp" eventType="primaryActionTriggered" id="jXm-yC-bsm"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Ih-Aq-BwX">
-                                        <rect key="frame" x="1012" y="43" width="130" height="22"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="tintColor" systemColor="systemGreenColor" red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <state key="normal" title="Select Object" image="xmark.circle" catalog="system">
+                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <state key="normal" title=" Start" image="play.fill" catalog="system">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
+                                        <connections>
+                                            <action selector="onStartButtonTap:" destination="EyN-HB-s1X" eventType="touchUpInside" id="kEN-lU-Mwp"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -261,8 +255,7 @@
                         <outlet property="blurView" destination="EZq-me-zxf" id="sfr-eY-BXq"/>
                         <outlet property="controlView" destination="FaD-uJ-d6t" id="fei-C6-FpV"/>
                         <outlet property="messageLabel" destination="Hmj-xD-QSW" id="lmq-ND-EG2"/>
-                        <outlet property="resetTrackingButton" destination="Jg9-ic-yy7" id="krZ-vP-AUB"/>
-                        <outlet property="selectObjectButton" destination="0Ih-Aq-BwX" id="t0b-7n-fUf"/>
+                        <outlet property="startButton" destination="Ry6-Qg-Srw" id="SMa-lI-a9f"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="apG-G6-D8P" sceneMemberID="firstResponder"/>
@@ -277,6 +270,82 @@
                         <rect key="frame" x="0.0" y="0.0" width="1366" height="1024"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
+                            <visualEffectView hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1YP-3A-2D0" userLabel="Blur View">
+                                <rect key="frame" x="0.0" y="0.0" width="1366" height="1024"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <view key="contentView" hidden="YES" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" insetsLayoutMarginsFromSafeArea="NO" id="I3M-Gg-JHq">
+                                    <rect key="frame" x="0.0" y="0.0" width="1366" height="1024"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                </view>
+                                <blurEffect style="extraLight"/>
+                            </visualEffectView>
+                            <view hidden="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="k5V-ep-ff3" userLabel="Queue View" customClass="RoundedCornerView" customModule="MotorTherapy" customModuleProvider="target">
+                                <rect key="frame" x="1110" y="120" width="246" height="889"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZiU-aF-YWo" customClass="RoundableImageView" customModule="MotorTherapy" customModuleProvider="target">
+                                        <rect key="frame" x="18" y="95" width="209" height="169"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" systemColor="systemGreenColor" red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="rounded" value="YES"/>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                <real key="value" value="26"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                <real key="value" value="0.0"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="circular" value="NO"/>
+                                        </userDefinedRuntimeAttributes>
+                                    </imageView>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hFS-HG-zSu" customClass="RoundableImageView" customModule="MotorTherapy" customModuleProvider="target">
+                                        <rect key="frame" x="18" y="490" width="209" height="169"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" systemColor="systemOrangeColor" red="1" green="0.58431372550000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                <real key="value" value="26"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </imageView>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jSe-JV-2v2" customClass="RoundableImageView" customModule="MotorTherapy" customModuleProvider="target">
+                                        <rect key="frame" x="18" y="291" width="209" height="169"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" systemColor="systemPinkColor" red="1" green="0.1764705882" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                <real key="value" value="26"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </imageView>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rk2-QO-Z1n" customClass="RoundableImageView" customModule="MotorTherapy" customModuleProvider="target">
+                                        <rect key="frame" x="19" y="691" width="209" height="169"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" systemColor="systemTealColor" red="0.35294117650000001" green="0.7843137255" blue="0.98039215690000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                <real key="value" value="26"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Sequence" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xiC-96-wdm">
+                                        <rect key="frame" x="47" y="16" width="151" height="34"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="32"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="18"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                        <real key="value" value="0.0"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1X7-aV-72p" userLabel="Control View">
                                 <rect key="frame" x="0.0" y="0.0" width="1366" height="109"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -313,26 +382,6 @@
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
-                            <visualEffectView hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1YP-3A-2D0" userLabel="Blur View">
-                                <rect key="frame" x="0.0" y="532" width="378" height="297"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <view key="contentView" hidden="YES" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" insetsLayoutMarginsFromSafeArea="NO" id="I3M-Gg-JHq">
-                                    <rect key="frame" x="0.0" y="0.0" width="378" height="297"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                </view>
-                                <blurEffect style="extraLight"/>
-                            </visualEffectView>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="T2g-Du-Wlq" userLabel="Queue View">
-                                <rect key="frame" x="1108" y="117" width="258" height="907"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="FocusEntity-Example1.gif" translatesAutoresizingMaskIntoConstraints="NO" id="0Vp-sO-edY">
-                                        <rect key="frame" x="15" y="21" width="206" height="150"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    </imageView>
-                                </subviews>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                            </view>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="bdz-iH-Tgt"/>
@@ -344,7 +393,11 @@
                         <outlet property="blurView" destination="1YP-3A-2D0" id="uLZ-sq-Zwn"/>
                         <outlet property="controlView" destination="1X7-aV-72p" id="VSe-im-1ny"/>
                         <outlet property="messageLabel" destination="E8w-wx-Ueh" id="BAC-7h-UDZ"/>
-                        <outlet property="queueView" destination="T2g-Du-Wlq" id="W7k-6t-gvl"/>
+                        <outlet property="queueColor1" destination="ZiU-aF-YWo" id="oOp-ft-tvU"/>
+                        <outlet property="queueColor2" destination="jSe-JV-2v2" id="AX8-B4-H5a"/>
+                        <outlet property="queueColor3" destination="hFS-HG-zSu" id="gl7-pT-x2S"/>
+                        <outlet property="queueColor4" destination="rk2-QO-Z1n" id="VZT-jv-pHe"/>
+                        <outlet property="queueView" destination="k5V-ep-ff3" id="4kz-0a-jCh"/>
                         <outlet property="startButton" destination="RFa-C3-5QV" id="v4e-N3-NMD"/>
                     </connections>
                 </viewController>
@@ -405,10 +458,15 @@
                                 </view>
                                 <blurEffect style="extraLight"/>
                             </visualEffectView>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8lc-SM-wPa" userLabel="Game View">
-                                <rect key="frame" x="681" y="117" width="685" height="907"/>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8lc-SM-wPa" userLabel="Game View" customClass="RoundedCornerView" customModule="MotorTherapy" customModuleProvider="target">
+                                <rect key="frame" x="693" y="117" width="653" height="887"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="26"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                             </view>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
@@ -417,11 +475,12 @@
                     <navigationItem key="navigationItem" id="kS1-lg-rgr"/>
                     <connections>
                         <outlet property="arView" destination="3nL-Bg-Fbs" id="hy6-uU-Fu1"/>
-                        <outlet property="backButton" destination="JVe-Db-V0s" id="h7q-tV-YMd"/>
-                        <outlet property="blurView" destination="yCA-MC-SZb" id="AqA-DT-gUx"/>
+                        <outlet property="backButton" destination="JVe-Db-V0s" id="Cju-Vd-dCC"/>
+                        <outlet property="blurView" destination="yCA-MC-SZb" id="Aic-1q-LY7"/>
                         <outlet property="controlView" destination="bWZ-vC-G9n" id="nhH-HJ-dac"/>
-                        <outlet property="messageLabel" destination="zuC-gs-kC7" id="IDu-aP-oCZ"/>
-                        <outlet property="startButton" destination="NYP-SP-wUj" id="1Dm-GV-GU8"/>
+                        <outlet property="gameView" destination="8lc-SM-wPa" id="k3y-LW-h8U"/>
+                        <outlet property="messageLabel" destination="zuC-gs-kC7" id="Ylg-ww-kBE"/>
+                        <outlet property="startButton" destination="NYP-SP-wUj" id="nKJ-A5-d5V"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IuT-S8-Tuy" sceneMemberID="firstResponder"/>
@@ -430,8 +489,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="FocusEntity-Example1.gif" width="768" height="537"/>
-        <image name="arrow.clockwise" catalog="system" width="56" height="64"/>
         <image name="play.fill" catalog="system" width="58" height="64"/>
         <image name="plus" catalog="system" width="64" height="56"/>
         <image name="xmark.circle" catalog="system" width="64" height="60"/>

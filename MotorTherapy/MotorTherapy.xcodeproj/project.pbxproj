@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A935C16E236BEFA100CA6545 /* RoundedCornerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A935C16D236BEFA100CA6545 /* RoundedCornerView.swift */; };
 		A93CB15323654BD10087130E /* FocusEntity in Frameworks */ = {isa = PBXBuildFile; productRef = A93CB15223654BD10087130E /* FocusEntity */; };
 		A93CB15D23666B1B0087130E /* FloatingView+CoachingOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = A93CB15C23666B1B0087130E /* FloatingView+CoachingOverlay.swift */; };
 		A9529EB5236911C400733BD1 /* FeetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9529EB4236911C400733BD1 /* FeetView.swift */; };
@@ -25,6 +26,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A935C16D236BEFA100CA6545 /* RoundedCornerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedCornerView.swift; sourceTree = "<group>"; };
 		A93CB15C23666B1B0087130E /* FloatingView+CoachingOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FloatingView+CoachingOverlay.swift"; sourceTree = "<group>"; };
 		A9529EB4236911C400733BD1 /* FeetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeetView.swift; sourceTree = "<group>"; };
 		A9529EB6236911D700733BD1 /* BalloonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalloonView.swift; sourceTree = "<group>"; };
@@ -90,6 +92,7 @@
 			isa = PBXGroup;
 			children = (
 				A9CB2B172364D8C5000A6F82 /* MessageLabel.swift */,
+				A935C16D236BEFA100CA6545 /* RoundedCornerView.swift */,
 			);
 			path = "UI Elements";
 			sourceTree = "<group>";
@@ -209,6 +212,7 @@
 				A9529EBB2369122700733BD1 /* FloatingView.swift in Sources */,
 				A93CB15D23666B1B0087130E /* FloatingView+CoachingOverlay.swift in Sources */,
 				A9CB2B262364FCB8000A6F82 /* experience.rcproject in Sources */,
+				A935C16E236BEFA100CA6545 /* RoundedCornerView.swift in Sources */,
 				A9529EB9236911F200733BD1 /* SpiderView.swift in Sources */,
 				A986E332234EEC4200A71338 /* AppDelegate.swift in Sources */,
 				A9CB2B1A2364D8C5000A6F82 /* MessageLabel.swift in Sources */,

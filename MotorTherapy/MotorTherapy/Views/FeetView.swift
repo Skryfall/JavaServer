@@ -26,6 +26,12 @@ class FeetView: UIViewController, ARSessionDelegate {
     @IBOutlet weak var messageLabel: MessageLabel!
     @IBOutlet weak var startButton: UIButton!
     
+    // Queue views
+    @IBOutlet weak var queueColor1: UIImageView!
+    @IBOutlet weak var queueColor2: UIImageView!
+    @IBOutlet weak var queueColor3: UIImageView!
+    @IBOutlet weak var queueColor4: UIImageView!
+    
     // MARK: - Attributes
     
     // Entity data
@@ -36,6 +42,10 @@ class FeetView: UIViewController, ARSessionDelegate {
     var leftBox = Entity()
     var rightBox = Entity()
     
+    // Queue management
+    var queueList = [[String]]()
+    var currentQueue = [String]()
+    
     // Reality Composer scene
     var experienceScene = Experience.Scene()
     
@@ -43,13 +53,102 @@ class FeetView: UIViewController, ARSessionDelegate {
     var collisionEventStreams = [AnyCancellable]()
     deinit {
         collisionEventStreams.removeAll()
+        endGame()
     }
     
     // MARK: - Functions
     
+    /// Animates queue entrance when start
+    func animateQueueEntrance() {
+        
+    }
+    
+    /// Draws color in flag queue view
+    func drawQueue() {
+        let color1: String?
+        let color2: String?
+        let color3: String?
+        let color4: String?
+        if currentQueue.isEmpty {
+            queueList.remove(at: 0)
+            if queueList.isEmpty {
+                // No more colors. End game
+                endGame()
+            } else {
+                // Change queue
+                currentQueue = queueList[0]
+                drawQueue()
+            }
+        } else if currentQueue.count == 3 {
+            // Only 3 colors to be showed
+            color1 = currentQueue[0]
+            color2 = currentQueue[1]
+            color3 = currentQueue[2]
+            queueColor1.backgroundColor = getColor(color: color1!)
+            queueColor2.backgroundColor = getColor(color: color2!)
+            queueColor3.backgroundColor = getColor(color: color3!)
+            queueColor4.backgroundColor = .clear
+        } else if currentQueue.count == 2 {
+            // Only 2 colors to be showed
+            color1 = currentQueue[0]
+            color2 = currentQueue[1]
+            queueColor1.backgroundColor = getColor(color: color1!)
+            queueColor2.backgroundColor = getColor(color: color2!)
+            queueColor3.backgroundColor = .clear
+            queueColor4.backgroundColor = .clear
+        } else if currentQueue.count == 1 {
+            // Only 1 color to be showed
+            color1 = currentQueue[0]
+            queueColor1.backgroundColor = getColor(color: color1!)
+            queueColor2.backgroundColor = .clear
+            queueColor3.backgroundColor = .clear
+            queueColor4.backgroundColor = .clear
+        } else {
+            // All colors to be showed
+            color1 = currentQueue[0]
+            color2 = currentQueue[1]
+            color3 = currentQueue[2]
+            color4 = currentQueue[3]
+            queueColor1.backgroundColor = getColor(color: color1!)
+            queueColor2.backgroundColor = getColor(color: color2!)
+            queueColor3.backgroundColor = getColor(color: color3!)
+            queueColor4.backgroundColor = getColor(color: color4!)
+        }
+    }
+    
     /// Ends game
     func endGame() {
         messageLabel.text = "You win"
+    }
+    
+    /// Gets color from string
+    func getColor(color: String) -> UIColor {
+        var result: UIColor
+        switch color {
+        case "blue":
+            result = #colorLiteral(red: 0, green: 0.4784313725, blue: 1, alpha: 1)
+        case "green":
+            result = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
+        case "red":
+            result = #colorLiteral(red: 1, green: 0, blue: 0.2711882889, alpha: 1)
+        case "orange":
+            result = #colorLiteral(red: 1, green: 0.4839532375, blue: 0.1407360137, alpha: 1)
+        case "yellow":
+            result = #colorLiteral(red: 0.9686274529, green: 0.78039217, blue: 0.3450980484, alpha: 1)
+        case "brown":
+            result = #colorLiteral(red: 0.5608243942, green: 0.3643547297, blue: 0.04435489327, alpha: 1)
+        case "purple":
+            result = #colorLiteral(red: 0.2196078449, green: 0.007843137719, blue: 0.8549019694, alpha: 1)
+        case "grey":
+            result = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
+        case "magenta":
+            result = #colorLiteral(red: 1, green: 0.3899285197, blue: 0.6967676282, alpha: 1)
+        case "cyan":
+            result = #colorLiteral(red: 0.2588235438, green: 0.7568627596, blue: 0.9686274529, alpha: 1)
+        default:
+            result = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+        }
+        return result
     }
     
     /// Loads objects in scene
@@ -60,8 +159,8 @@ class FeetView: UIViewController, ARSessionDelegate {
     
     /// Initializes attributes from server
     func initializeAttributes() {
-        
         // PLACEHOLDER DATA FOR TESTS
+        queueList.append(["blue", "red", "yellow", "brown", "cyan"])
     }
     
     /// Loads default elements in AR
@@ -106,11 +205,16 @@ class FeetView: UIViewController, ARSessionDelegate {
     @IBAction func onStartButtonTap(_ sender: Any) {
         startGame()
     }
+    
+    /// Push one color in queue
+    func pushQueueColor() {
+        currentQueue.remove(at: 0)
+        drawQueue()
+    }
 
     /// Start collision detection system for current floating object
     func startCollisions() {
-        // Subscribe scene to collision events
-        // Signal up
+        //Subscribe scene to collision events
 //        arView.scene.subscribe(
 //            to: CollisionEvents.Began.self,
 //            on: upBall
@@ -125,7 +229,9 @@ class FeetView: UIViewController, ARSessionDelegate {
             // Body doesn't yet exist
             messageLabel.text = "No person detected"
         } else {
-            
+            // Draw queue
+            currentQueue = queueList[0]
+            drawQueue()
             
             // Start collision detection
             startCollisions()
@@ -163,9 +269,6 @@ class FeetView: UIViewController, ARSessionDelegate {
         // Run a body tracking configuration for session
         let configuration = ARBodyTrackingConfiguration()
         configuration.automaticSkeletonScaleEstimationEnabled = true
-        
-        // Enable people occlusion with depth for a cooler experience
-        configuration.frameSemantics.insert(.personSegmentationWithDepth)
         
         arView.session.run(configuration)
         
