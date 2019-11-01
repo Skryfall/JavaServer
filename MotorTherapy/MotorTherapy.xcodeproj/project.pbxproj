@@ -3,12 +3,12 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 50;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		A935C16E236BEFA100CA6545 /* RoundedCornerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A935C16D236BEFA100CA6545 /* RoundedCornerView.swift */; };
-		A93CB15323654BD10087130E /* FocusEntity in Frameworks */ = {isa = PBXBuildFile; productRef = A93CB15223654BD10087130E /* FocusEntity */; };
+		A935C171236CA9B100CA6545 /* SpiderWeb.swift in Sources */ = {isa = PBXBuildFile; fileRef = A935C170236CA9B100CA6545 /* SpiderWeb.swift */; };
 		A93CB15D23666B1B0087130E /* FloatingView+CoachingOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = A93CB15C23666B1B0087130E /* FloatingView+CoachingOverlay.swift */; };
 		A9529EB5236911C400733BD1 /* FeetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9529EB4236911C400733BD1 /* FeetView.swift */; };
 		A9529EB7236911D700733BD1 /* BalloonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9529EB6236911D700733BD1 /* BalloonView.swift */; };
@@ -27,6 +27,7 @@
 
 /* Begin PBXFileReference section */
 		A935C16D236BEFA100CA6545 /* RoundedCornerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedCornerView.swift; sourceTree = "<group>"; };
+		A935C170236CA9B100CA6545 /* SpiderWeb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpiderWeb.swift; sourceTree = "<group>"; };
 		A93CB15C23666B1B0087130E /* FloatingView+CoachingOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FloatingView+CoachingOverlay.swift"; sourceTree = "<group>"; };
 		A9529EB4236911C400733BD1 /* FeetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeetView.swift; sourceTree = "<group>"; };
 		A9529EB6236911D700733BD1 /* BalloonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalloonView.swift; sourceTree = "<group>"; };
@@ -50,13 +51,20 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A93CB15323654BD10087130E /* FocusEntity in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A935C16F236CA99A00CA6545 /* Logic */ = {
+			isa = PBXGroup;
+			children = (
+				A935C170236CA9B100CA6545 /* SpiderWeb.swift */,
+			);
+			path = Logic;
+			sourceTree = "<group>";
+		};
 		A986E325234EEC4200A71338 = {
 			isa = PBXGroup;
 			children = (
@@ -80,8 +88,9 @@
 				A986E333234EEC4200A71338 /* ViewController.swift */,
 				A986E363234EED2100A71338 /* Utilities.swift */,
 				A986E33F234EEC4300A71338 /* Info.plist */,
+				A9CB2B202364DA3D000A6F82 /* 3D Models */,
+				A935C16F236CA99A00CA6545 /* Logic */,
 				A9D6510323679FB9009800AF /* Views */,
-				A9CB2B202364DA3D000A6F82 /* Assets */,
 				A9CB2B1D2364D8CA000A6F82 /* UI Elements */,
 				A9CB2B1F2364D9F2000A6F82 /* Resources */,
 			);
@@ -107,13 +116,13 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
-		A9CB2B202364DA3D000A6F82 /* Assets */ = {
+		A9CB2B202364DA3D000A6F82 /* 3D Models */ = {
 			isa = PBXGroup;
 			children = (
 				A9CB2B252364FCB8000A6F82 /* experience.rcproject */,
 				A9CB2B0E2364D866000A6F82 /* models */,
 			);
-			path = Assets;
+			path = "3D Models";
 			sourceTree = "<group>";
 		};
 		A9D6510323679FB9009800AF /* Views */ = {
@@ -145,7 +154,6 @@
 			);
 			name = MotorTherapy;
 			packageProductDependencies = (
-				A93CB15223654BD10087130E /* FocusEntity */,
 			);
 			productName = MotorTherapy;
 			productReference = A986E32E234EEC4200A71338 /* MotorTherapy.app */;
@@ -176,7 +184,6 @@
 			);
 			mainGroup = A986E325234EEC4200A71338;
 			packageReferences = (
-				A93CB15123654BD10087130E /* XCRemoteSwiftPackageReference "FocusEntity" */,
 			);
 			productRefGroup = A986E32F234EEC4200A71338 /* Products */;
 			projectDirPath = "";
@@ -209,6 +216,7 @@
 				A9529EB7236911D700733BD1 /* BalloonView.swift in Sources */,
 				A9529EB5236911C400733BD1 /* FeetView.swift in Sources */,
 				A986E334234EEC4200A71338 /* ViewController.swift in Sources */,
+				A935C171236CA9B100CA6545 /* SpiderWeb.swift in Sources */,
 				A9529EBB2369122700733BD1 /* FloatingView.swift in Sources */,
 				A93CB15D23666B1B0087130E /* FloatingView+CoachingOverlay.swift in Sources */,
 				A9CB2B262364FCB8000A6F82 /* experience.rcproject in Sources */,
@@ -414,25 +422,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		A93CB15123654BD10087130E /* XCRemoteSwiftPackageReference "FocusEntity" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/maxxfrazer/FocusEntity.git";
-			requirement = {
-				branch = master;
-				kind = branch;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		A93CB15223654BD10087130E /* FocusEntity */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = A93CB15123654BD10087130E /* XCRemoteSwiftPackageReference "FocusEntity" */;
-			productName = FocusEntity;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = A986E326234EEC4200A71338 /* Project object */;
 }

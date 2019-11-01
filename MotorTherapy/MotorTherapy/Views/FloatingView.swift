@@ -200,7 +200,7 @@ class FloatingView: UIViewController, ARSessionDelegate {
     func startGame() {
         if !bodyAnchorExists {
             // Body doesn't yet exist
-            messageLabel.text = "No person detected"
+            messageLabel.displayMessage("No person detected", duration: 5, "Floating Object")
         } else {
             moveObject(newPos: headPos + [0, 0.5, 0])
             // Start object timer

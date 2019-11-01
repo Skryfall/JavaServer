@@ -61,7 +61,7 @@ class RoundableImageView: UIImageView {
     }
 
     func applyCornerRadius() {
-        if(self.circular) {
+        if (self.circular) {
             self.layer.cornerRadius = self.bounds.size.height/2
             self.layer.masksToBounds = true
             self.layer.borderColor = self.borderColor.cgColor

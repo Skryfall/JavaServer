@@ -60,7 +60,13 @@ class FeetView: UIViewController, ARSessionDelegate {
     
     /// Animates queue entrance when start
     func animateQueueEntrance() {
-        
+        queueView.isHidden = false
+        UIView.animate(withDuration: 0.5,
+                       delay: 0,
+                       options: .curveEaseOut,
+                       animations: {
+                        self.queueView.frame.origin.x -= 290
+                        })
     }
     
     /// Draws color in flag queue view
@@ -227,7 +233,7 @@ class FeetView: UIViewController, ARSessionDelegate {
     func startGame() {
         if !bodyAnchorExists {
             // Body doesn't yet exist
-            messageLabel.text = "No person detected"
+            messageLabel.displayMessage("No person detected", duration: 5, "Feet")
         } else {
             // Draw queue
             currentQueue = queueList[0]
@@ -235,6 +241,9 @@ class FeetView: UIViewController, ARSessionDelegate {
             
             // Start collision detection
             startCollisions()
+            
+            // Enter queue
+            animateQueueEntrance()
             
             startButton.isEnabled = false
         }

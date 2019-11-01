@@ -17,7 +17,7 @@ class MessageLabel: UILabel {
     }
     
     
-    func displayMessage(_ text: String, duration: TimeInterval) {
+    func displayMessage(_ text: String, duration: TimeInterval,_ defaultText: String) {
         DispatchQueue.main.async {
             self.isHidden = false
             self.text = text
@@ -30,7 +30,7 @@ class MessageLabel: UILabel {
         DispatchQueue.main.asyncAfter(deadline: .now() + duration) {
             // Do not hide if showMessage is called again before this block kicks in.
             if self.tag == tag {
-                self.isHidden = true
+                self.text = defaultText
             }
         }
     }
