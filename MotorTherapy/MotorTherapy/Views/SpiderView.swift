@@ -29,13 +29,15 @@ class SpiderView: UIViewController, ARSessionDelegate {
     
     // Entity data
     var bodyAnchorExists = false
+    var bodyPosition: simd_float3?
     var character: BodyTrackedEntity?
     let characterAnchor = AnchorEntity()
     var upBall = Entity()
     var downBall = Entity()
     var leftBall = Entity()
     var rightBall = Entity()
-    var box = Entity()
+    var leftBox = Entity()
+    var rightBox = Entity()
     
     // Reality Composer scene
     var experienceScene = Experience.Scene()
@@ -72,14 +74,16 @@ class SpiderView: UIViewController, ARSessionDelegate {
         downBall = experienceScene.downBall!
         leftBall = experienceScene.leftBall!
         rightBall = experienceScene.rightBall!
-        box = experienceScene.box!
+        leftBox = experienceScene.leftBox!
+        rightBox = experienceScene.rightBox!
         
         // Anchor entities
         characterAnchor.addChild(upBall)
         characterAnchor.addChild(downBall)
         characterAnchor.addChild(leftBall)
         characterAnchor.addChild(rightBall)
-        characterAnchor.addChild(box)
+        characterAnchor.addChild(leftBox)
+        characterAnchor.addChild(rightBox)
         
         // Add body tracked character and objects
         arView.scene.addAnchor(characterAnchor)
@@ -152,22 +156,22 @@ class SpiderView: UIViewController, ARSessionDelegate {
     
     /// Signal down movement in UI
     func signalDown() {
-        
+        print("DOWN HAS BEEN TOUCHED")
     }
     
     /// Signal left movement in UI
     func signalLeft() {
-        
+        print("LEFT HAS BEEN TOUCHED")
     }
     
     /// Signal right movement in UI
     func signalRight() {
-        
+        print("RIGHT HAS BEEN TOUCHED")
     }
     
     /// Signal up movement in UI
     func signalUp() {
-        
+        print("UP HAS BEEN TOUCHED")
     }
     
     /// Starts game
@@ -214,6 +218,10 @@ class SpiderView: UIViewController, ARSessionDelegate {
         // Run a body tracking configuration for session
         let configuration = ARBodyTrackingConfiguration()
         configuration.automaticSkeletonScaleEstimationEnabled = true
+        
+        // Enable people occlusion with depth for a cooler experience
+        configuration.frameSemantics.insert(.personSegmentationWithDepth)
+        
         arView.session.run(configuration)
         
         // Load objects in scene
@@ -257,19 +265,24 @@ class SpiderView: UIViewController, ARSessionDelegate {
                 let skeleton = bodyAnchor.skeleton
                 
                 // Obtain position and orientation with anchor data
-                let bodyPosition = simd_make_float3(bodyAnchor.transform.columns.3)
-                let rightHandMidStartPos = simd_make_float3(skeleton.jointModelTransforms[72].columns.3)
-                let rightHandThumbEndPos = simd_make_float3(skeleton.jointModelTransforms[90].columns.3)
-                
                 let bodyOrientation = Transform(matrix: bodyAnchor.transform).rotation
-                let instrumentOrientation = simd_quatf(from: rightHandMidStartPos, to: rightHandThumbEndPos)
+                let leftHandMidStartPos = simd_make_float3(skeleton.jointModelTransforms[29].columns.3)
+                let rightHandMidStartPos = simd_make_float3(skeleton.jointModelTransforms[73].columns.3)
+                let rootPos = simd_make_float3(skeleton.jointModelTransforms[0].columns.3)
+                bodyPosition = simd_make_float3(bodyAnchor.transform.columns.3)
                 
                 // Update position and orientation of elements
-                characterAnchor.position = bodyPosition
-                //currentInstrument.position = rightHandMidStartPos
-                
+                characterAnchor.position = bodyPosition!
                 characterAnchor.orientation = bodyOrientation
-                //currentInstrument.orientation = instrumentOrientation
+                
+                // Place balls in the air
+                upBall.position = rootPos + [0, 0, 0.3]
+                leftBall.position = rootPos + [0.7, 0, 0]
+                rightBall.position = rootPos + [-0.7, 0, 0]
+                downBall.position = rootPos + [0, 0, -0.3]
+                leftBox.position = leftHandMidStartPos
+                rightBox.position = rightHandMidStartPos
+                
                 
                 // Attach character to anchor
                 if let character = character, character.parent == nil {

@@ -94,6 +94,101 @@
               "material" : "concrete",
               "overrides" : {
                 "children" : {
+                  "3DF3B54F-0C4C-4683-8BB2-B461DE3EC7D7" : {
+                    "overrides" : {
+                      "arguments" : [
+                        [
+                          "bevelRadius",
+                          {
+                            "typeName" : "Double",
+                            "value" : 0.0050000000000000001
+                          }
+                        ],
+                        [
+                          "depth",
+                          {
+                            "typeName" : "Double",
+                            "value" : 0.10000000000000001
+                          }
+                        ],
+                        [
+                          "height",
+                          {
+                            "typeName" : "Double",
+                            "value" : 0.10000000000000001
+                          }
+                        ],
+                        [
+                          "material",
+                          {
+                            "typeName" : "String",
+                            "value" : "clayTerracotta"
+                          }
+                        ],
+                        [
+                          "type",
+                          {
+                            "typeName" : "String",
+                            "value" : "box"
+                          }
+                        ],
+                        [
+                          "width",
+                          {
+                            "typeName" : "Double",
+                            "value" : 0.10000000000000001
+                          }
+                        ]
+                      ],
+                      "factory" : {
+                        "identifier" : "com.apple.rc.af.CoreAssetFactories.PrimitiveShapeAssetFactory",
+                        "version" : "1.0"
+                      },
+                      "runtimeAttributes" : [
+                        [
+                          "RuntimeIdentifier",
+                          {
+                            "typeName" : "UUID",
+                            "value" : "AC75505C-E139-423A-90D3-F5E94B48D558"
+                          }
+                        ],
+                        [
+                          "entityName",
+                          {
+                            "typeName" : "String",
+                            "value" : "RightBox"
+                          }
+                        ],
+                        [
+                          "rigidBody-enabled",
+                          {
+                            "typeName" : "Bool",
+                            "value" : true
+                          }
+                        ]
+                      ]
+                    },
+                    "transform" : {
+                      "matrix" : [
+                        1.2991722822189331,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1.2991722822189331,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1.2991722822189331,
+                        0,
+                        0,
+                        8.1956393671589467e-08,
+                        0,
+                        1
+                      ]
+                    }
+                  },
                   "10B6E6AF-EE20-423C-9860-33EDA3180786" : {
                     "overrides" : {
                       "arguments" : [
@@ -101,7 +196,7 @@
                           "diameter",
                           {
                             "typeName" : "Double",
-                            "value" : 0.10000000000000001
+                            "value" : 0.29999999999999999
                           }
                         ],
                         [
@@ -161,20 +256,20 @@
                     },
                     "transform" : {
                       "matrix" : [
-                        1,
+                        0.9999997615814209,
                         0,
                         0,
                         0,
                         0,
-                        1,
+                        0.99999970197677612,
                         0,
                         0,
                         0,
                         0,
-                        1,
+                        0.9999997615814209,
                         0,
                         0,
-                        0,
+                        1.4901162970204496e-08,
                         0,
                         1
                       ]
@@ -187,7 +282,7 @@
                           "diameter",
                           {
                             "typeName" : "Double",
-                            "value" : 0.10000000000000001
+                            "value" : 0.29999999999999999
                           }
                         ],
                         [
@@ -260,7 +355,7 @@
                         1,
                         0,
                         0,
-                        0,
+                        2.2351743567128324e-08,
                         0,
                         1
                       ]
@@ -300,7 +395,7 @@
                           "entityName",
                           {
                             "typeName" : "String",
-                            "value" : "Box"
+                            "value" : "LeftBox"
                           }
                         ],
                         [
@@ -314,20 +409,20 @@
                     },
                     "transform" : {
                       "matrix" : [
-                        1,
+                        1.2991722822189331,
                         0,
                         0,
                         0,
                         0,
-                        1,
+                        1.2991722822189331,
                         0,
                         0,
                         0,
                         0,
-                        1,
+                        1.2991722822189331,
                         0,
                         0,
-                        0,
+                        -2.4214388716359281e-08,
                         0,
                         1
                       ]
@@ -538,6 +633,13 @@
                     "overrides" : {
                       "arguments" : [
                         [
+                          "diameter",
+                          {
+                            "typeName" : "Double",
+                            "value" : 0.29999999999999999
+                          }
+                        ],
+                        [
                           "material",
                           {
                             "typeName" : "String",
@@ -589,6 +691,25 @@
                             "typeName" : "Bool",
                             "value" : true
                           }
+                        ],
+                        [
+                          "rigidBody-material",
+                          {
+                            "typeName" : "RigidBodyMaterial",
+                            "value" : {
+                              "builtIn" : "concrete",
+                              "overrides" : {
+
+                              }
+                            }
+                          }
+                        ],
+                        [
+                          "rigidBody-motionType",
+                          {
+                            "typeName" : "REMotionType",
+                            "value" : "static"
+                          }
                         ]
                       ]
                     },
@@ -607,7 +728,7 @@
                         1,
                         0,
                         0,
-                        2.7939679458910405e-09,
+                        2.9802325940408991e-08,
                         0,
                         1
                       ]
@@ -620,7 +741,7 @@
                           "diameter",
                           {
                             "typeName" : "Double",
-                            "value" : 0.10000000000000001
+                            "value" : 0.29999999999999999
                           }
                         ],
                         [
@@ -693,7 +814,7 @@
                         1,
                         0,
                         0,
-                        3.7252907425511239e-09,
+                        2.2351743567128324e-08,
                         0,
                         1
                       ]
@@ -705,21 +826,21 @@
               "title" : "Scene",
               "viewTransform" : {
                 "cameraTransform" : [
-                  0.95048493146896362,
-                  7.4505801528346183e-09,
-                  -0.31077060103416443,
+                  0.72205120325088501,
+                  1.0430812125150624e-07,
+                  -0.69183951616287231,
                   0,
-                  -0.11361797153949738,
-                  0.93077176809310913,
-                  -0.3474978506565094,
+                  -0.43697828054428101,
+                  0.77527976036071777,
+                  -0.45606046915054321,
                   0,
-                  0.28925657272338867,
-                  0.36560061573982239,
-                  0.88468462228775024,
+                  0.53636914491653442,
+                  0.6316179633140564,
+                  0.55979174375534058,
                   0,
-                  0.43408545851707458,
-                  0.61146467924118042,
-                  1.1319162845611572,
+                  1.2749321460723877,
+                  1.3259660005569458,
+                  0.88001048564910889,
                   1
                 ],
                 "sceneTransform" : [
