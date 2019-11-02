@@ -7,6 +7,7 @@
 //
 
 import ARKit
+import AVFoundation
 import Combine
 import RealityKit
 import UIKit
@@ -47,6 +48,7 @@ class FeetView: UIViewController, ARSessionDelegate {
     var currentQueue = [String]()
     
     // Additional variables for control
+    var audioPlayer: AVAudioPlayer!
     var isOnline: Bool?
     var isOver = false
     
@@ -129,6 +131,7 @@ class FeetView: UIViewController, ARSessionDelegate {
     /// Ends game
     func endGame() {
         showWinScreen()
+        playSound("yay")
     }
     
     /// Gets color from string
@@ -220,6 +223,38 @@ class FeetView: UIViewController, ARSessionDelegate {
     @IBAction func onStartButtonTap(_ sender: Any) {
         startGame()
     }
+    
+    // Plays sounds
+     func playSound(_ sound: String) {
+         switch sound {
+         case "hit":
+             if let soundURL = Bundle.main.url(forResource: "hit", withExtension: "mp3") {
+                 do {
+                     audioPlayer = try AVAudioPlayer(contentsOf: soundURL)
+                 }
+                 catch {
+                     print(error)
+                 }
+                 audioPlayer.play()
+             } else {
+                 print("Unable to locate audio file")
+             }
+         case "yay":
+             if let soundURL = Bundle.main.url(forResource: "yay", withExtension: "mp3") {
+                 do {
+                     audioPlayer = try AVAudioPlayer(contentsOf: soundURL)
+                 }
+                 catch {
+                     print(error)
+                 }
+                 audioPlayer.play()
+             } else {
+                 print("Unable to locate audio file")
+             }
+         default:
+             print("No sound found")
+         }
+     }
     
     /// Push one color in queue
     func pushQueueColor() {

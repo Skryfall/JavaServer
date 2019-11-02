@@ -16,6 +16,29 @@
 		A9529EB7236911D700733BD1 /* BalloonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9529EB6236911D700733BD1 /* BalloonView.swift */; };
 		A9529EB9236911F200733BD1 /* SpiderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9529EB8236911F200733BD1 /* SpiderView.swift */; };
 		A9529EBB2369122700733BD1 /* FloatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9529EBA2369122700733BD1 /* FloatingView.swift */; };
+		A95E434F236DE3C4005CA50F /* yay.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A95E434E236DE3C4005CA50F /* yay.mp3 */; };
+		A95E4351236DE68A005CA50F /* dictionary in Resources */ = {isa = PBXBuildFile; fileRef = A95E4350236DE68A005CA50F /* dictionary */; };
+		A95E4396236E066F005CA50F /* devices.txt in Resources */ = {isa = PBXBuildFile; fileRef = A95E4381236E066F005CA50F /* devices.txt */; };
+		A95E4397236E066F005CA50F /* 3d_graphics.txt in Resources */ = {isa = PBXBuildFile; fileRef = A95E4382236E066F005CA50F /* 3d_graphics.txt */; };
+		A95E4398236E066F005CA50F /* food.txt in Resources */ = {isa = PBXBuildFile; fileRef = A95E4383236E066F005CA50F /* food.txt */; };
+		A95E4399236E066F005CA50F /* water.txt in Resources */ = {isa = PBXBuildFile; fileRef = A95E4384236E066F005CA50F /* water.txt */; };
+		A95E439A236E066F005CA50F /* colors.txt in Resources */ = {isa = PBXBuildFile; fileRef = A95E4385236E066F005CA50F /* colors.txt */; };
+		A95E439B236E066F005CA50F /* algorithms.txt in Resources */ = {isa = PBXBuildFile; fileRef = A95E4386236E066F005CA50F /* algorithms.txt */; };
+		A95E439C236E066F005CA50F /* united_states.txt in Resources */ = {isa = PBXBuildFile; fileRef = A95E4387236E066F005CA50F /* united_states.txt */; };
+		A95E439D236E066F005CA50F /* hipster.txt in Resources */ = {isa = PBXBuildFile; fileRef = A95E4388236E066F005CA50F /* hipster.txt */; };
+		A95E439E236E066F005CA50F /* physics_units.txt in Resources */ = {isa = PBXBuildFile; fileRef = A95E4389236E066F005CA50F /* physics_units.txt */; };
+		A95E439F236E066F005CA50F /* cheese.txt in Resources */ = {isa = PBXBuildFile; fileRef = A95E438A236E066F005CA50F /* cheese.txt */; };
+		A95E43A0236E066F005CA50F /* birds.txt in Resources */ = {isa = PBXBuildFile; fileRef = A95E438B236E066F005CA50F /* birds.txt */; };
+		A95E43A1236E066F005CA50F /* chemistry.txt in Resources */ = {isa = PBXBuildFile; fileRef = A95E438C236E066F005CA50F /* chemistry.txt */; };
+		A95E43A2236E066F005CA50F /* filmmaking.txt in Resources */ = {isa = PBXBuildFile; fileRef = A95E438D236E066F005CA50F /* filmmaking.txt */; };
+		A95E43A3236E066F005CA50F /* design.txt in Resources */ = {isa = PBXBuildFile; fileRef = A95E438E236E066F005CA50F /* design.txt */; };
+		A95E43A4236E066F005CA50F /* emotions.txt in Resources */ = {isa = PBXBuildFile; fileRef = A95E438F236E066F005CA50F /* emotions.txt */; };
+		A95E43A5236E066F005CA50F /* physics.txt in Resources */ = {isa = PBXBuildFile; fileRef = A95E4390236E066F005CA50F /* physics.txt */; };
+		A95E43A6236E066F005CA50F /* sports.txt in Resources */ = {isa = PBXBuildFile; fileRef = A95E4391236E066F005CA50F /* sports.txt */; };
+		A95E43A7236E066F005CA50F /* geography.txt in Resources */ = {isa = PBXBuildFile; fileRef = A95E4392236E066F005CA50F /* geography.txt */; };
+		A95E43A8236E066F005CA50F /* music_production.txt in Resources */ = {isa = PBXBuildFile; fileRef = A95E4393236E066F005CA50F /* music_production.txt */; };
+		A95E43A9236E066F005CA50F /* france.txt in Resources */ = {isa = PBXBuildFile; fileRef = A95E4394236E066F005CA50F /* france.txt */; };
+		A95E43AA236E066F005CA50F /* writing.txt in Resources */ = {isa = PBXBuildFile; fileRef = A95E4395236E066F005CA50F /* writing.txt */; };
 		A986E332234EEC4200A71338 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A986E331234EEC4200A71338 /* AppDelegate.swift */; };
 		A986E334234EEC4200A71338 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A986E333234EEC4200A71338 /* ViewController.swift */; };
 		A986E339234EEC4200A71338 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A986E337234EEC4200A71338 /* Main.storyboard */; };
@@ -37,6 +60,29 @@
 		A9529EB6236911D700733BD1 /* BalloonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalloonView.swift; sourceTree = "<group>"; };
 		A9529EB8236911F200733BD1 /* SpiderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpiderView.swift; sourceTree = "<group>"; };
 		A9529EBA2369122700733BD1 /* FloatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingView.swift; sourceTree = "<group>"; };
+		A95E434E236DE3C4005CA50F /* yay.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = yay.mp3; sourceTree = "<group>"; };
+		A95E4350236DE68A005CA50F /* dictionary */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = dictionary; sourceTree = "<group>"; };
+		A95E4381236E066F005CA50F /* devices.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = devices.txt; sourceTree = "<group>"; };
+		A95E4382236E066F005CA50F /* 3d_graphics.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = 3d_graphics.txt; sourceTree = "<group>"; };
+		A95E4383236E066F005CA50F /* food.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = food.txt; sourceTree = "<group>"; };
+		A95E4384236E066F005CA50F /* water.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = water.txt; sourceTree = "<group>"; };
+		A95E4385236E066F005CA50F /* colors.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = colors.txt; sourceTree = "<group>"; };
+		A95E4386236E066F005CA50F /* algorithms.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = algorithms.txt; sourceTree = "<group>"; };
+		A95E4387236E066F005CA50F /* united_states.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = united_states.txt; sourceTree = "<group>"; };
+		A95E4388236E066F005CA50F /* hipster.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = hipster.txt; sourceTree = "<group>"; };
+		A95E4389236E066F005CA50F /* physics_units.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = physics_units.txt; sourceTree = "<group>"; };
+		A95E438A236E066F005CA50F /* cheese.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cheese.txt; sourceTree = "<group>"; };
+		A95E438B236E066F005CA50F /* birds.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = birds.txt; sourceTree = "<group>"; };
+		A95E438C236E066F005CA50F /* chemistry.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = chemistry.txt; sourceTree = "<group>"; };
+		A95E438D236E066F005CA50F /* filmmaking.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = filmmaking.txt; sourceTree = "<group>"; };
+		A95E438E236E066F005CA50F /* design.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = design.txt; sourceTree = "<group>"; };
+		A95E438F236E066F005CA50F /* emotions.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = emotions.txt; sourceTree = "<group>"; };
+		A95E4390236E066F005CA50F /* physics.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = physics.txt; sourceTree = "<group>"; };
+		A95E4391236E066F005CA50F /* sports.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sports.txt; sourceTree = "<group>"; };
+		A95E4392236E066F005CA50F /* geography.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = geography.txt; sourceTree = "<group>"; };
+		A95E4393236E066F005CA50F /* music_production.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = music_production.txt; sourceTree = "<group>"; };
+		A95E4394236E066F005CA50F /* france.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = france.txt; sourceTree = "<group>"; };
+		A95E4395236E066F005CA50F /* writing.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = writing.txt; sourceTree = "<group>"; };
 		A986E32E234EEC4200A71338 /* MotorTherapy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MotorTherapy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A986E331234EEC4200A71338 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A986E333234EEC4200A71338 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -73,8 +119,37 @@
 			isa = PBXGroup;
 			children = (
 				A935C175236D00BC00CA6545 /* hit.mp3 */,
+				A95E434E236DE3C4005CA50F /* yay.mp3 */,
 			);
 			path = Audio;
+			sourceTree = "<group>";
+		};
+		A95E4354236E009C005CA50F /* Collections */ = {
+			isa = PBXGroup;
+			children = (
+				A95E4382236E066F005CA50F /* 3d_graphics.txt */,
+				A95E4386236E066F005CA50F /* algorithms.txt */,
+				A95E438B236E066F005CA50F /* birds.txt */,
+				A95E438A236E066F005CA50F /* cheese.txt */,
+				A95E438C236E066F005CA50F /* chemistry.txt */,
+				A95E4385236E066F005CA50F /* colors.txt */,
+				A95E438E236E066F005CA50F /* design.txt */,
+				A95E4381236E066F005CA50F /* devices.txt */,
+				A95E438F236E066F005CA50F /* emotions.txt */,
+				A95E438D236E066F005CA50F /* filmmaking.txt */,
+				A95E4383236E066F005CA50F /* food.txt */,
+				A95E4394236E066F005CA50F /* france.txt */,
+				A95E4392236E066F005CA50F /* geography.txt */,
+				A95E4388236E066F005CA50F /* hipster.txt */,
+				A95E4393236E066F005CA50F /* music_production.txt */,
+				A95E4389236E066F005CA50F /* physics_units.txt */,
+				A95E4390236E066F005CA50F /* physics.txt */,
+				A95E4391236E066F005CA50F /* sports.txt */,
+				A95E4387236E066F005CA50F /* united_states.txt */,
+				A95E4384236E066F005CA50F /* water.txt */,
+				A95E4395236E066F005CA50F /* writing.txt */,
+			);
+			path = Collections;
 			sourceTree = "<group>";
 		};
 		A986E325234EEC4200A71338 = {
@@ -122,6 +197,8 @@
 		A9CB2B1F2364D9F2000A6F82 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				A95E4354236E009C005CA50F /* Collections */,
+				A95E4350236DE68A005CA50F /* dictionary */,
 				A935C172236CFF9200CA6545 /* Audio */,
 				A986E33A234EEC4300A71338 /* Assets.xcassets */,
 				A986E337234EEC4200A71338 /* Main.storyboard */,
@@ -213,11 +290,34 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A95E434F236DE3C4005CA50F /* yay.mp3 in Resources */,
+				A95E43AA236E066F005CA50F /* writing.txt in Resources */,
+				A95E43A8236E066F005CA50F /* music_production.txt in Resources */,
+				A95E43A9236E066F005CA50F /* france.txt in Resources */,
 				A986E33E234EEC4300A71338 /* LaunchScreen.storyboard in Resources */,
+				A95E439A236E066F005CA50F /* colors.txt in Resources */,
+				A95E43A3236E066F005CA50F /* design.txt in Resources */,
+				A95E439C236E066F005CA50F /* united_states.txt in Resources */,
+				A95E439E236E066F005CA50F /* physics_units.txt in Resources */,
+				A95E43A4236E066F005CA50F /* emotions.txt in Resources */,
+				A95E4399236E066F005CA50F /* water.txt in Resources */,
+				A95E439B236E066F005CA50F /* algorithms.txt in Resources */,
+				A95E43A2236E066F005CA50F /* filmmaking.txt in Resources */,
 				A986E33B234EEC4300A71338 /* Assets.xcassets in Resources */,
+				A95E43A7236E066F005CA50F /* geography.txt in Resources */,
+				A95E43A6236E066F005CA50F /* sports.txt in Resources */,
 				A9CB2B0F2364D866000A6F82 /* models in Resources */,
+				A95E4398236E066F005CA50F /* food.txt in Resources */,
+				A95E4351236DE68A005CA50F /* dictionary in Resources */,
+				A95E43A0236E066F005CA50F /* birds.txt in Resources */,
 				A986E339234EEC4200A71338 /* Main.storyboard in Resources */,
+				A95E4397236E066F005CA50F /* 3d_graphics.txt in Resources */,
+				A95E43A5236E066F005CA50F /* physics.txt in Resources */,
+				A95E439F236E066F005CA50F /* cheese.txt in Resources */,
+				A95E4396236E066F005CA50F /* devices.txt in Resources */,
 				A935C176236D00BC00CA6545 /* hit.mp3 in Resources */,
+				A95E439D236E066F005CA50F /* hipster.txt in Resources */,
+				A95E43A1236E066F005CA50F /* chemistry.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

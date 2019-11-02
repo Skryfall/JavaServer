@@ -70,6 +70,7 @@ class BalloonView: UIViewController, ARSessionDelegate {
     /// Ends game
     func endGame() {
         showWinScreen()
+        playSound("yay")
     }
     
     /// Loads objects in scene
@@ -166,6 +167,18 @@ class BalloonView: UIViewController, ARSessionDelegate {
         switch sound {
         case "hit":
             if let soundURL = Bundle.main.url(forResource: "hit", withExtension: "mp3") {
+                do {
+                    audioPlayer = try AVAudioPlayer(contentsOf: soundURL)
+                }
+                catch {
+                    print(error)
+                }
+                audioPlayer.play()
+            } else {
+                print("Unable to locate audio file")
+            }
+        case "yay":
+            if let soundURL = Bundle.main.url(forResource: "yay", withExtension: "mp3") {
                 do {
                     audioPlayer = try AVAudioPlayer(contentsOf: soundURL)
                 }

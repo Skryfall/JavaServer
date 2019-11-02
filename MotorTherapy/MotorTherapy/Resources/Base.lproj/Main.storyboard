@@ -573,16 +573,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="1366" height="1024"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8lc-SM-wPa" userLabel="Game View" customClass="RoundedCornerView" customModule="MotorTherapy" customModuleProvider="target">
-                                <rect key="frame" x="693" y="117" width="653" height="887"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                        <real key="value" value="26"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                            </view>
                             <visualEffectView hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yCA-MC-SZb" userLabel="Blur View">
                                 <rect key="frame" x="0.0" y="0.0" width="1366" height="1024"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -608,6 +598,22 @@
                                 </view>
                                 <blurEffect style="extraLight"/>
                             </visualEffectView>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8lc-SM-wPa" userLabel="Game View" customClass="RoundedCornerView" customModule="MotorTherapy" customModuleProvider="target">
+                                <rect key="frame" x="693" y="117" width="653" height="887"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="avatarIcon" translatesAutoresizingMaskIntoConstraints="NO" id="Rix-XZ-5U0">
+                                        <rect key="frame" x="280" y="390" width="92" height="106"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="26"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bWZ-vC-G9n" userLabel="Control View">
                                 <rect key="frame" x="0.0" y="0.0" width="1366" height="109"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -643,6 +649,14 @@
                                                 <fontDescription key="fontDescription" type="system" pointSize="28"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
+                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Uk-RS-ndB">
+                                                <rect key="frame" x="299" y="23" width="135" height="30"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <state key="normal" title="left"/>
+                                                <connections>
+                                                    <action selector="leftpress:" destination="7Re-tg-t7e" eventType="primaryActionTriggered" id="Qj0-I0-zqe"/>
+                                                </connections>
+                                            </button>
                                         </subviews>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                         <userDefinedRuntimeAttributes>
@@ -651,6 +665,30 @@
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                     </view>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dgn-0M-bcS">
+                                        <rect key="frame" x="857" y="20" width="135" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" title="up"/>
+                                        <connections>
+                                            <action selector="uppress:" destination="7Re-tg-t7e" eventType="primaryActionTriggered" id="Swg-c5-dZL"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OzZ-dM-nJI">
+                                        <rect key="frame" x="893" y="58" width="135" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" title="down"/>
+                                        <connections>
+                                            <action selector="downpress:" destination="7Re-tg-t7e" eventType="primaryActionTriggered" id="0Cb-50-CZj"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DN3-XZ-PdU">
+                                        <rect key="frame" x="943" y="32" width="135" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" title="right"/>
+                                        <connections>
+                                            <action selector="rightpress:" destination="7Re-tg-t7e" eventType="primaryActionTriggered" id="7H1-dG-zTd"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
@@ -661,12 +699,17 @@
                     <navigationItem key="navigationItem" id="kS1-lg-rgr"/>
                     <connections>
                         <outlet property="arView" destination="3nL-Bg-Fbs" id="hy6-uU-Fu1"/>
+                        <outlet property="avatarIcon" destination="Rix-XZ-5U0" id="IdQ-G1-sAc"/>
                         <outlet property="backButton" destination="JVe-Db-V0s" id="Cju-Vd-dCC"/>
                         <outlet property="blurView" destination="yCA-MC-SZb" id="Aic-1q-LY7"/>
                         <outlet property="controlView" destination="bWZ-vC-G9n" id="nhH-HJ-dac"/>
+                        <outlet property="downbutton" destination="OzZ-dM-nJI" id="VOc-yl-Kcc"/>
                         <outlet property="gameView" destination="8lc-SM-wPa" id="k3y-LW-h8U"/>
+                        <outlet property="leftbutton" destination="0Uk-RS-ndB" id="dxL-vF-M68"/>
                         <outlet property="messageLabel" destination="zuC-gs-kC7" id="Ylg-ww-kBE"/>
+                        <outlet property="rightbutton" destination="DN3-XZ-PdU" id="sej-JX-T8L"/>
                         <outlet property="startButton" destination="NYP-SP-wUj" id="nKJ-A5-d5V"/>
+                        <outlet property="upbutton" destination="Dgn-0M-bcS" id="cFS-Se-mqv"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IuT-S8-Tuy" sceneMemberID="firstResponder"/>
@@ -676,6 +719,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="avatarIcon" width="171" height="171"/>
         <image name="backButtonIcon_blue" width="153" height="152"/>
         <image name="backButtonIcon_red" width="152.5" height="151.5"/>
         <image name="backButtonIcon_yellow" width="152" height="152"/>

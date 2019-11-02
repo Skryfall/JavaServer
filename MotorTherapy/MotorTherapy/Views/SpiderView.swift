@@ -7,6 +7,7 @@
 //
 
 import ARKit
+import AVFoundation
 import Combine
 import RealityKit
 import UIKit
@@ -26,6 +27,32 @@ class SpiderView: UIViewController, ARSessionDelegate {
     @IBOutlet weak var messageLabel: MessageLabel!
     @IBOutlet weak var startButton: UIButton!
     
+    // Game view words
+    @IBOutlet weak var avatarIcon: UIImageView!
+    
+    // TEMP
+    @IBOutlet weak var upbutton: UIButton!
+    @IBOutlet weak var downbutton: UIButton!
+    @IBOutlet weak var leftbutton: UIButton!
+    @IBOutlet weak var rightbutton: UIButton!
+    
+    @IBAction func uppress(_ sender: Any) {
+        signalUp()
+    }
+    
+    @IBAction func downpress(_ sender: Any) {
+        signalDown()
+    }
+    
+    @IBAction func leftpress(_ sender: Any) {
+        signalLeft()
+    }
+    
+    @IBAction func rightpress(_ sender: Any) {
+        signalRight()
+    }
+    
+    
     // MARK: - Attributes
     
     // Entity data
@@ -41,8 +68,12 @@ class SpiderView: UIViewController, ARSessionDelegate {
     var rightBox = Entity()
     
     // Additional variables for control
+    var audioPlayer: AVAudioPlayer!
+    var columns: Int?
     var isOnline: Bool?
     var isOver = false
+    var rows: Int?
+    var web: SpiderWeb?
     
     // Reality Composer scene
     var experienceScene = Experience.Scene()
@@ -56,9 +87,44 @@ class SpiderView: UIViewController, ARSessionDelegate {
     
     // MARK: - Functions
     
+    /// Draws web in UI
+    func drawWeb() {
+        // Calculate required data
+        let viewWidth = gameView.frame.width
+        let viewHeight = gameView.frame.height
+        
+        let squareWidth = (viewWidth - 40) / CGFloat(columns!)
+        let squareHeight = (viewHeight - 40) / CGFloat(rows!)
+        var posX = CGFloat(20)
+        var posY = CGFloat(20)
+        
+        // Render matrix as an Image View
+        let renderer = UIGraphicsImageRenderer(size: CGSize(width: viewWidth, height: viewHeight))
+        let img = renderer.image { ctx in
+            ctx.cgContext.setFillColor(UIColor.red.cgColor)
+            ctx.cgContext.setStrokeColor(UIColor.green.cgColor)
+            ctx.cgContext.setLineWidth(10)
+            
+            // Iterate square placement
+            for _ in 0...(rows! - 1) {
+                for _ in 0...(columns! - 1) {
+                    let rectangle = CGRect(x: posX, y: posY, width: squareWidth, height: squareHeight)
+                    ctx.cgContext.addRect(rectangle)
+                    ctx.cgContext.drawPath(using: .fillStroke)
+                    posX += squareWidth
+                }
+                posY += squareHeight
+                posX = CGFloat(20)
+            }
+        }
+        let imgView = UIImageView(image: img)
+        gameView.addSubview(imgView)
+    }
+    
     /// Ends game
     func endGame() {
         showWinScreen()
+        playSound("yay")
     }
     
     /// Loads objects in scene
@@ -69,8 +135,12 @@ class SpiderView: UIViewController, ARSessionDelegate {
     
     /// Initializes attributes locally
     func initializeOfflineAttributes() {
-        
-        // PLACEHOLDER DATA FOR TESTS
+        // Generate random spider web
+        let dimensionList = [5, 6]
+        let dimensions = dimensionList.randomElement()
+        columns = dimensions!
+        rows = dimensions!
+        web = SpiderWeb(dimensions!, dimensions!, isOnline: true)
     }
     
     /// Initializes attributes from server
@@ -130,6 +200,38 @@ class SpiderView: UIViewController, ARSessionDelegate {
         startGame()
     }
     
+    /// Plays sounds
+    func playSound(_ sound: String) {
+        switch sound {
+        case "hit":
+            if let soundURL = Bundle.main.url(forResource: "hit", withExtension: "mp3") {
+                do {
+                    audioPlayer = try AVAudioPlayer(contentsOf: soundURL)
+                }
+                catch {
+                    print(error)
+                }
+                audioPlayer.play()
+            } else {
+                print("Unable to locate audio file")
+            }
+        case "yay":
+            if let soundURL = Bundle.main.url(forResource: "yay", withExtension: "mp3") {
+                do {
+                    audioPlayer = try AVAudioPlayer(contentsOf: soundURL)
+                }
+                catch {
+                    print(error)
+                }
+                audioPlayer.play()
+            } else {
+                print("Unable to locate audio file")
+            }
+        default:
+            print("No sound found")
+        }
+    }
+    
     /// Shows animated view screen
     func showWinScreen() {
         blurView.alpha = 0
@@ -138,7 +240,27 @@ class SpiderView: UIViewController, ARSessionDelegate {
         isOver = true
         messageLabel.text = "Congratulations!"
     }
-
+    
+    /// Signal down movement in UI
+    func signalDown() {
+        print("DOWN HAS BEEN TOUCHED")
+    }
+    
+    /// Signal left movement in UI
+    func signalLeft() {
+        print("LEFT HAS BEEN TOUCHED")
+    }
+    
+    /// Signal right movement in UI
+    func signalRight() {
+        print("RIGHT HAS BEEN TOUCHED")
+    }
+    
+    /// Signal up movement in UI
+    func signalUp() {
+        print("UP HAS BEEN TOUCHED")
+    }
+    
     /// Start collision detection system for current floating object
     func startCollisions() {
         // Subscribe scene to collision events
@@ -175,26 +297,6 @@ class SpiderView: UIViewController, ARSessionDelegate {
         }.store(in: &collisionEventStreams)
     }
     
-    /// Signal down movement in UI
-    func signalDown() {
-        print("DOWN HAS BEEN TOUCHED")
-    }
-    
-    /// Signal left movement in UI
-    func signalLeft() {
-        print("LEFT HAS BEEN TOUCHED")
-    }
-    
-    /// Signal right movement in UI
-    func signalRight() {
-        print("RIGHT HAS BEEN TOUCHED")
-    }
-    
-    /// Signal up movement in UI
-    func signalUp() {
-        print("UP HAS BEEN TOUCHED")
-    }
-    
     /// Starts game
     func startGame() {
         if !bodyAnchorExists {
@@ -206,6 +308,8 @@ class SpiderView: UIViewController, ARSessionDelegate {
             // Body doesn't yet exist
             messageLabel.displayMessage("No person detected", duration: 5, "Spider Web")
         } else {
+            // Draw web in UI
+            drawWeb()
             
             // Start collision detection
             startCollisions()
@@ -255,6 +359,9 @@ class SpiderView: UIViewController, ARSessionDelegate {
         } else {
             initializeOfflineAttributes()
         }
+        
+        // TEST
+        drawWeb()
     }
     
     override func viewWillDisappear(_ animated: Bool) {

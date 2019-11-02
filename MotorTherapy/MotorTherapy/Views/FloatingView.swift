@@ -77,7 +77,8 @@ class FloatingView: UIViewController, ARSessionDelegate {
     /// Ends game
     func endGame() {
         timer.invalidate()
-        showWinScreen(score: 0)
+        showWinScreen(score: score)
+        playSound("yay")
         score = 0
     }
     
@@ -181,7 +182,7 @@ class FloatingView: UIViewController, ARSessionDelegate {
     }
     
     @IBAction func onObjectButtonTap(_ sender: Any) {
-        showWinScreen(score: 100)
+        
     }
     
     @IBAction func onSelectInstrumentButtonTap(_ sender: Any) {
@@ -197,6 +198,18 @@ class FloatingView: UIViewController, ARSessionDelegate {
         switch sound {
         case "hit":
             if let soundURL = Bundle.main.url(forResource: "hit", withExtension: "mp3") {
+                do {
+                    audioPlayer = try AVAudioPlayer(contentsOf: soundURL)
+                }
+                catch {
+                    print(error)
+                }
+                audioPlayer.play()
+            } else {
+                print("Unable to locate audio file")
+            }
+        case "yay":
+            if let soundURL = Bundle.main.url(forResource: "yay", withExtension: "mp3") {
                 do {
                     audioPlayer = try AVAudioPlayer(contentsOf: soundURL)
                 }

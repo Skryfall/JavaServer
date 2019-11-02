@@ -1,0 +1,32 @@
+Colors
+blue
+brown
+yellow
+red
+orange
+black
+white
+teal
+cyan
+magenta
+green
+gold
+space grey
+silver
+rose gold
+bronze
+indigo
+scarlet
+maroon
+carmine
+mahogany
+pink
+fuchsia
+violet
+purple
+navy
+olive
+lime
+azure
+aqua
+khaki
