@@ -34,7 +34,7 @@ def p_statement_main(p):
     holder.setSpiderWebLetterInstructions(master.getSpiderWebInstructions()[0])
     holder.setSpiderWebPointsInstructions(master.getSpiderWebInstructions()[1])
     holder.setObjectInstructions(master.getObjectInstructions())
-    serverConnection.sendToServer('http://localhost:9080/MotorTherapy_war_exploded/MotorTherapy/GameData', holder.toJSON())
+#    serverConnection.sendToServer('http://localhost:9080/MotorTherapy_war_exploded/MotorTherapy/GameData', holder.toJSON())
 
 def p_game1_start(p):
     'game1 : function'
@@ -143,10 +143,10 @@ def p_function_dow(p):
         sys.exit()
 
 def p_function_balloon(p):
-    """function : Balloon LeftParentesis expression Coma expression RightParentesis Semicolon
-                | Balloon LeftParentesis expression Coma expression RightParentesis Semicolon function"""
-    if isinstance(p[3], int) and isinstance(p[5], int):
-        balloon(p[3], p[5])
+    """function : Balloon LeftParentesis expression Coma expression Coma expression RightParentesis Semicolon
+                | Balloon LeftParentesis expression Coma expression Coma expression RightParentesis Semicolon function"""
+    if isinstance(p[3], int) and isinstance(p[5], int) and isinstance(p[7], int):
+        balloon(p[3], p[5], p[7])
     else:
         print("Error, la funcion Balloon solo recibe numeros")
         sys.exit()
@@ -210,22 +210,21 @@ def p_function_asignWord(p):
         sys.exit()
 
 def p_function_object(p):
-    """function : Object LeftParentesis expression Coma expression Coma expression RightParentesis Semicolon
-                | Object LeftParentesis expression Coma expression Coma expression RightParentesis Semicolon function"""
-    if isinstance(p[3], int) and isinstance(p[5], int) and isinstance(p[7], int):
-        object(p[3], p[5], p[7])
+    """function : Object LeftParentesis expression Coma expression Coma expression Coma expression RightParentesis Semicolon
+                | Object LeftParentesis expression Coma expression Coma expression Coma expression RightParentesis Semicolon function"""
+    if isinstance(p[3], int) and isinstance(p[5], int) and isinstance(p[7], int) and isinstance(p[9], int):
+        object(p[3], p[5], p[7], p[9])
     else:
         print("Error, la funcion Object recibe solamente 3 numeros")
         sys.exit()
 
 def p_function_FORInt(p):
-    """function : FOR expression times using expression Object LeftParentesis expression Coma expression LeftSquareBracket expression RightSquareBracket Coma expression RightParentesis function FEnd Semicolon
-                | FOR expression times using expression Object LeftParentesis expression Coma expression LeftSquareBracket expression RightSquareBracket Coma expression RightParentesis function FEnd Semicolon function"""
-    if isinstance(p[2], int) and isinstance(p[5], int) and isinstance(p[8], int) and isinstance(p[10], list) and isinstance(p[12], int) and isinstance(p[15], int) and p[5] == p[12] and len(p[10]) > p[12] > 0:
+    """function : FOR expression times using Name Object LeftParentesis expression Coma expression LeftSquareBracket Name RightSquareBracket Coma expression Coma expression RightParentesis function FEnd Semicolon
+                | FOR expression times using Name Object LeftParentesis expression Coma expression LeftSquareBracket Name RightSquareBracket Coma expression Coma expression RightParentesis function FEnd Semicolon function"""
+    if isinstance(p[2], int) and isinstance(p[5], str) and isinstance(p[8], int) and isinstance(p[10], list) and isinstance(p[12], str) and isinstance(p[15], int) and isinstance(p[17], int) and p[5] == p[12]:
         objectGame.setRepetitions(p[2])
-        objectGame.setIndex(p[5])
         objectGame.setDistances(p[10][1:])
-        object(p[8], p[10][1], p[15])
+        object(p[8], p[10][1], p[15], p[17])
     else:
         print("Error, la funcion FOR esta definida para usarse con la funcion Object")
         sys.exit()
@@ -243,11 +242,11 @@ def p_error(p):
 
 yacc.yacc()
 
-def balloon(alt, lat):
-    balloonGame.addInstruction((alt, lat))
+def balloon(alt, lat, prof):
+    balloonGame.addInstruction((alt, lat, prof))
 
-def object(alt, long, sec):
-    objectGame.addInstruction((alt, long, sec))
+def object(alt, long, prof, sec):
+    objectGame.addInstruction((alt, long, prof, sec))
 
 def inc(number, increment):
     if currentGame == 1:
@@ -297,8 +296,9 @@ data = """Begin
             int cant = 5;
             int alt = 3;
             int lat = 7;
+            int prof = 1;
             Dow(cant)
-                Balloon(alt, lat);
+                Balloon(alt, lat, prof);
                 Inc(alt, 1);
                 Dec(lat, 2);
             Enddo;  
@@ -323,34 +323,36 @@ data = """Begin
             FOREND;
           }
           Game3{
-            texto(15) array[5];
-            int puntos[5];
+            texto(15) array[6];
+            int puntos[6];
             array[1] = "Oceano";
             array[2] = "Azul";
             array[3] = "Casa";
             array[4] = "Plata";
             array[5] = "Cama";
+            array[6] = "Ojo";
             puntos[1] = 10;
             puntos[2] = 34;
             puntos[3] = 89;
             puntos[4] = 90;
             puntos[5] = 54;
+            puntos[6] = 18;
             TelaArana(5, 5);
             ForAsignWord(5, 5) DO
                 AsignWord(array, puntos);
           }
           Game4{
             int Dist[5];
-            int var = 1;
             int cnt = 3;
             int tme = 60;
+            int profun = 1;
             Dist[1] = 2;
             Dist[2] = 3;
             Dist[3] = 4;
             Dist[4] = 5;
             Dist[5] = 6;
             FOR 5 times using var
-                Object(cnt, Dist[var], tme)
+                Object(cnt, Dist[var], profun, tme)
                 Inc(cnt, 10);
                 Dec(tme, 10);
             FEnd;

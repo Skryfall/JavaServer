@@ -38,21 +38,25 @@ class SpiderWebGame(FlagGame):
         return number
 
     def handleSpiderWebLogic(self):
-        self.row -= 1
-        self.column -= 1
-        if self.row > len(self.web[0]) - 1 or self.column > len(self.web[0][0]):
-            print("Error, el valor de fila o columna es mayor al implementado")
+        if self.row > len(self.web[0]) or self.column > len(self.web[0][0]):
+            print("Error, el valor de fila o columna no es igual al implementado")
             sys.exit()
 
-        firstRow = self.startingMatrixPoint(self.row, self.instructions)
-        firstColumn = self.startingMatrixPoint(self.column, self.instructions)
-
         i = 0
-        while firstRow != self.row + 1:
-            self.web[0][firstRow][firstColumn] = self.instructions[i]
-            self.web[1][firstRow][firstColumn] = self.points[i]
+        j = 0
+        index = 0
+        print(self.instructions)
+        while i < self.row:
+            while j < self.column:
+                self.web[0][i][j] = self.instructions[index]
+                self.web[1][i][j] = self.points[index]
+                index += 1
+                j += 1
+                if index == len(self.instructions):
+                    break
             i += 1
-            firstColumn += 1
-            firstRow += 1
-
+            j = 0
+            if index == len(self.instructions):
+                break
         self.master.setSpiderWebInstructions(self.web)
+        print(self.web)
