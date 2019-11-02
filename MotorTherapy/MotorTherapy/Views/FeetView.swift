@@ -46,6 +46,10 @@ class FeetView: UIViewController, ARSessionDelegate {
     var queueList = [[String]]()
     var currentQueue = [String]()
     
+    // Additional variables for control
+    var isOnline: Bool?
+    var isOver = false
+    
     // Reality Composer scene
     var experienceScene = Experience.Scene()
     
@@ -124,7 +128,7 @@ class FeetView: UIViewController, ARSessionDelegate {
     
     /// Ends game
     func endGame() {
-        messageLabel.text = "You win"
+        showWinScreen()
     }
     
     /// Gets color from string
@@ -164,9 +168,14 @@ class FeetView: UIViewController, ARSessionDelegate {
     }
     
     /// Initializes attributes from server
-    func initializeAttributes() {
+    func initializeOfflineAttributes() {
         // PLACEHOLDER DATA FOR TESTS
         queueList.append(["blue", "red", "yellow", "brown", "cyan"])
+    }
+    
+    /// Initializes attributes from server
+    func initializeOnlineAttributes() {
+        
     }
     
     /// Loads default elements in AR
@@ -217,6 +226,15 @@ class FeetView: UIViewController, ARSessionDelegate {
         currentQueue.remove(at: 0)
         drawQueue()
     }
+    
+    /// Shows animated view screen
+    func showWinScreen() {
+        blurView.alpha = 0
+        blurView.isHidden = false
+        blurView.fadeIn()
+        isOver = true
+        messageLabel.text = "Congratulations!"
+    }
 
     /// Start collision detection system for current floating object
     func startCollisions() {
@@ -232,6 +250,12 @@ class FeetView: UIViewController, ARSessionDelegate {
     /// Starts game
     func startGame() {
         if !bodyAnchorExists {
+            if isOver {
+                // Restart game
+                blurView.fadeOut()
+                isOver = false
+            }
+            
             // Body doesn't yet exist
             messageLabel.displayMessage("No person detected", duration: 5, "Feet")
         } else {
@@ -284,8 +308,12 @@ class FeetView: UIViewController, ARSessionDelegate {
         // Load objects in scene
         loadObjects()
         
-        // Initialize Attributes from server
-        initializeAttributes()
+        // Initialize Attributes
+        if isOnline! {
+            initializeOnlineAttributes()
+        } else {
+            initializeOfflineAttributes()
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {

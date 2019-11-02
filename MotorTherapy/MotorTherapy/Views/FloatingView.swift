@@ -7,6 +7,7 @@
 //
 
 import ARKit
+import AVFoundation
 import Combine
 import RealityKit
 import UIKit
@@ -27,6 +28,7 @@ class FloatingView: UIViewController, ARSessionDelegate {
     @IBOutlet weak var backButton: UIButton!
     @IBOutlet weak var objectButton: UIButton!
     @IBOutlet weak var messageLabel: MessageLabel!
+    @IBOutlet weak var scoreLabel: UILabel!
     @IBOutlet weak var selectInstrumentButton: UIButton!
     @IBOutlet weak var startButton: UIButton!
     @IBOutlet weak var timerLabel: UILabel!
@@ -49,8 +51,12 @@ class FloatingView: UIViewController, ARSessionDelegate {
     // Reality Composer scene
     var experienceScene = Experience.Scene()
     
-    // Track current index of pos and timer
+    // Additional variables for control
+    var audioPlayer: AVAudioPlayer!
     var currentIndex = 0
+    var isOnline: Bool?
+    var isOver = false
+    var score = 0
     
     // Position and timer info
     var posList = [[Double(), Double()]]
@@ -71,7 +77,8 @@ class FloatingView: UIViewController, ARSessionDelegate {
     /// Ends game
     func endGame() {
         timer.invalidate()
-        messageLabel.text = "You win"
+        showWinScreen(score: 0)
+        score = 0
     }
     
     /// Loads objects in scene
@@ -80,8 +87,13 @@ class FloatingView: UIViewController, ARSessionDelegate {
         loadRobot()
     }
     
+    /// Initializes attributes from local randomizer
+    func initializeOfflineAttributes() {
+        
+    }
+    
     /// Initializes attributes from server
-    func initializeAttributes() {
+    func initializeOnlineAttributes() {
         
         // PLACEHOLDER DATA FOR TESTS
         timeList = [5, 5, 10, 20]
@@ -169,7 +181,7 @@ class FloatingView: UIViewController, ARSessionDelegate {
     }
     
     @IBAction func onObjectButtonTap(_ sender: Any) {
-        
+        showWinScreen(score: 100)
     }
     
     @IBAction func onSelectInstrumentButtonTap(_ sender: Any) {
@@ -179,6 +191,36 @@ class FloatingView: UIViewController, ARSessionDelegate {
     @IBAction func onStartButtonTap(_ sender: Any) {
         startGame()
     }
+    
+    // Plays sounds
+    func playSound(_ sound: String) {
+        switch sound {
+        case "hit":
+            if let soundURL = Bundle.main.url(forResource: "hit", withExtension: "mp3") {
+                do {
+                    audioPlayer = try AVAudioPlayer(contentsOf: soundURL)
+                }
+                catch {
+                    print(error)
+                }
+                audioPlayer.play()
+            } else {
+                print("Unable to locate audio file")
+            }
+        default:
+            print("No sound found")
+        }
+    }
+    
+    /// Shows animated view screen
+    func showWinScreen(score: Int) {
+        blurView.alpha = 0
+        blurView.isHidden = false
+        blurView.fadeIn()
+        scoreLabel.text = "Score: " + String(score)
+        isOver = true
+        messageLabel.text = "Congratulations!"
+    }
 
     /// Start collision detection system for current floating object
     func startCollisions() {
@@ -187,22 +229,25 @@ class FloatingView: UIViewController, ARSessionDelegate {
             to: CollisionEvents.Began.self,
             on: currentObject
         ) { event in
-            //let object = event.entityA
-            //let instrument = event.entityB
-            
             self.nextTimer()
             self.nextObjectPosition()
-            
+            self.playSound("hit")
         }.store(in: &collisionEventStreams)
     }
     
     /// Starts game
     func startGame() {
         if !bodyAnchorExists {
+            if isOver {
+                // Restart game
+                blurView.fadeOut()
+                isOver = false
+            }
             // Body doesn't yet exist
             messageLabel.displayMessage("No person detected", duration: 5, "Floating Object")
         } else {
             moveObject(newPos: headPos + [0, 0.5, 0])
+            
             // Start object timer
             startTimer()
             
@@ -246,7 +291,7 @@ class FloatingView: UIViewController, ARSessionDelegate {
         // Name anchors
         character?.name = "Jackie"
         characterAnchor.name = "Character Anchor"
-        
+
         // Load Reality Composer scene and objects
         experienceScene = try! Experience.loadScene()
     }
@@ -270,8 +315,12 @@ class FloatingView: UIViewController, ARSessionDelegate {
         // Load objects in scene
         loadObjects()
         
-        // Initialize Attributes from server
-        initializeAttributes()
+        // Initialize Attributes
+        if isOnline! {
+            initializeOnlineAttributes()
+        } else {
+            initializeOfflineAttributes()
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {

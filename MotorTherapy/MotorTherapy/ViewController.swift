@@ -21,6 +21,18 @@ class ViewController: UIViewController {
     @IBOutlet weak var toSpiderWebViewButton: UIButton!
     
     // MARK: - View Control
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let vc = segue.destination as? FloatingView {
+            vc.isOnline = onlineSwitch.isOn
+        } else if let vc = segue.destination as? FeetView {
+            vc.isOnline = onlineSwitch.isOn
+        } else if let vc = segue.destination as? BalloonView {
+            vc.isOnline = onlineSwitch.isOn
+        } else if let vc = segue.destination as? SpiderView {
+            vc.isOnline = onlineSwitch.isOn
+        }
+    }
 
     // Unwind segue for return to menu
     @IBAction func unwindToMenu(_ unwindSegue: UIStoryboardSegue) {

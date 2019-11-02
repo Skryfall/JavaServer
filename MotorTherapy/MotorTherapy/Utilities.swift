@@ -12,12 +12,10 @@ import ARKit
 
 extension MeshResource {
     
-    /**
-     Generate three axes of a coordinate system with x axis = red, y axis = green and z axis = blue
-     - parameters:
-     - axisLength: Length of the axes in m
-     - thickness: Thickness of the axes as a percentage of their length
-     */
+    /// Generate three axes of a coordinate system with x axis = red, y axis = green and z axis = blue
+    /// - parameters:
+    /// - axisLength: Length of the axes in m
+    /// - thickness: Thickness of the axes as a percentage of their length
     static func generateCoordinateSystemAxes(length: Float = 0.1, thickness: Float = 2.0) -> Entity {
         let thicknessInM = (length / 100) * thickness
         let cornerRadius = thickness / 2.0

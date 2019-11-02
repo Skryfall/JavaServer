@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		A935C16E236BEFA100CA6545 /* RoundedCornerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A935C16D236BEFA100CA6545 /* RoundedCornerView.swift */; };
 		A935C171236CA9B100CA6545 /* SpiderWeb.swift in Sources */ = {isa = PBXBuildFile; fileRef = A935C170236CA9B100CA6545 /* SpiderWeb.swift */; };
+		A935C176236D00BC00CA6545 /* hit.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A935C175236D00BC00CA6545 /* hit.mp3 */; };
+		A935C178236D06F400CA6545 /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A935C177236D06F400CA6545 /* UIViewExtension.swift */; };
 		A93CB15D23666B1B0087130E /* FloatingView+CoachingOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = A93CB15C23666B1B0087130E /* FloatingView+CoachingOverlay.swift */; };
 		A9529EB5236911C400733BD1 /* FeetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9529EB4236911C400733BD1 /* FeetView.swift */; };
 		A9529EB7236911D700733BD1 /* BalloonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9529EB6236911D700733BD1 /* BalloonView.swift */; };
@@ -28,6 +30,8 @@
 /* Begin PBXFileReference section */
 		A935C16D236BEFA100CA6545 /* RoundedCornerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedCornerView.swift; sourceTree = "<group>"; };
 		A935C170236CA9B100CA6545 /* SpiderWeb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpiderWeb.swift; sourceTree = "<group>"; };
+		A935C175236D00BC00CA6545 /* hit.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = hit.mp3; sourceTree = "<group>"; };
+		A935C177236D06F400CA6545 /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
 		A93CB15C23666B1B0087130E /* FloatingView+CoachingOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FloatingView+CoachingOverlay.swift"; sourceTree = "<group>"; };
 		A9529EB4236911C400733BD1 /* FeetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeetView.swift; sourceTree = "<group>"; };
 		A9529EB6236911D700733BD1 /* BalloonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalloonView.swift; sourceTree = "<group>"; };
@@ -63,6 +67,14 @@
 				A935C170236CA9B100CA6545 /* SpiderWeb.swift */,
 			);
 			path = Logic;
+			sourceTree = "<group>";
+		};
+		A935C172236CFF9200CA6545 /* Audio */ = {
+			isa = PBXGroup;
+			children = (
+				A935C175236D00BC00CA6545 /* hit.mp3 */,
+			);
+			path = Audio;
 			sourceTree = "<group>";
 		};
 		A986E325234EEC4200A71338 = {
@@ -102,6 +114,7 @@
 			children = (
 				A9CB2B172364D8C5000A6F82 /* MessageLabel.swift */,
 				A935C16D236BEFA100CA6545 /* RoundedCornerView.swift */,
+				A935C177236D06F400CA6545 /* UIViewExtension.swift */,
 			);
 			path = "UI Elements";
 			sourceTree = "<group>";
@@ -109,6 +122,7 @@
 		A9CB2B1F2364D9F2000A6F82 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				A935C172236CFF9200CA6545 /* Audio */,
 				A986E33A234EEC4300A71338 /* Assets.xcassets */,
 				A986E337234EEC4200A71338 /* Main.storyboard */,
 				A986E33C234EEC4300A71338 /* LaunchScreen.storyboard */,
@@ -203,6 +217,7 @@
 				A986E33B234EEC4300A71338 /* Assets.xcassets in Resources */,
 				A9CB2B0F2364D866000A6F82 /* models in Resources */,
 				A986E339234EEC4200A71338 /* Main.storyboard in Resources */,
+				A935C176236D00BC00CA6545 /* hit.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -222,6 +237,7 @@
 				A9CB2B262364FCB8000A6F82 /* experience.rcproject in Sources */,
 				A935C16E236BEFA100CA6545 /* RoundedCornerView.swift in Sources */,
 				A9529EB9236911F200733BD1 /* SpiderView.swift in Sources */,
+				A935C178236D06F400CA6545 /* UIViewExtension.swift in Sources */,
 				A986E332234EEC4200A71338 /* AppDelegate.swift in Sources */,
 				A9CB2B1A2364D8C5000A6F82 /* MessageLabel.swift in Sources */,
 				A986E364234EED2100A71338 /* Utilities.swift in Sources */,
@@ -378,7 +394,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.schlafenhase.MotorTherapy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Debug;
 		};
@@ -396,7 +412,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.schlafenhase.MotorTherapy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Release;
 		};

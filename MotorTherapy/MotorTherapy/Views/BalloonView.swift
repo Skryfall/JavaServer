@@ -7,6 +7,7 @@
 //
 
 import ARKit
+import AVFoundation
 import Combine
 import RealityKit
 import UIKit
@@ -46,13 +47,14 @@ class BalloonView: UIViewController, ARSessionDelegate {
     // Reality Composer scene
     var experienceScene = Experience.Scene()
     
-    // Track current index of pos and timer
+    // Additional variables for control
+    var audioPlayer: AVAudioPlayer!
     var currentIndex = 0
+    var isOnline: Bool?
+    var isOver = false
     
-    // Position and timer info
+    // Position info
     var posList = [[Double(), Double()]]
-    var timer = Timer()
-    var timeList = [Int]()
     var position: Any?
     var seconds = 0
     
@@ -67,8 +69,7 @@ class BalloonView: UIViewController, ARSessionDelegate {
     
     /// Ends game
     func endGame() {
-        timer.invalidate()
-        messageLabel.text = "You win"
+        showWinScreen()
     }
     
     /// Loads objects in scene
@@ -77,30 +78,18 @@ class BalloonView: UIViewController, ARSessionDelegate {
         loadRobot()
     }
     
-    /// Adds floating object to reality
-    func addObject() {
-        if !bodyAnchorExists {
-            // Body doesn't yet exist
-            messageLabel.displayMessage("No person detected", duration: 5, "Balloon")
-        } else {
-            moveObject(newPos: headPos + [0, 0.5, 0])
-            // Start object timer
-            startTimer()
-            
-            // Start collision detection
-            startCollisions()
-        }
+    /// Initializes attributes from server
+    func initializeOfflineAttributes() {
+        
+        // PLACEHOLDER DATA FOR TESTS
+        posList = [[0.5, 3], [-1, 4]]
+        
+        position = posList[0]
     }
     
     /// Initializes attributes from server
-    func initializeAttributes() {
+    func initializeOnlineAttributes() {
         
-        // PLACEHOLDER DATA FOR TESTS
-        timeList = [5, 5, 10, 20]
-        posList = [[0.5, 3], [-1, 4]]
-        
-        seconds = timeList[0]
-        position = posList[0]
     }
     
     /// Loads default elements in AR
@@ -168,26 +157,37 @@ class BalloonView: UIViewController, ARSessionDelegate {
         
     }
     
-    /// Change game to next timer
-    func nextTimer() {
-        if timeList.isEmpty {
-            // No more times. End game
-            endGame()
-        } else {
-            // Change global timer to next
-            timeList.remove(at: 0)
-            if timeList.isEmpty {
-                // No more times. End game
-                endGame()
+    @IBAction func onStartButtonTap(_ sender: Any) {
+        startGame()
+    }
+    
+    /// Plays sounds
+    func playSound(_ sound: String) {
+        switch sound {
+        case "hit":
+            if let soundURL = Bundle.main.url(forResource: "hit", withExtension: "mp3") {
+                do {
+                    audioPlayer = try AVAudioPlayer(contentsOf: soundURL)
+                }
+                catch {
+                    print(error)
+                }
+                audioPlayer.play()
             } else {
-                // Set variable to be showed in UI
-                seconds = timeList[0]
+                print("Unable to locate audio file")
             }
+        default:
+            print("No sound found")
         }
     }
     
-    @IBAction func onAddButtonTap(_ sender: Any) {
-        addObject()
+    /// Shows animated view screen
+    func showWinScreen() {
+        blurView.alpha = 0
+        blurView.isHidden = false
+        blurView.fadeIn()
+        isOver = true
+        messageLabel.text = "Congratulations!"
     }
 
     /// Start collision detection system for current floating object
@@ -200,15 +200,27 @@ class BalloonView: UIViewController, ARSessionDelegate {
             //let object = event.entityA
             //let instrument = event.entityB
             
-            self.nextTimer()
             self.nextObjectPosition()
             
         }.store(in: &collisionEventStreams)
     }
     
-    /// Start timer for floating object
-    func startTimer() {
-        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: (#selector(FloatingView.updateTimer)), userInfo: nil, repeats: true)
+    /// Starts game
+    func startGame() {
+        if !bodyAnchorExists {
+            if isOver {
+                // Restart game
+                blurView.fadeOut()
+                isOver = false
+            }
+            // Body doesn't yet exist
+            messageLabel.displayMessage("No person detected", duration: 5, "Balloon")
+        } else {
+            moveObject(newPos: headPos + [0, 0.5, 0])
+            
+            // Start collision detection
+            startCollisions()
+        }
     }
     
     // MARK: - View Control
@@ -246,8 +258,12 @@ class BalloonView: UIViewController, ARSessionDelegate {
         // Load objects in scene
         loadObjects()
         
-        // Initialize Attributes from server
-        initializeAttributes()
+        // Initialize Attributes
+        if isOnline! {
+            initializeOnlineAttributes()
+        } else {
+            initializeOfflineAttributes()
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {

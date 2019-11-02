@@ -40,6 +40,10 @@ class SpiderView: UIViewController, ARSessionDelegate {
     var leftBox = Entity()
     var rightBox = Entity()
     
+    // Additional variables for control
+    var isOnline: Bool?
+    var isOver = false
+    
     // Reality Composer scene
     var experienceScene = Experience.Scene()
     
@@ -54,7 +58,7 @@ class SpiderView: UIViewController, ARSessionDelegate {
     
     /// Ends game
     func endGame() {
-        messageLabel.text = "You win"
+        showWinScreen()
     }
     
     /// Loads objects in scene
@@ -63,8 +67,14 @@ class SpiderView: UIViewController, ARSessionDelegate {
         loadRobot()
     }
     
+    /// Initializes attributes locally
+    func initializeOfflineAttributes() {
+        
+        // PLACEHOLDER DATA FOR TESTS
+    }
+    
     /// Initializes attributes from server
-    func initializeAttributes() {
+    func initializeOnlineAttributes() {
         
         // PLACEHOLDER DATA FOR TESTS
     }
@@ -118,6 +128,15 @@ class SpiderView: UIViewController, ARSessionDelegate {
     
     @IBAction func onStartButtonTap(_ sender: Any) {
         startGame()
+    }
+    
+    /// Shows animated view screen
+    func showWinScreen() {
+        blurView.alpha = 0
+        blurView.isHidden = false
+        blurView.fadeIn()
+        isOver = true
+        messageLabel.text = "Congratulations!"
     }
 
     /// Start collision detection system for current floating object
@@ -179,10 +198,14 @@ class SpiderView: UIViewController, ARSessionDelegate {
     /// Starts game
     func startGame() {
         if !bodyAnchorExists {
+            if isOver {
+                // Restart game
+                blurView.fadeOut()
+                isOver = false
+            }
             // Body doesn't yet exist
             messageLabel.displayMessage("No person detected", duration: 5, "Spider Web")
         } else {
-            
             
             // Start collision detection
             startCollisions()
@@ -226,8 +249,12 @@ class SpiderView: UIViewController, ARSessionDelegate {
         // Load objects in scene
         loadObjects()
         
-        // Initialize Attributes from server
-        initializeAttributes()
+        // Initialize Attributes
+        if isOnline! {
+            initializeOnlineAttributes()
+        } else {
+            initializeOfflineAttributes()
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
