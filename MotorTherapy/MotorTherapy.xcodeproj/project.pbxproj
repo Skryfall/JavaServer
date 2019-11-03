@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -48,6 +48,9 @@
 		A9CB2B0F2364D866000A6F82 /* models in Resources */ = {isa = PBXBuildFile; fileRef = A9CB2B0E2364D866000A6F82 /* models */; };
 		A9CB2B1A2364D8C5000A6F82 /* MessageLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9CB2B172364D8C5000A6F82 /* MessageLabel.swift */; };
 		A9CB2B262364FCB8000A6F82 /* experience.rcproject in Sources */ = {isa = PBXBuildFile; fileRef = A9CB2B252364FCB8000A6F82 /* experience.rcproject */; };
+		A9EF8313236F8EE600737179 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = A9EF8312236F8EE600737179 /* SwiftyJSON */; };
+		A9EF8316236F8F2900737179 /* Holder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9EF8315236F8F2900737179 /* Holder.swift */; };
+		A9EF8318236F8F5600737179 /* Connection.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9EF8317236F8F5600737179 /* Connection.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -94,6 +97,8 @@
 		A9CB2B0E2364D866000A6F82 /* models */ = {isa = PBXFileReference; lastKnownFileType = folder; path = models; sourceTree = "<group>"; };
 		A9CB2B172364D8C5000A6F82 /* MessageLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageLabel.swift; sourceTree = "<group>"; };
 		A9CB2B252364FCB8000A6F82 /* experience.rcproject */ = {isa = PBXFileReference; lastKnownFileType = file.rcproject; path = experience.rcproject; sourceTree = "<group>"; };
+		A9EF8315236F8F2900737179 /* Holder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Holder.swift; sourceTree = "<group>"; };
+		A9EF8317236F8F5600737179 /* Connection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Connection.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +106,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A9EF8313236F8EE600737179 /* SwiftyJSON in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -177,6 +183,7 @@
 				A986E33F234EEC4300A71338 /* Info.plist */,
 				A9CB2B202364DA3D000A6F82 /* 3D Models */,
 				A935C16F236CA99A00CA6545 /* Logic */,
+				A9EF8314236F8F1400737179 /* Server */,
 				A9D6510323679FB9009800AF /* Views */,
 				A9CB2B1D2364D8CA000A6F82 /* UI Elements */,
 				A9CB2B1F2364D9F2000A6F82 /* Resources */,
@@ -228,6 +235,15 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		A9EF8314236F8F1400737179 /* Server */ = {
+			isa = PBXGroup;
+			children = (
+				A9EF8315236F8F2900737179 /* Holder.swift */,
+				A9EF8317236F8F5600737179 /* Connection.swift */,
+			);
+			path = Server;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -245,6 +261,7 @@
 			);
 			name = MotorTherapy;
 			packageProductDependencies = (
+				A9EF8312236F8EE600737179 /* SwiftyJSON */,
 			);
 			productName = MotorTherapy;
 			productReference = A986E32E234EEC4200A71338 /* MotorTherapy.app */;
@@ -275,6 +292,7 @@
 			);
 			mainGroup = A986E325234EEC4200A71338;
 			packageReferences = (
+				A9EF8311236F8EE600737179 /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
 			);
 			productRefGroup = A986E32F234EEC4200A71338 /* Products */;
 			projectDirPath = "";
@@ -335,12 +353,14 @@
 				A9529EBB2369122700733BD1 /* FloatingView.swift in Sources */,
 				A93CB15D23666B1B0087130E /* FloatingView+CoachingOverlay.swift in Sources */,
 				A9CB2B262364FCB8000A6F82 /* experience.rcproject in Sources */,
+				A9EF8318236F8F5600737179 /* Connection.swift in Sources */,
 				A935C16E236BEFA100CA6545 /* RoundedCornerView.swift in Sources */,
 				A9529EB9236911F200733BD1 /* SpiderView.swift in Sources */,
 				A935C178236D06F400CA6545 /* Extensions.swift in Sources */,
 				A986E332234EEC4200A71338 /* AppDelegate.swift in Sources */,
 				A9CB2B1A2364D8C5000A6F82 /* MessageLabel.swift in Sources */,
 				A986E364234EED2100A71338 /* Utilities.swift in Sources */,
+				A9EF8316236F8F2900737179 /* Holder.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -494,7 +514,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.schlafenhase.MotorTherapy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 2;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -512,7 +532,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.schlafenhase.MotorTherapy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 2;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -538,6 +558,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		A9EF8311236F8EE600737179 /* XCRemoteSwiftPackageReference "SwiftyJSON" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SwiftyJSON/SwiftyJSON.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		A9EF8312236F8EE600737179 /* SwiftyJSON */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A9EF8311236F8EE600737179 /* XCRemoteSwiftPackageReference "SwiftyJSON" */;
+			productName = SwiftyJSON;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = A986E326234EEC4200A71338 /* Project object */;
 }
