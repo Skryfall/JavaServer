@@ -72,6 +72,9 @@ class SpiderView: UIViewController, ARSessionDelegate {
     var audioPlayer: AVAudioPlayer!
     var collectedWords = [String]()
     var columns: Int?
+    let animationDuration = 3.0
+    let fontSizeSmall: CGFloat = 15
+    let fontSizeBig: CGFloat = 2000
     var halfAPress = ("", 0)
     var isFirstTime = true
     var isOnline: Bool?
@@ -121,13 +124,19 @@ class SpiderView: UIViewController, ARSessionDelegate {
                         wordLabelList[x][y].text = ""
                         endGame()
                     } else {
+                        // There are still words in matrix
                         messageLabel.displayMessage("Collect all words", duration: 5, "Spider Web")
                     }
                 } else {
                     // Collect word
                     collectedWords.append(wordToCollect!)
                     web?.setWord(x, y, "")
-                    wordLabelList[x][y].text = ""
+                    let wordLabel = wordLabelList[x][y]
+                    
+                    // Animate scale with crossfade
+                    enlargeWithCrossFade(wordLabel)
+                    
+                    wordLabel.text = ""
                     
                     // Add to score
                     score += (web?.scoreMatrix[x][y])!
@@ -153,7 +162,7 @@ class SpiderView: UIViewController, ARSessionDelegate {
         var graphicalSquareRow = [graphicalSquare]()
         
         let img = renderer.image { ctx in
-            ctx.cgContext.setFillColor(#colorLiteral(red: 1, green: 0.1783470213, blue: 0.1863833368, alpha: 1))
+            ctx.cgContext.setFillColor(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 0))
             ctx.cgContext.setStrokeColor(#colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1))
             ctx.cgContext.setLineWidth(5)
             
@@ -188,13 +197,14 @@ class SpiderView: UIViewController, ARSessionDelegate {
         var wordLabelListRow = [UILabel]()
         for i in 0...(wordMatrix!.count - 1) {
             for j in 0...(wordMatrix![0].count - 1) {
-                let wordLabel = UILabel(frame: CGRect(x: posList[i][j].x + (squareWidth! / 4),
-                                                      y: posList[i][j].y + (squareHeight! / 4),
-                                                      width: 200, height: 30))
+                let wordLabel = UILabel(frame: CGRect(x: posList[i][j].x,
+                                                      y: posList[i][j].y,
+                                                      width: squareWidth!, height: squareHeight!))
                 let word = web!.getWord(i, j)
                 
                 // Add label to UI
                 wordLabel.text = word
+                wordLabel.textAlignment = .center
                 gameView.addSubview(wordLabel)
                 wordLabelListRow.append(wordLabel)
             }
@@ -208,6 +218,42 @@ class SpiderView: UIViewController, ARSessionDelegate {
         showWinScreen()
         playSound("yay")
         startButton.isEnabled = true
+    }
+    
+    /// Enlarges label with cross fade
+    func enlargeWithCrossFade(_ label: UILabel) {
+        // Copy label to prevent pixelation
+        let labelCopy = label.copyLabel()
+        gameView.addSubview(labelCopy)
+        
+        // Access label attributes
+        var biggerBounds = CGRect(x: label.frame.origin.x,
+                                  y: label.frame.origin.y,
+                                  width: gameView.frame.width,
+                                  height: gameView.frame.height)
+        label.font = label.font.withSize(fontSizeBig)
+        biggerBounds.size = CGSize(width: gameView.frame.width, height: gameView.frame.height)
+        labelCopy.textAlignment = .center
+        
+        // Modify element transform
+        label.transform = scaleTransform(from: biggerBounds.size, to: label.bounds.size)
+        let enlargeTransform = scaleTransform(from: label.bounds.size, to: biggerBounds.size)
+        label.bounds = biggerBounds
+        label.alpha = 0.0
+        
+        // Animate enlarge
+        UIView.animate(withDuration: animationDuration, animations: {
+            label.transform = .identity
+            labelCopy.transform = enlargeTransform
+        }, completion: { done in
+            labelCopy.removeFromSuperview()
+        })
+        
+        // Animate shrink
+        UIView.animate(withDuration: animationDuration + 2) {
+            label.alpha = 1.0
+            labelCopy.alpha = 0.0
+        }
     }
     
     /// Loads objects in scene
@@ -314,6 +360,14 @@ class SpiderView: UIViewController, ARSessionDelegate {
         }
     }
     
+    /// Scale transform of UI element
+    private func scaleTransform(from: CGSize, to: CGSize) -> CGAffineTransform {
+        let scaleX = to.width / from.width
+        let scaleY = to.height / from.height
+        
+        return CGAffineTransform(scaleX: scaleX, y: scaleY)
+    }
+    
     /// Shows animated view screen
     func showWinScreen() {
         blurView.alpha = 0
@@ -326,6 +380,7 @@ class SpiderView: UIViewController, ARSessionDelegate {
     
     /// Signal down movement in UI
     func signalDown() {
+        // Verify that you have to touch twice to advance, to simulate and out of bounds situation
         halfAPress.1 += 1
         if halfAPress.1 == 1 {
             halfAPress.0 = "down"
@@ -336,11 +391,11 @@ class SpiderView: UIViewController, ARSessionDelegate {
         } else {
             messageLabel.displayMessage("Out of bounds. Try again", duration: 3, "Spider Web")
         }
-        print("DOWN HAS BEEN TOUCHED")
     }
     
     /// Signal left movement in UI
     func signalLeft() {
+        // Verify that you have to touch twice to advance, to simulate and out of bounds situation
         halfAPress.1 += 1
         if halfAPress.1 == 1 {
             halfAPress.0 = "left"
@@ -351,11 +406,11 @@ class SpiderView: UIViewController, ARSessionDelegate {
         } else {
             messageLabel.displayMessage("Out of bounds. Try again", duration: 3, "Spider Web")
         }
-        print("LEFT HAS BEEN TOUCHED")
     }
     
     /// Signal right movement in UI
     func signalRight() {
+        // Verify that you have to touch twice to advance, to simulate and out of bounds situation
         halfAPress.1 += 1
         if halfAPress.1 == 1 {
             halfAPress.0 = "right"
@@ -366,11 +421,11 @@ class SpiderView: UIViewController, ARSessionDelegate {
         } else {
             messageLabel.displayMessage("Out of bounds. Try again", duration: 3, "Spider Web")
         }
-        print("RIGHT HAS BEEN TOUCHED")
     }
     
     /// Signal up movement in UI
     func signalUp() {
+        // Verify that you have to touch twice to advance, to simulate and out of bounds situation
         halfAPress.1 += 1
         if halfAPress.1 == 1 {
             halfAPress.0 = "up"
@@ -381,7 +436,6 @@ class SpiderView: UIViewController, ARSessionDelegate {
         } else {
             messageLabel.displayMessage("Out of bounds. Try again", duration: 3, "Spider Web")
         }
-        print("UP HAS BEEN TOUCHED")
     }
     
     /// Start collision detection system for current floating object

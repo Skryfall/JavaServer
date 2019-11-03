@@ -1,5 +1,5 @@
 //
-//  UIViewExtension.swift
+//  Extensions.swift
 //  MotorTherapy
 //
 //  Created by Alejandro Ibarra on 11/1/19.
@@ -25,5 +25,15 @@ extension UIView {
                         }, completion: {_ in
                             self.isHidden = true
                         })
+    }
+}
+
+extension UILabel {
+    func copyLabel() -> UILabel {
+        let label = UILabel()
+        label.font = self.font
+        label.frame = self.frame
+        label.text = self.text
+        return label
     }
 }
