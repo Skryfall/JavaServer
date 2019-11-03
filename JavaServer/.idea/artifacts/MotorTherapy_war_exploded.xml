@@ -9,8 +9,11 @@
         </element>
         <element id="directory" name="lib">
           <element id="library" level="project" name="libraries" />
+          <element id="library" level="project" name="libraries (2)" />
+          <element id="library" level="project" name="jackson-annotations-2.10.0.pr2" />
         </element>
       </element>
+      <element id="javaee-facet-resources" facet="MotorTherapy/web/Web2" />
     </root>
   </artifact>
 </component>

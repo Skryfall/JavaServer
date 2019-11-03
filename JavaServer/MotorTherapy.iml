@@ -12,6 +12,16 @@
         <sourceRoots />
       </configuration>
     </facet>
+    <facet type="web" name="Web2">
+      <configuration>
+        <descriptors>
+          <deploymentDescriptor name="web.xml" url="file://$MODULE_DIR$/web/WEB-INF/web.xml" />
+        </descriptors>
+        <webroots>
+          <root url="file://$MODULE_DIR$/web" relative="/" />
+        </webroots>
+      </configuration>
+    </facet>
   </component>
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
@@ -26,5 +36,6 @@
     <orderEntry type="library" scope="PROVIDED" name="WebSphere 18.0.0.3" level="application_server_libraries" />
     <orderEntry type="library" name="libraries" level="project" />
     <orderEntry type="library" name="libraries (2)" level="project" />
+    <orderEntry type="library" name="jackson-annotations-2.10.0.pr2" level="project" />
   </component>
 </module>
