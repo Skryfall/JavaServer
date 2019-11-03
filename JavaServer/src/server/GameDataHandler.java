@@ -16,11 +16,14 @@ public class GameDataHandler {
     @POST
     public void receiveGameData(String jsonHolder) throws JsonProcessingException {
         Handler.deserializeGameData(jsonHolder);
+        System.out.println("Recibido");
+        System.out.println(jsonHolder);
     }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Holder sendGameData(){
+        System.out.println("Enviado");
         return Handler.holder;
     }
 

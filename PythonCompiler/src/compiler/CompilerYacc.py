@@ -34,7 +34,7 @@ def p_statement_main(p):
     holder.setSpiderWebLetterInstructions(master.getSpiderWebInstructions()[0])
     holder.setSpiderWebPointsInstructions(master.getSpiderWebInstructions()[1])
     holder.setObjectInstructions(master.getObjectInstructions())
-#    serverConnection.sendToServer('http://localhost:9080/MotorTherapy_war_exploded/MotorTherapy/GameData', holder.toJSON())
+    serverConnection.sendToServer('http://localhost:9080/MotorTherapy_war_exploded/MotorTherapy/GameData', holder.toJSON())
 
 def p_game1_start(p):
     'game1 : function'

@@ -45,7 +45,6 @@ class SpiderWebGame(FlagGame):
         i = 0
         j = 0
         index = 0
-        print(self.instructions)
         while i < self.row:
             while j < self.column:
                 self.web[0][i][j] = self.instructions[index]
@@ -59,4 +58,3 @@ class SpiderWebGame(FlagGame):
             if index == len(self.instructions):
                 break
         self.master.setSpiderWebInstructions(self.web)
-        print(self.web)

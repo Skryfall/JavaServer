@@ -12,7 +12,6 @@ public class Handler {
         ObjectMapper mapper = new ObjectMapper();
         mapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
         holder = mapper.readValue(json, Holder.class);
-        System.out.println("BIEN");
     }
 
 }
