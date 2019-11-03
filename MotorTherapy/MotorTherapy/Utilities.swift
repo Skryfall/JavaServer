@@ -40,3 +40,11 @@ extension MeshResource {
         return axes
     }
 }
+
+// Graphical square for spider web
+struct graphicalSquare {
+    var i: Int
+    var j: Int
+    var x: CGFloat
+    var y: CGFloat
+}

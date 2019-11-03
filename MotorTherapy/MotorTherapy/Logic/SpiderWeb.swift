@@ -51,8 +51,14 @@ class SpiderWeb {
             word = generateRandomWordFromCategory(category.1)
             
             // Insert word in matrix
-            matrix[currentPos[0]][currentPos[1]] = word + "P"
+            let x = currentPos[0]
+            let y = currentPos[1]
+            matrix[x][y] = word + "P"
             path.append(currentPos)
+            
+            // Assign score
+            let score = word.count
+            scoreMatrix[x][y] = score
             
             let nextPos = getRandomPos(currentPos)
             currentPos = nextPos
@@ -63,6 +69,40 @@ class SpiderWeb {
         matrix[currentPos[0]][currentPos[1]] = "END"
         path.append(currentPos)
         
+    }
+    
+    /// Generate random word from dictionary
+    func generateRandomWord() -> String {
+        var result: String?
+        if let wordsFilePath = Bundle.main.path(forResource: "dictionary", ofType: nil) {
+            do {
+                let wordsString = try String(contentsOfFile: wordsFilePath)
+                let wordLines = wordsString.components(separatedBy: .newlines)
+                let randomLine = wordLines[numericCast(arc4random_uniform(numericCast(wordLines.count)))]
+                result = randomLine
+            } catch {
+                // contentsOfFile throws an error
+                result = "\(error)"
+            }
+        }
+        return result ?? "Error"
+    }
+    
+    /// Generate random word from category in collection
+    func generateRandomWordFromCategory(_ category: String) -> String {
+        var result: String?
+        if let wordsFilePath = Bundle.main.path(forResource: category, ofType: "txt") {
+            do {
+                let wordsString = try String(contentsOfFile: wordsFilePath)
+                let wordLines = wordsString.components(separatedBy: .newlines)
+                let randomLine = wordLines[numericCast(arc4random_uniform(numericCast(wordLines.count)))]
+                result = randomLine
+            } catch {
+                // contentsOfFile throws an error
+                result = "\(error)"
+            }
+        }
+        return result ?? "Error"
     }
     
     // Gets random category from collections
@@ -173,50 +213,19 @@ class SpiderWeb {
         return result
     }
     
-    /// Generate random word from dictionary
-    func generateRandomWord() -> String {
-        var result: String?
-        if let wordsFilePath = Bundle.main.path(forResource: "dictionary", ofType: nil) {
-            do {
-                let wordsString = try String(contentsOfFile: wordsFilePath)
-                let wordLines = wordsString.components(separatedBy: .newlines)
-                let randomLine = wordLines[numericCast(arc4random_uniform(numericCast(wordLines.count)))]
-                result = randomLine
-            } catch {
-                // contentsOfFile throws an error
-                result = "\(error)"
-            }
-        }
-        return result ?? "Error"
-    }
-    
-    /// Generate random word from category in collection
-    func generateRandomWordFromCategory(_ category: String) -> String {
-        var result: String?
-        if let wordsFilePath = Bundle.main.path(forResource: category, ofType: "txt") {
-            do {
-                let wordsString = try String(contentsOfFile: wordsFilePath)
-                let wordLines = wordsString.components(separatedBy: .newlines)
-                let randomLine = wordLines[numericCast(arc4random_uniform(numericCast(wordLines.count)))]
-                result = randomLine
-            } catch {
-                // contentsOfFile throws an error
-                result = "\(error)"
-            }
-        }
-        return result ?? "Error"
+    /// Gets word in position
+    func getWord(_ x: Int,_ y: Int) -> String{
+        return matrix[x][y]
     }
     
     /// Initializes offline word matrix
     func initializeOfflineMatrix() {
         var currentRow = [String]()
         var currentScoreRow = [Int]()
-        let mRows = rows!
-        let mColumns = columns!
         
         // Fill matrix with random words
-        for _ in 0...(mRows - 1) {
-            for _ in 0...(mColumns - 1) {
+        for _ in 0...(rows! - 1) {
+            for _ in 0...(columns! - 1) {
                 // Get random word
                 let word = generateRandomWord()
                 currentRow.append(word)
@@ -231,8 +240,8 @@ class SpiderWeb {
         }
         
         // Search for start/center position in matrix
-        midPos[0] = (mRows - 1) / 2
-        midPos[1] = (mRows - 1) / 2
+        midPos[0] = (rows! - 1) / 2
+        midPos[1] = (columns! - 1) / 2
         matrix[midPos[0]][midPos[1]] = "START"
     }
     
@@ -307,6 +316,23 @@ class SpiderWeb {
             result = false
         }
         return result
+    }
+    
+    /// Restarts web in logic
+    func restartWeb(isOnline: Bool) {
+        matrix.removeAll()
+        path.removeAll()
+        scoreMatrix.removeAll()
+        if isOnline {
+            initializeOnlineMatrix()
+        } else {
+            initializeOfflineMatrix()
+        }
+    }
+    
+    /// Gets word in position
+    func setWord(_ x: Int,_ y: Int,_ nWord: String){
+        matrix[x][y] = nWord
     }
     
 }

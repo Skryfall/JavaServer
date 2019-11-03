@@ -25,6 +25,7 @@ class SpiderView: UIViewController, ARSessionDelegate {
     // Buttons and other elements
     @IBOutlet weak var backButton: UIButton!
     @IBOutlet weak var messageLabel: MessageLabel!
+    @IBOutlet weak var scoreLabel: UILabel!
     @IBOutlet weak var startButton: UIButton!
     
     // Game view words
@@ -69,11 +70,19 @@ class SpiderView: UIViewController, ARSessionDelegate {
     
     // Additional variables for control
     var audioPlayer: AVAudioPlayer!
+    var collectedWords = [String]()
     var columns: Int?
+    var halfAPress = ("", 0)
+    var isFirstTime = true
     var isOnline: Bool?
     var isOver = false
     var rows: Int?
+    var score = 0
+    var squareHeight: CGFloat?
+    var squareWidth: CGFloat?
+    var posList = [[graphicalSquare]]()
     var web: SpiderWeb?
+    var wordLabelList = [[UILabel]]()
     
     // Reality Composer scene
     var experienceScene = Experience.Scene()
@@ -87,44 +96,118 @@ class SpiderView: UIViewController, ARSessionDelegate {
     
     // MARK: - Functions
     
+    /// Draws player in position
+    func drawPlayer(_ x: Int, _ y: Int) {
+        if x > (posList.count - 1) || x < 0 || y > (posList[0].count - 1) || y < 0{
+            print("Index out of range")
+        } else {
+            // Move avatar icon to position of graphical square
+            let square = posList[x][y]
+            avatarIcon.frame.origin.x = square.x + (squareWidth! / 5)
+            avatarIcon.frame.origin.y = square.y + (squareHeight! / 5)
+            
+            // Update logical player position
+            web?.playerPos[0] = x
+            web?.playerPos[1] = y
+            
+            // If player is over a word, collect it
+            let wordToCollect = web?.getWord(x, y)
+            if (web?.path.contains(web!.playerPos))! && wordToCollect != ""{
+                if wordToCollect == "END" {
+                    if collectedWords.count == ((web?.path.count)! - 1) {
+                        // Check if all words have been collected
+                        // End game. No more words
+                        web?.setWord(x, y, "")
+                        wordLabelList[x][y].text = ""
+                        endGame()
+                    } else {
+                        messageLabel.displayMessage("Collect all words", duration: 5, "Spider Web")
+                    }
+                } else {
+                    // Collect word
+                    collectedWords.append(wordToCollect!)
+                    web?.setWord(x, y, "")
+                    wordLabelList[x][y].text = ""
+                    
+                    // Add to score
+                    score += (web?.scoreMatrix[x][y])!
+                }
+            }
+        }
+    }
+    
     /// Draws web in UI
     func drawWeb() {
-        // Calculate required data
+        // Calculate required datax
         let viewWidth = gameView.frame.width
         let viewHeight = gameView.frame.height
+        squareWidth = (viewWidth - 40) / CGFloat(columns!)
+        squareHeight = (viewHeight - 40) / CGFloat(rows!)
         
-        let squareWidth = (viewWidth - 40) / CGFloat(columns!)
-        let squareHeight = (viewHeight - 40) / CGFloat(rows!)
+        // Initialize variables
         var posX = CGFloat(20)
         var posY = CGFloat(20)
         
         // Render matrix as an Image View
         let renderer = UIGraphicsImageRenderer(size: CGSize(width: viewWidth, height: viewHeight))
+        var graphicalSquareRow = [graphicalSquare]()
+        
         let img = renderer.image { ctx in
-            ctx.cgContext.setFillColor(UIColor.red.cgColor)
-            ctx.cgContext.setStrokeColor(UIColor.green.cgColor)
-            ctx.cgContext.setLineWidth(10)
+            ctx.cgContext.setFillColor(#colorLiteral(red: 1, green: 0.1783470213, blue: 0.1863833368, alpha: 1))
+            ctx.cgContext.setStrokeColor(#colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1))
+            ctx.cgContext.setLineWidth(5)
             
             // Iterate square placement
-            for _ in 0...(rows! - 1) {
-                for _ in 0...(columns! - 1) {
-                    let rectangle = CGRect(x: posX, y: posY, width: squareWidth, height: squareHeight)
+            for row in 0...(rows! - 1) {
+                for column in 0...(columns! - 1) {
+                    let rectangle = CGRect(x: posX, y: posY, width: squareWidth!, height: squareHeight!)
                     ctx.cgContext.addRect(rectangle)
                     ctx.cgContext.drawPath(using: .fillStroke)
-                    posX += squareWidth
+        
+                    // Store graphical square
+                    let currentSquare = graphicalSquare(i: row, j: column, x: posX, y: posY)
+                    graphicalSquareRow.append(currentSquare)
+                    
+                    posX += squareWidth!
                 }
-                posY += squareHeight
+                posList.append(graphicalSquareRow)
+                graphicalSquareRow.removeAll()
+                posY += squareHeight!
                 posX = CGFloat(20)
             }
         }
         let imgView = UIImageView(image: img)
         gameView.addSubview(imgView)
+        drawWordMatrix()
+        gameView.bringSubviewToFront(avatarIcon)
+    }
+    
+    /// Draws word matrix in UI
+    func drawWordMatrix() {
+        let wordMatrix = web?.matrix
+        var wordLabelListRow = [UILabel]()
+        for i in 0...(wordMatrix!.count - 1) {
+            for j in 0...(wordMatrix![0].count - 1) {
+                let wordLabel = UILabel(frame: CGRect(x: posList[i][j].x + (squareWidth! / 4),
+                                                      y: posList[i][j].y + (squareHeight! / 4),
+                                                      width: 200, height: 30))
+                let word = web!.getWord(i, j)
+                
+                // Add label to UI
+                wordLabel.text = word
+                gameView.addSubview(wordLabel)
+                wordLabelListRow.append(wordLabel)
+            }
+            wordLabelList.append(wordLabelListRow)
+            wordLabelListRow.removeAll()
+        }
     }
     
     /// Ends game
     func endGame() {
         showWinScreen()
         playSound("yay")
+        startButton.isEnabled = true
     }
     
     /// Loads objects in scene
@@ -140,13 +223,12 @@ class SpiderView: UIViewController, ARSessionDelegate {
         let dimensions = dimensionList.randomElement()
         columns = dimensions!
         rows = dimensions!
-        web = SpiderWeb(dimensions!, dimensions!, isOnline: true)
+        web = SpiderWeb(dimensions!, dimensions!, isOnline: false)
     }
     
     /// Initializes attributes from server
     func initializeOnlineAttributes() {
         
-        // PLACEHOLDER DATA FOR TESTS
     }
     
     /// Loads default elements in AR
@@ -238,26 +320,67 @@ class SpiderView: UIViewController, ARSessionDelegate {
         blurView.isHidden = false
         blurView.fadeIn()
         isOver = true
+        scoreLabel.text = "Score - " + String(score)
         messageLabel.text = "Congratulations!"
     }
     
     /// Signal down movement in UI
     func signalDown() {
+        halfAPress.1 += 1
+        if halfAPress.1 == 1 {
+            halfAPress.0 = "down"
+        } else if halfAPress.1 > 1 && halfAPress.0 == "down" {
+            drawPlayer((web?.playerPos[0])! + 1, (web?.playerPos[1])!)
+            halfAPress.0 = ""
+            halfAPress.1 = 0
+        } else {
+            messageLabel.displayMessage("Out of bounds. Try again", duration: 3, "Spider Web")
+        }
         print("DOWN HAS BEEN TOUCHED")
     }
     
     /// Signal left movement in UI
     func signalLeft() {
+        halfAPress.1 += 1
+        if halfAPress.1 == 1 {
+            halfAPress.0 = "left"
+        } else if halfAPress.1 > 1 && halfAPress.0 == "left" {
+            drawPlayer((web?.playerPos[0])!, (web?.playerPos[1])! - 1)
+            halfAPress.0 = ""
+            halfAPress.1 = 0
+        } else {
+            messageLabel.displayMessage("Out of bounds. Try again", duration: 3, "Spider Web")
+        }
         print("LEFT HAS BEEN TOUCHED")
     }
     
     /// Signal right movement in UI
     func signalRight() {
+        halfAPress.1 += 1
+        if halfAPress.1 == 1 {
+            halfAPress.0 = "right"
+        } else if halfAPress.1 > 1 && halfAPress.0 == "right" {
+            drawPlayer((web?.playerPos[0])!, (web?.playerPos[1])! + 1)
+            halfAPress.0 = ""
+            halfAPress.1 = 0
+        } else {
+            messageLabel.displayMessage("Out of bounds. Try again", duration: 3, "Spider Web")
+        }
         print("RIGHT HAS BEEN TOUCHED")
     }
     
     /// Signal up movement in UI
     func signalUp() {
+        halfAPress.1 += 1
+        if halfAPress.1 == 1 {
+            halfAPress.0 = "up"
+        } else if halfAPress.1 > 1 && halfAPress.0 == "up" {
+            drawPlayer((web?.playerPos[0])! - 1, (web?.playerPos[1])!)
+            halfAPress.0 = ""
+            halfAPress.1 = 0
+        } else {
+            messageLabel.displayMessage("Out of bounds. Try again", duration: 3, "Spider Web")
+        }
         print("UP HAS BEEN TOUCHED")
     }
     
@@ -299,22 +422,43 @@ class SpiderView: UIViewController, ARSessionDelegate {
     
     /// Starts game
     func startGame() {
-        if !bodyAnchorExists {
-            if isOver {
-                // Restart game
-                blurView.fadeOut()
-                isOver = false
+        if !isOver {
+            if !bodyAnchorExists {
+                // Body doesn't yet exist
+                messageLabel.displayMessage("No person detected", duration: 5, "Spider Web")
+            } else {
+                // Draw web in UI
+                drawWeb()
+                
+                // Start collision detection
+                if isFirstTime {
+                    startCollisions()
+                    isFirstTime = false
+                    drawPlayer((web?.midPos[0])!, (web?.midPos[1])!)
+                }
+                
+                startButton.isEnabled = false
             }
-            // Body doesn't yet exist
-            messageLabel.displayMessage("No person detected", duration: 5, "Spider Web")
         } else {
-            // Draw web in UI
-            drawWeb()
+            // Restart game
+            blurView.fadeOut()
+            isOver = false
+            web?.restartWeb(isOnline: self.isOnline!)
+            score = 0
             
-            // Start collision detection
-            startCollisions()
+            // Clear lists
+            collectedWords.removeAll()
+            posList.removeAll()
+            wordLabelList.removeAll()
             
-            startButton.isEnabled = false
+            if isOnline! {
+                initializeOnlineAttributes()
+            } else {
+                initializeOfflineAttributes()
+            }
+            
+            startGame()
+            drawPlayer((web?.midPos[0])!, (web?.midPos[1])!)
         }
     }
     
@@ -359,9 +503,6 @@ class SpiderView: UIViewController, ARSessionDelegate {
         } else {
             initializeOfflineAttributes()
         }
-        
-        // TEST
-        drawWeb()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
