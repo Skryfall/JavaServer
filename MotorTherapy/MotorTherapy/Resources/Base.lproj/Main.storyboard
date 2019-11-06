@@ -168,7 +168,7 @@
                                         <rect key="frame" x="1107" y="43" width="72" height="22"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <state key="normal" title="Object" image="plus" catalog="system">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <color key="titleColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                         </state>
                                         <connections>
                                             <action selector="onObjectButtonTap:" destination="wJQ-Sf-ReJ" eventType="primaryActionTriggered" id="6E6-7N-FHi"/>
@@ -179,7 +179,7 @@
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="tintColor" systemColor="systemGreenColor" red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <state key="normal" title="Instrument" image="xmark.circle" catalog="system">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <color key="titleColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                         </state>
                                         <connections>
                                             <action selector="onSelectInstrumentButtonTap:" destination="wJQ-Sf-ReJ" eventType="primaryActionTriggered" id="ub6-wQ-tLL"/>
@@ -189,7 +189,6 @@
                                         <rect key="frame" x="241" y="31" width="164" height="47"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="30"/>
-                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EwX-09-0GM">
@@ -222,7 +221,7 @@
                                         </userDefinedRuntimeAttributes>
                                     </view>
                                 </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
@@ -234,6 +233,7 @@
                         <outlet property="backButton" destination="UEN-4m-PCY" id="v2J-Gr-agc"/>
                         <outlet property="blurView" destination="dEO-Y6-tf8" id="QLZ-lW-pnF"/>
                         <outlet property="controlView" destination="PRV-VI-zCj" id="mjw-IN-uMf"/>
+                        <outlet property="endGameLabel" destination="DAZ-th-EiF" id="hcZ-jr-hdI"/>
                         <outlet property="messageLabel" destination="Hjw-6O-J8H" id="0Dm-Mq-Ov5"/>
                         <outlet property="objectButton" destination="Y8B-Ek-b1Y" id="wYp-fu-uc2"/>
                         <outlet property="scoreLabel" destination="sUd-x2-Bn9" id="nRj-BW-vfh"/>
@@ -711,6 +711,7 @@
                         <outlet property="blurView" destination="yCA-MC-SZb" id="Aic-1q-LY7"/>
                         <outlet property="controlView" destination="bWZ-vC-G9n" id="nhH-HJ-dac"/>
                         <outlet property="downbutton" destination="OzZ-dM-nJI" id="VOc-yl-Kcc"/>
+                        <outlet property="endGameLabel" destination="urJ-tq-tCQ" id="lJO-ni-Wet"/>
                         <outlet property="gameView" destination="8lc-SM-wPa" id="k3y-LW-h8U"/>
                         <outlet property="leftbutton" destination="0Uk-RS-ndB" id="dxL-vF-M68"/>
                         <outlet property="messageLabel" destination="zuC-gs-kC7" id="Ylg-ww-kBE"/>

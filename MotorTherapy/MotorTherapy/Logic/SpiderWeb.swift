@@ -295,7 +295,6 @@ class SpiderWeb {
         // Initialize default attributes
         initializeOnlineMatrix()
         path.append(midPos)
-        generatePath()
         
         // Starting pos is center of matrix
         playerPos[0] = midPos[0]

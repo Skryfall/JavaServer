@@ -24,6 +24,7 @@ class SpiderView: UIViewController, ARSessionDelegate {
     
     // Buttons and other elements
     @IBOutlet weak var backButton: UIButton!
+    @IBOutlet weak var endGameLabel: UILabel!
     @IBOutlet weak var messageLabel: MessageLabel!
     @IBOutlet weak var scoreLabel: UILabel!
     @IBOutlet weak var startButton: UIButton!
@@ -75,7 +76,10 @@ class SpiderView: UIViewController, ARSessionDelegate {
     let animationDuration = 3.0
     let fontSizeSmall: CGFloat = 15
     let fontSizeBig: CGFloat = 2000
+    let gameName = "Spider Web"
+    var gridView: UIImageView?
     var halfAPress = ("", 0)
+    var holder: Holder?
     var isFirstTime = true
     var isOnline: Bool?
     var isOver = false
@@ -98,6 +102,30 @@ class SpiderView: UIViewController, ARSessionDelegate {
     }
     
     // MARK: - Functions
+    
+    /// Clears word label list in UI
+    func clearGrid() {
+        // Remove all word labels
+        for i in 0...(wordLabelList.count - 1) {
+            for j in  0...(wordLabelList[0].count - 1) {
+                let label = wordLabelList[i][j]
+                label.removeFromSuperview()
+            }
+        }
+        // Remove grid
+        gridView?.removeFromSuperview()
+    }
+    
+    /// Enables  or disables UI elements while connecting
+    func disableUI(_ block: Bool) {
+        if block {
+            backButton.isEnabled = false
+            startButton.isEnabled = false
+        } else {
+            backButton.isEnabled = true
+            startButton.isEnabled = true
+        }
+    }
     
     /// Draws player in position
     func drawPlayer(_ x: Int, _ y: Int) {
@@ -125,7 +153,7 @@ class SpiderView: UIViewController, ARSessionDelegate {
                         endGame()
                     } else {
                         // There are still words in matrix
-                        messageLabel.displayMessage("Collect all words", duration: 5, "Spider Web")
+                        messageLabel.displayMessage("Collect all words", duration: 5, gameName)
                     }
                 } else {
                     // Collect word
@@ -136,6 +164,12 @@ class SpiderView: UIViewController, ARSessionDelegate {
                     // Animate scale with crossfade
                     enlargeWithCrossFade(wordLabel)
                     
+                    // Speak word out loud
+                    let synthesizer = AVSpeechSynthesizer()
+                    let utterance: AVSpeechUtterance = AVSpeechUtterance(string: wordToCollect!)
+                    synthesizer.speak(utterance)
+                    
+                    // Hide in UI
                     wordLabel.text = ""
                     
                     // Add to score
@@ -161,7 +195,7 @@ class SpiderView: UIViewController, ARSessionDelegate {
         let renderer = UIGraphicsImageRenderer(size: CGSize(width: viewWidth, height: viewHeight))
         var graphicalSquareRow = [graphicalSquare]()
         
-        let img = renderer.image { ctx in
+        let gridImg = renderer.image { ctx in
             ctx.cgContext.setFillColor(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 0))
             ctx.cgContext.setStrokeColor(#colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1))
             ctx.cgContext.setLineWidth(5)
@@ -185,8 +219,8 @@ class SpiderView: UIViewController, ARSessionDelegate {
                 posX = CGFloat(20)
             }
         }
-        let imgView = UIImageView(image: img)
-        gameView.addSubview(imgView)
+        gridView = UIImageView(image: gridImg)
+        gameView.addSubview(gridView!)
         drawWordMatrix()
         gameView.bringSubviewToFront(avatarIcon)
     }
@@ -195,6 +229,8 @@ class SpiderView: UIViewController, ARSessionDelegate {
     func drawWordMatrix() {
         let wordMatrix = web?.matrix
         var wordLabelListRow = [UILabel]()
+        
+        // Create label list
         for i in 0...(wordMatrix!.count - 1) {
             for j in 0...(wordMatrix![0].count - 1) {
                 let wordLabel = UILabel(frame: CGRect(x: posList[i][j].x,
@@ -265,16 +301,52 @@ class SpiderView: UIViewController, ARSessionDelegate {
     /// Initializes attributes locally
     func initializeOfflineAttributes() {
         // Generate random spider web
-        let dimensionList = [5, 6]
-        let dimensions = dimensionList.randomElement()
+        let possibleDimensionList = [5, 6]
+        let dimensions = possibleDimensionList.randomElement()
         columns = dimensions!
         rows = dimensions!
+        disableUI(true)
+        
+        // Load matrix
+        messageLabel.text = "Loading..."
         web = SpiderWeb(dimensions!, dimensions!, isOnline: false)
+        messageLabel.displayMessage("Ready!", duration: 3, gameName)
+        disableUI(false)
     }
     
     /// Initializes attributes from server
     func initializeOnlineAttributes() {
+        // Connect to server to update holder
+        messageLabel.text = "Connecting..."
         
+        // Try to connect on a separate thread.
+        DispatchQueue.global(qos: .utility).async {
+            do{
+                self.holder = try connectToServer()
+                if !self.holder!.connectionSuccess! {
+                    // Error connecting. Redirect to offline mode
+                    self.isOnline = false
+                    self.initializeOfflineAttributes()
+                    self.messageLabel.displayMessage("Error connecting. Offline.", duration: 10, self.gameName)
+                } else {
+                    // Connection to server success
+                    // Get matrix information from holder
+                    let webRows = self.holder?.spiderWebLetterInstructions?.count
+                    let webColumns = self.holder?.spiderWebLetterInstructions?[0].count
+                    
+                    // Initalize word and score matrix
+                    self.web = SpiderWeb(webRows!, webColumns!, isOnline: true)
+                    self.web?.matrix = self.holder!.spiderWebLetterInstructions!
+                    self.web?.scoreMatrix = self.holder!.spiderWebPointsInstructions!
+                    
+                    self.messageLabel.displayMessage("Connected", duration: 3, self.gameName)
+                }
+            } catch let error{
+                // Catch errors
+                print(error)
+                self.messageLabel.displayMessage("Error. Try again", duration: 10, self.gameName)
+            }
+        }
     }
     
     /// Loads default elements in AR
@@ -389,7 +461,7 @@ class SpiderView: UIViewController, ARSessionDelegate {
             halfAPress.0 = ""
             halfAPress.1 = 0
         } else {
-            messageLabel.displayMessage("Out of bounds. Try again", duration: 3, "Spider Web")
+            messageLabel.displayMessage("Out of bounds. Try again", duration: 3, gameName)
         }
     }
     
@@ -404,7 +476,7 @@ class SpiderView: UIViewController, ARSessionDelegate {
             halfAPress.0 = ""
             halfAPress.1 = 0
         } else {
-            messageLabel.displayMessage("Out of bounds. Try again", duration: 3, "Spider Web")
+            messageLabel.displayMessage("Out of bounds. Try again", duration: 3, gameName)
         }
     }
     
@@ -419,7 +491,7 @@ class SpiderView: UIViewController, ARSessionDelegate {
             halfAPress.0 = ""
             halfAPress.1 = 0
         } else {
-            messageLabel.displayMessage("Out of bounds. Try again", duration: 3, "Spider Web")
+            messageLabel.displayMessage("Out of bounds. Try again", duration: 3, gameName)
         }
     }
     
@@ -434,7 +506,7 @@ class SpiderView: UIViewController, ARSessionDelegate {
             halfAPress.0 = ""
             halfAPress.1 = 0
         } else {
-            messageLabel.displayMessage("Out of bounds. Try again", duration: 3, "Spider Web")
+            messageLabel.displayMessage("Out of bounds. Try again", duration: 3, gameName)
         }
     }
     
@@ -447,6 +519,7 @@ class SpiderView: UIViewController, ARSessionDelegate {
             on: upBall
         ) { event in
             self.signalUp()
+            self.playSound("hit")
         }.store(in: &collisionEventStreams)
         
         // Signal down
@@ -455,6 +528,7 @@ class SpiderView: UIViewController, ARSessionDelegate {
             on: downBall
         ) { event in
             self.signalDown()
+            self.playSound("hit")
         }.store(in: &collisionEventStreams)
         
         // Signal left
@@ -463,6 +537,7 @@ class SpiderView: UIViewController, ARSessionDelegate {
             on: leftBall
         ) { event in
             self.signalLeft()
+            self.playSound("hit")
         }.store(in: &collisionEventStreams)
         
         // Signal right
@@ -471,6 +546,7 @@ class SpiderView: UIViewController, ARSessionDelegate {
             on: rightBall
         ) { event in
             self.signalRight()
+            self.playSound("hit")
         }.store(in: &collisionEventStreams)
     }
     
@@ -479,7 +555,7 @@ class SpiderView: UIViewController, ARSessionDelegate {
         if !isOver {
             if !bodyAnchorExists {
                 // Body doesn't yet exist
-                messageLabel.displayMessage("No person detected", duration: 5, "Spider Web")
+                messageLabel.displayMessage("No person detected", duration: 5, gameName)
             } else {
                 // Draw web in UI
                 drawWeb()
@@ -499,10 +575,12 @@ class SpiderView: UIViewController, ARSessionDelegate {
             isOver = false
             web?.restartWeb(isOnline: self.isOnline!)
             score = 0
+            halfAPress = ("", 0)
             
             // Clear lists
             collectedWords.removeAll()
             posList.removeAll()
+            clearGrid()
             wordLabelList.removeAll()
             
             if isOnline! {

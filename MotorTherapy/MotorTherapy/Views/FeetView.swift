@@ -43,6 +43,18 @@ class FeetView: UIViewController, ARSessionDelegate {
     var leftBox = Entity()
     var rightBox = Entity()
     
+    // Color balls
+    var blueBall = Entity()
+    var brownBall = Entity()
+    var cyanBall = Entity()
+    var greenBall = Entity()
+    var greyBall = Entity()
+    var orangeBall = Entity()
+    var redBall = Entity()
+    var magentaBall = Entity()
+    var purpleBall = Entity()
+    var yellowBall = Entity()
+    
     // Queue management
     var queueList = [[String]]()
     var currentQueue = [String]()
@@ -187,9 +199,31 @@ class FeetView: UIViewController, ARSessionDelegate {
         leftBox = experienceScene.leftBox!
         rightBox = experienceScene.rightBox!
         
+        // Load balls
+        blueBall = experienceScene.blueBall!
+        brownBall = experienceScene.brownBall!
+        cyanBall = experienceScene.cyanBall!
+        greenBall = experienceScene.greenBall!
+        greyBall = experienceScene.greyBall!
+        orangeBall =  experienceScene.orangeBall!
+        redBall = experienceScene.redBall!
+        magentaBall = experienceScene.magentaBall!
+        purpleBall = experienceScene.purpleBall!
+        yellowBall = experienceScene.yellowBall!
+        
         // Anchor entities
         characterAnchor.addChild(leftBox)
         characterAnchor.addChild(rightBox)
+        characterAnchor.addChild(blueBall)
+        characterAnchor.addChild(brownBall)
+        characterAnchor.addChild(cyanBall)
+        characterAnchor.addChild(greenBall)
+        characterAnchor.addChild(greyBall)
+        characterAnchor.addChild(orangeBall)
+        characterAnchor.addChild(redBall)
+        characterAnchor.addChild(magentaBall)
+        characterAnchor.addChild(purpleBall)
+        characterAnchor.addChild(yellowBall)
         
         // Add body tracked character and objects
         arView.scene.addAnchor(characterAnchor)
