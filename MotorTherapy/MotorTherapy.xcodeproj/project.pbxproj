@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A926393D23778BB100328B68 /* wrong.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A926393C23778BB100328B68 /* wrong.mp3 */; };
+		A926393F23778CB400328B68 /* pass.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A926393E23778CB400328B68 /* pass.mp3 */; };
+		A926394123778F2800328B68 /* tick.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A926394023778F2800328B68 /* tick.mp3 */; };
+		A926394323778F2C00328B68 /* tock.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A926394223778F2C00328B68 /* tock.mp3 */; };
 		A935C16E236BEFA100CA6545 /* RoundedCornerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A935C16D236BEFA100CA6545 /* RoundedCornerView.swift */; };
 		A935C171236CA9B100CA6545 /* SpiderWeb.swift in Sources */ = {isa = PBXBuildFile; fileRef = A935C170236CA9B100CA6545 /* SpiderWeb.swift */; };
 		A935C176236D00BC00CA6545 /* hit.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A935C175236D00BC00CA6545 /* hit.mp3 */; };
@@ -45,6 +49,7 @@
 		A986E33B234EEC4300A71338 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A986E33A234EEC4300A71338 /* Assets.xcassets */; };
 		A986E33E234EEC4300A71338 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A986E33C234EEC4300A71338 /* LaunchScreen.storyboard */; };
 		A986E364234EED2100A71338 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = A986E363234EED2100A71338 /* Utilities.swift */; };
+		A9AD1C0C237360A0008E61EB /* aww.wav in Resources */ = {isa = PBXBuildFile; fileRef = A9AD1C0B237360A0008E61EB /* aww.wav */; };
 		A9CB2B0F2364D866000A6F82 /* models in Resources */ = {isa = PBXBuildFile; fileRef = A9CB2B0E2364D866000A6F82 /* models */; };
 		A9CB2B1A2364D8C5000A6F82 /* MessageLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9CB2B172364D8C5000A6F82 /* MessageLabel.swift */; };
 		A9CB2B262364FCB8000A6F82 /* experience.rcproject in Sources */ = {isa = PBXBuildFile; fileRef = A9CB2B252364FCB8000A6F82 /* experience.rcproject */; };
@@ -53,6 +58,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A926393C23778BB100328B68 /* wrong.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = wrong.mp3; sourceTree = "<group>"; };
+		A926393E23778CB400328B68 /* pass.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = pass.mp3; sourceTree = "<group>"; };
+		A926394023778F2800328B68 /* tick.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = tick.mp3; sourceTree = "<group>"; };
+		A926394223778F2C00328B68 /* tock.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = tock.mp3; sourceTree = "<group>"; };
 		A935C16D236BEFA100CA6545 /* RoundedCornerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedCornerView.swift; sourceTree = "<group>"; };
 		A935C170236CA9B100CA6545 /* SpiderWeb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpiderWeb.swift; sourceTree = "<group>"; };
 		A935C175236D00BC00CA6545 /* hit.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = hit.mp3; sourceTree = "<group>"; };
@@ -93,6 +102,7 @@
 		A986E33D234EEC4300A71338 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A986E33F234EEC4300A71338 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A986E363234EED2100A71338 /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
+		A9AD1C0B237360A0008E61EB /* aww.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = aww.wav; sourceTree = "<group>"; };
 		A9CB2B0E2364D866000A6F82 /* models */ = {isa = PBXFileReference; lastKnownFileType = folder; path = models; sourceTree = "<group>"; };
 		A9CB2B172364D8C5000A6F82 /* MessageLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageLabel.swift; sourceTree = "<group>"; };
 		A9CB2B252364FCB8000A6F82 /* experience.rcproject */ = {isa = PBXFileReference; lastKnownFileType = file.rcproject; path = experience.rcproject; sourceTree = "<group>"; };
@@ -122,8 +132,13 @@
 		A935C172236CFF9200CA6545 /* Audio */ = {
 			isa = PBXGroup;
 			children = (
+				A9AD1C0B237360A0008E61EB /* aww.wav */,
 				A935C175236D00BC00CA6545 /* hit.mp3 */,
+				A926393E23778CB400328B68 /* pass.mp3 */,
+				A926394023778F2800328B68 /* tick.mp3 */,
+				A926394223778F2C00328B68 /* tock.mp3 */,
 				A95E434E236DE3C4005CA50F /* yay.mp3 */,
+				A926393C23778BB100328B68 /* wrong.mp3 */,
 			);
 			path = Audio;
 			sourceTree = "<group>";
@@ -305,6 +320,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A95E434F236DE3C4005CA50F /* yay.mp3 in Resources */,
+				A926393F23778CB400328B68 /* pass.mp3 in Resources */,
 				A95E43AA236E066F005CA50F /* writing.txt in Resources */,
 				A95E43A8236E066F005CA50F /* music_production.txt in Resources */,
 				A95E43A9236E066F005CA50F /* france.txt in Resources */,
@@ -314,16 +330,20 @@
 				A95E439C236E066F005CA50F /* united_states.txt in Resources */,
 				A95E439E236E066F005CA50F /* physics_units.txt in Resources */,
 				A95E43A4236E066F005CA50F /* emotions.txt in Resources */,
+				A926393D23778BB100328B68 /* wrong.mp3 in Resources */,
 				A95E4399236E066F005CA50F /* water.txt in Resources */,
 				A95E439B236E066F005CA50F /* algorithms.txt in Resources */,
 				A95E43A2236E066F005CA50F /* filmmaking.txt in Resources */,
 				A986E33B234EEC4300A71338 /* Assets.xcassets in Resources */,
 				A95E43A7236E066F005CA50F /* geography.txt in Resources */,
+				A926394123778F2800328B68 /* tick.mp3 in Resources */,
 				A95E43A6236E066F005CA50F /* sports.txt in Resources */,
 				A9CB2B0F2364D866000A6F82 /* models in Resources */,
+				A926394323778F2C00328B68 /* tock.mp3 in Resources */,
 				A95E4398236E066F005CA50F /* food.txt in Resources */,
 				A95E4351236DE68A005CA50F /* dictionary in Resources */,
 				A95E43A0236E066F005CA50F /* birds.txt in Resources */,
+				A9AD1C0C237360A0008E61EB /* aww.wav in Resources */,
 				A986E339234EEC4200A71338 /* Main.storyboard in Resources */,
 				A95E4397236E066F005CA50F /* 3d_graphics.txt in Resources */,
 				A95E43A5236E066F005CA50F /* physics.txt in Resources */,

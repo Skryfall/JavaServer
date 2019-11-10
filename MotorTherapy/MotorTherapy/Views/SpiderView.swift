@@ -10,9 +10,10 @@ import ARKit
 import AVFoundation
 import Combine
 import RealityKit
+import Speech
 import UIKit
 
-class SpiderView: UIViewController, ARSessionDelegate {
+class SpiderView: UIViewController, ARSessionDelegate, SFSpeechRecognizerDelegate {
     
     // MARK: - UI Elements
     
@@ -24,6 +25,9 @@ class SpiderView: UIViewController, ARSessionDelegate {
     
     // Buttons and other elements
     @IBOutlet weak var backButton: UIButton!
+    @IBOutlet weak var categoryAnswerLabel: UILabel!
+    @IBOutlet weak var categoryGuessLabel: UILabel!
+    @IBOutlet weak var categoryPromptLabel: UILabel!
     @IBOutlet weak var endGameLabel: UILabel!
     @IBOutlet weak var messageLabel: MessageLabel!
     @IBOutlet weak var scoreLabel: UILabel!
@@ -32,7 +36,7 @@ class SpiderView: UIViewController, ARSessionDelegate {
     // Game view words
     @IBOutlet weak var avatarIcon: UIImageView!
     
-    // TEMP
+    // TEMP TEST BUTTONS
     @IBOutlet weak var upbutton: UIButton!
     @IBOutlet weak var downbutton: UIButton!
     @IBOutlet weak var leftbutton: UIButton!
@@ -57,6 +61,12 @@ class SpiderView: UIViewController, ARSessionDelegate {
     
     // MARK: - Attributes
     
+    // Constants
+    let animationDuration = 3.0
+    let fontSizeSmall: CGFloat = 15
+    let fontSizeBig: CGFloat = 2000
+    let gameName = "Spider Web"
+    
     // Entity data
     var bodyAnchorExists = false
     var bodyPosition: simd_float3?
@@ -73,12 +83,9 @@ class SpiderView: UIViewController, ARSessionDelegate {
     var audioPlayer: AVAudioPlayer!
     var collectedWords = [String]()
     var columns: Int?
-    let animationDuration = 3.0
-    let fontSizeSmall: CGFloat = 15
-    let fontSizeBig: CGFloat = 2000
-    let gameName = "Spider Web"
     var gridView: UIImageView?
     var halfAPress = ("", 0)
+    var hasSpeechRecognition = false
     var holder: Holder?
     var isFirstTime = true
     var isOnline: Bool?
@@ -90,6 +97,12 @@ class SpiderView: UIViewController, ARSessionDelegate {
     var posList = [[graphicalSquare]]()
     var web: SpiderWeb?
     var wordLabelList = [[UILabel]]()
+    
+    // Speech recogntition
+    let audioEngine = AVAudioEngine()
+    var request: SFSpeechAudioBufferRecognitionRequest?
+    var recognitionTask: SFSpeechRecognitionTask?
+    let speechRecognizer = SFSpeechRecognizer(locale: Locale(identifier: "en_US"))
     
     // Reality Composer scene
     var experienceScene = Experience.Scene()
@@ -143,9 +156,9 @@ class SpiderView: UIViewController, ARSessionDelegate {
             
             // If player is over a word, collect it
             let wordToCollect = web?.getWord(x, y)
-            if (web?.path.contains(web!.playerPos))! && wordToCollect != ""{
+            if (web?.wordPath.contains(web!.playerPos))! && wordToCollect != ""{
                 if wordToCollect == "END" {
-                    if collectedWords.count == ((web?.path.count)! - 1) {
+                    if collectedWords.count == ((web?.wordPath.count)! - 1) {
                         // Check if all words have been collected
                         // End game. No more words
                         web?.setWord(x, y, "")
@@ -253,7 +266,6 @@ class SpiderView: UIViewController, ARSessionDelegate {
     func endGame() {
         showWinScreen()
         playSound("yay")
-        startButton.isEnabled = true
     }
     
     /// Enlarges label with cross fade
@@ -448,6 +460,19 @@ class SpiderView: UIViewController, ARSessionDelegate {
         isOver = true
         scoreLabel.text = "Score - " + String(score)
         messageLabel.text = "Congratulations!"
+        
+        // Start speech recognition
+        do {
+            try startSpeechRecognition()
+        } catch {
+            print("Error starting spech recognition")
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(7)) {
+            // Wait 7 seconds to enable next
+            self.startButton.isEnabled = true
+            self.stopSpeechRecognition()
+        }
     }
     
     /// Signal down movement in UI
@@ -576,6 +601,8 @@ class SpiderView: UIViewController, ARSessionDelegate {
             web?.restartWeb(isOnline: self.isOnline!)
             score = 0
             halfAPress = ("", 0)
+            categoryGuessLabel.text = "Your guess: "
+            categoryAnswerLabel.text = "Answer: "
             
             // Clear lists
             collectedWords.removeAll()
@@ -583,6 +610,7 @@ class SpiderView: UIViewController, ARSessionDelegate {
             clearGrid()
             wordLabelList.removeAll()
             
+            // Reinitialize attributes
             if isOnline! {
                 initializeOnlineAttributes()
             } else {
@@ -592,6 +620,67 @@ class SpiderView: UIViewController, ARSessionDelegate {
             startGame()
             drawPlayer((web?.midPos[0])!, (web?.midPos[1])!)
         }
+    }
+    
+    /// Starts speech recognition
+    func startSpeechRecognition() throws {
+        // Cancel previous tasks
+        recognitionTask?.cancel()
+        self.recognitionTask = nil
+        
+        // Initialize variables
+        let audioSession = AVAudioSession.sharedInstance()
+        try audioSession.setCategory(.record, mode: .measurement, options:  .duckOthers)
+        try audioSession.setActive(true, options: .notifyOthersOnDeactivation)
+        
+        let inputNode = audioEngine.inputNode
+        inputNode.removeTap(onBus: 0)
+        let recordingFormat = inputNode.outputFormat(forBus: 0)
+        inputNode.installTap(onBus: 0, bufferSize: 1024, format: recordingFormat) { (buffer: AVAudioPCMBuffer, when: AVAudioTime) in
+            self.request?.append(buffer)
+        }
+        
+        audioEngine.prepare()
+        try audioEngine.start()
+        
+        request = SFSpeechAudioBufferRecognitionRequest()
+        guard let request = request else {
+            fatalError("Unable to create request object")
+            
+        }
+        request.shouldReportPartialResults = true
+        
+        // Enable iOS 13 on-device speech recognition
+        if #available(iOS 13, *) {
+            if speechRecognizer?.supportsOnDeviceRecognition ?? false {
+                request.requiresOnDeviceRecognition = true
+            }
+        }
+        
+        // Send and receive request
+        recognitionTask = speechRecognizer?.recognitionTask(with: request) { result, error in
+            if let result = result {
+                DispatchQueue.main.async {
+                    let bestString = result.bestTranscription.formattedString
+                    
+                    // Show guess and answer on UI
+                    self.categoryGuessLabel.text = "Your guess: " + bestString
+                    self.categoryAnswerLabel.text = "Answer: " + self.web!.category
+                }
+            }
+            if error != nil {
+                self.audioEngine.stop()
+                inputNode.removeTap(onBus: 0)
+                self.request = nil
+                self.recognitionTask = nil
+            }
+        }
+    }
+    
+    func stopSpeechRecognition() {
+        self.audioEngine.stop()
+        self.request = nil
+        self.recognitionTask = nil
     }
     
     // MARK: - View Control
@@ -608,6 +697,24 @@ class SpiderView: UIViewController, ARSessionDelegate {
         
         // Load Reality Composer scene and objects
         experienceScene = try! Experience.loadScene()
+        
+        // Set speech recognition
+        speechRecognizer?.delegate = self
+        SFSpeechRecognizer.requestAuthorization { (authStatus) in
+            switch authStatus {
+            case .authorized:
+                self.hasSpeechRecognition = true
+                print("Speech recognition initiated")
+            case .denied:
+                print("User denied access to speech recognition")
+            case .restricted:
+                print("Speech recognition restricted on this device")
+            case .notDetermined:
+                print("Speech recognition not yet authorized")
+            @unknown default:
+                print("Error loading speech recognition")
+            }
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {

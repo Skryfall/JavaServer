@@ -36,16 +36,19 @@ class FloatingView: UIViewController, ARSessionDelegate {
     
     // MARK: - Attributes
     
+    // Constants
+    let gameName = "Floating Object"
+    
     // Entity data
     var bodyAnchorExists = false
     var character: BodyTrackedEntity?
     var headPos = simd_float3()
     var objectPos = simd_float3(-1, 0, 0)
     
+    var floatingObject = Entity()
+    var floatingObjectList = [Entity]()
+    var instrument = Entity()
     var instrumentList = [Entity]()
-    var objectList = [Entity]()
-    var currentInstrument = Entity()
-    var currentObject = Entity()
     
     let characterAnchor = AnchorEntity()
     
@@ -55,18 +58,19 @@ class FloatingView: UIViewController, ARSessionDelegate {
     // Additional variables for control
     var audioPlayer: AVAudioPlayer!
     var currentIndex = 0
-    let gameName = "Floating Object"
     var holder: Holder?
     var isFirstTime = true
     var isOnline: Bool?
     var isOver = false
     var rounds = 0
     var score = 0
+    var tickPlayer = AVAudioPlayer()
+    var tockPlayer = AVAudioPlayer()
     var totalScore = 0
     
     // Offline posibilities for variables
-    let possibleRounds = [2]
-    let possibletimeList = [5]
+    let possibleRounds = [2, 3, 4, 5]
+    let possibletimeList = [5, 6, 7, 9, 10]
     let possibleX = [0.5, 0.2, -0.6, -0.2, 0.6, -0.7]
     let possibleY = [1, 1.3, 1.2, 1.5,]
     let possibleZ = [0.2, 0.3, -0.2, -0.3, 0.1]
@@ -76,7 +80,6 @@ class FloatingView: UIViewController, ARSessionDelegate {
     var currentPosList = [Float()]
     var timer = Timer()
     var timeList = [Int]()
-    var position: Float?
     var seconds = 0
     
     // Flush Collision events list for memory management
@@ -103,7 +106,6 @@ class FloatingView: UIViewController, ARSessionDelegate {
     func endGame() {
         timer.invalidate()
         showWinScreen()
-        playSound("yay")
         score = 0
     }
     
@@ -111,6 +113,8 @@ class FloatingView: UIViewController, ARSessionDelegate {
     func loadObjects() {
         loadReality()
         loadRobot()
+        loadTickSound()
+        loadTockSound()
     }
     
     /// Initializes attributes from local randomizer
@@ -118,7 +122,7 @@ class FloatingView: UIViewController, ARSessionDelegate {
         messageLabel.text = "Loading..."
         rounds = possibleRounds.randomElement()!
         
-        for _ in 0...rounds {
+        for _ in 1...rounds {
             // Randomize position
             let x = Float(possibleX.randomElement()!)
             let y = Float(possibleY.randomElement()!)
@@ -132,7 +136,7 @@ class FloatingView: UIViewController, ARSessionDelegate {
             totalScore += time!
         }
         
-        messageLabel.displayMessage("Ready", duration: 3, gameName)
+        messageLabel.displayMessage("Loaded", duration: 3, gameName)
     }
     
     /// Initializes attributes from server
@@ -183,18 +187,18 @@ class FloatingView: UIViewController, ARSessionDelegate {
         let racket = experienceScene.racket
         
         // Default instrument and object
-        currentInstrument = racket!
-        currentObject = balloon!
+        instrument = racket!
+        floatingObject = balloon!
         
-        instrumentList.append(currentInstrument)
-        objectList.append(currentObject)
+        instrumentList.append(instrument)
+        floatingObjectList.append(floatingObject)
         
         // Link current object with logical position
-        objectPos = currentObject.position
+        objectPos = floatingObject.position
         
         // Anchor entities
-        characterAnchor.addChild(currentObject)
-        characterAnchor.addChild(currentInstrument)
+        characterAnchor.addChild(floatingObject)
+        characterAnchor.addChild(instrument)
         
         // Add body tracked character and objects
         arView.scene.addAnchor(characterAnchor)
@@ -225,43 +229,75 @@ class FloatingView: UIViewController, ARSessionDelegate {
         })
     }
     
+    // Loads tick sound
+    func loadTickSound() {
+        if let soundURL = Bundle.main.url(forResource: "tick", withExtension: "mp3") {
+            do {
+                tickPlayer = try AVAudioPlayer(contentsOf: soundURL)
+            }
+            catch {
+                print(error)
+            }
+         } else {
+            print("Unable to locate audio file")
+         }
+    }
+    
+    // Loads tock sound
+    func loadTockSound() {
+        if let soundURL = Bundle.main.url(forResource: "tock", withExtension: "mp3") {
+            do {
+                tockPlayer = try AVAudioPlayer(contentsOf: soundURL)
+            }
+            catch {
+                print(error)
+            }
+         } else {
+            print("Unable to locate audio file")
+         }
+    }
+    
     /// Change object position to next one in list
     func nextObjectPosition() {
-        if allPosList.isEmpty {
-            // No more positions. End game
-            endGame()
-        } else {
-            // Remove old position
-            allPosList.remove(at: 0)
+        if !isOver {
             if allPosList.isEmpty {
                 // No more positions. End game
                 endGame()
             } else {
-                // Move object
-                currentPosList = allPosList[0]
-                let newPos = simd_float3(currentPosList[0], currentPosList[1], currentPosList[2])
-                currentObject.position = newPos
+                // Remove old position
+                allPosList.remove(at: 0)
+                if allPosList.isEmpty {
+                    // No more positions. End game
+                    endGame()
+                } else {
+                    // Move object
+                    currentPosList = allPosList[0]
+                    let newPos = simd_float3(currentPosList[0], currentPosList[1], currentPosList[2])
+                    floatingObject.position = newPos
+                }
             }
         }
     }
     
     /// Change game to next timer
     func nextTimer() {
-        // Assign score
-        score += seconds
-        
-        if timeList.isEmpty {
-            // No more times. End game
-            endGame()
-        } else {
-            // Change global timer to next
-            timeList.remove(at: 0)
+        if !isOver {
+            // Assign score
+            score += seconds
+            
             if timeList.isEmpty {
                 // No more times. End game
                 endGame()
             } else {
-                // Set variable to be showed in UI
-                seconds = timeList[0]
+                // Change global timer to next
+                timeList.remove(at: 0)
+                if timeList.isEmpty {
+                    // No more times. End game
+                    endGame()
+                } else {
+                    // Set variable to be showed in UI
+                    seconds = timeList[0]
+                }
             }
         }
     }
@@ -305,6 +341,18 @@ class FloatingView: UIViewController, ARSessionDelegate {
             } else {
                 print("Unable to locate audio file")
             }
+        case "aww":
+            if let soundURL = Bundle.main.url(forResource: "aww", withExtension: "wav") {
+                do {
+                    audioPlayer = try AVAudioPlayer(contentsOf: soundURL)
+                }
+                catch {
+                    print(error)
+                }
+                audioPlayer.play()
+            } else {
+                print("Unable to locate audio file")
+            }
         default:
             print("No sound found")
         }
@@ -329,18 +377,22 @@ class FloatingView: UIViewController, ARSessionDelegate {
         // Update UI label depending on score
         let dScore = Double(score)
         let dTScore = Double(totalScore)
-        if dScore > (dTScore * 0.25) {
+        if dScore < (dTScore * 0.25) {
             messageLabel.text = "What happened?"
             endGameLabel.text = "It's okay..."
-        } else if dScore > (dTScore * 0.5) {
+            playSound("aww")
+        } else if dScore < (dTScore * 0.5) {
             messageLabel.text = "Pff..."
             endGameLabel.text = "Not bad, but you can do better!"
-        } else if dScore > (dTScore * 0.75) {
+            playSound("aww")
+        } else if dScore < (dTScore * 0.75) {
             messageLabel.text = "Huh, good..."
             endGameLabel.text = "Great game!"
+            playSound("yay")
         } else if dScore == dTScore {
             messageLabel.text = "Jelly baby?"
             endGameLabel.text = "Perfect score. Wow!"
+            playSound("yay")
         }
     }
 
@@ -349,7 +401,7 @@ class FloatingView: UIViewController, ARSessionDelegate {
         // Subscribe scene to collision events
         arView.scene.subscribe(
             to: CollisionEvents.Began.self,
-            on: currentObject
+            on: floatingObject
         ) { event in
             self.nextTimer()
             self.nextObjectPosition()
@@ -369,6 +421,9 @@ class FloatingView: UIViewController, ARSessionDelegate {
                 currentPosList = allPosList[0]
                 seconds = timeList[0]
                 
+                // Move object to first position
+                nextObjectPosition()
+                
                 // Start collision detection
                 if isFirstTime {
                     startCollisions()
@@ -382,14 +437,17 @@ class FloatingView: UIViewController, ARSessionDelegate {
             blurView.fadeOut()
             isOver = false
             
+            // Reinitialize attributes
             if isOnline! {
                 initializeOnlineAttributes()
             } else {
                 initializeOfflineAttributes()
             }
             
+            // Start timer and position control
+            startTimer()
+            currentPosList = allPosList[0]
             seconds = timeList[0]
-            position = currentPosList[0]
         }
     }
     
@@ -402,6 +460,7 @@ class FloatingView: UIViewController, ARSessionDelegate {
     @objc func updateTimer() {
         seconds -= 1
         timerLabel.text = "Time: \(seconds)"
+        tickPlayer.play()
         if seconds == 0 {
             // Time's up
             if timeList.isEmpty {
@@ -411,6 +470,7 @@ class FloatingView: UIViewController, ARSessionDelegate {
                 // Change object position and time
                 nextTimer()
                 nextObjectPosition()
+                tockPlayer.play()
             }
         }
     }
@@ -502,10 +562,10 @@ class FloatingView: UIViewController, ARSessionDelegate {
                 
                 // Update position and orientation of elements
                 characterAnchor.position = bodyPosition
-                currentInstrument.position = rightHandMidStartPos
+                instrument.position = rightHandMidStartPos
                 
                 characterAnchor.orientation = bodyOrientation
-                currentInstrument.orientation = instrumentOrientation
+                instrument.orientation = instrumentOrientation
                 
                 // Attach character to anchor
                 if let character = character, character.parent == nil {

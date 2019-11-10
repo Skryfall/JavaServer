@@ -28,6 +28,9 @@ class BalloonView: UIViewController, ARSessionDelegate {
     
     // MARK: - Attributes
     
+    // Constants
+    let gameName = "Balloon"
+    
     // UI Views
     let coachingOverlay = ARCoachingOverlayView()
     
@@ -50,6 +53,7 @@ class BalloonView: UIViewController, ARSessionDelegate {
     // Additional variables for control
     var audioPlayer: AVAudioPlayer!
     var currentIndex = 0
+    var isFirstTime = true
     var isOnline: Bool?
     var isOver = false
     
@@ -70,7 +74,6 @@ class BalloonView: UIViewController, ARSessionDelegate {
     /// Ends game
     func endGame() {
         showWinScreen()
-        playSound("yay")
     }
     
     /// Loads objects in scene
@@ -148,11 +151,6 @@ class BalloonView: UIViewController, ARSessionDelegate {
         })
     }
     
-    /// Moves object to position in 3D space
-    func moveObject(newPos: simd_float3) {
-        currentObject.position = newPos
-    }
-    
     /// Change object position to next one in list
     func nextObjectPosition() {
         
@@ -201,6 +199,7 @@ class BalloonView: UIViewController, ARSessionDelegate {
         blurView.fadeIn()
         isOver = true
         messageLabel.text = "Congratulations!"
+        playSound("yay")
     }
 
     /// Start collision detection system for current floating object
@@ -220,19 +219,32 @@ class BalloonView: UIViewController, ARSessionDelegate {
     
     /// Starts game
     func startGame() {
-        if !bodyAnchorExists {
-            if isOver {
-                // Restart game
-                blurView.fadeOut()
-                isOver = false
+        if !isOver {
+            if !bodyAnchorExists {
+                // Body doesn't yet exist
+                messageLabel.displayMessage("No person detected", duration: 5, gameName)
+            } else {
+                
+                // Start collision detection
+                if isFirstTime {
+                    startCollisions()
+                    isFirstTime = false
+                }
+                
             }
-            // Body doesn't yet exist
-            messageLabel.displayMessage("No person detected", duration: 5, "Balloon")
         } else {
-            moveObject(newPos: headPos + [0, 0.5, 0])
+            // Restart game
+            blurView.fadeOut()
+            isOver = false
             
-            // Start collision detection
-            startCollisions()
+            // Reinitialize attributes
+            if isOnline! {
+                initializeOnlineAttributes()
+            } else {
+                initializeOfflineAttributes()
+            }
+            
+            startGame()
         }
     }
     
