@@ -121,7 +121,7 @@ def p_add_toList(p):
     elif isinstance(array[0], int) and isinstance(p[6], int) and array[1] + 1 > p[3] > 0:
         names[p[1]][p[3]] = p[6]
     else:
-        print("Error, no se pudo agregar a la lista")
+        print("Error, no se pudo agregar el elemento " + p[6] + " a la lista " + p[1])
         sys.exit()
 
 def p_add_empty(p):
@@ -139,7 +139,8 @@ def p_function_dow(p):
         if currentGame == 1:
             balloonGame.setRepetitions(p[3])
     else:
-        print("Error, la funcion Dow solo recibe un numero")
+        print("Error, la funcion Dow no esta escrita de manera correcta.")
+        print("La estructura del Dow es: Dow(numero de repeticiones) 'instrucciones' Enddo;")
         sys.exit()
 
 def p_function_balloon(p):
@@ -148,7 +149,8 @@ def p_function_balloon(p):
     if isinstance(p[3], int) and isinstance(p[5], int) and isinstance(p[7], int):
         balloon(p[3], p[5], p[7])
     else:
-        print("Error, la funcion Balloon solo recibe numeros")
+        print("Error, la funcion Balloon no esta escrita de manera correcta.")
+        print("La estructura del Balloon es: Balloon(altura, latitud, profundidad);")
         sys.exit()
 
 def p_function_inc(p):
@@ -157,7 +159,8 @@ def p_function_inc(p):
     if isinstance(p[3], int) and isinstance(p[5], int):
         inc(p[3], p[5])
     else:
-        print("Error, la funcion Inc solo recibe numeros")
+        print("Error, la funcion Inc no esta escrita de manera correcta.")
+        print("La estructura del Inc es: Inc(valor, cantidad a aumentar);")
         sys.exit()
 
 def p_function_dec(p):
@@ -166,7 +169,8 @@ def p_function_dec(p):
     if isinstance(p[3], int) and isinstance(p[5], int):
         dec(p[3], p[5])
     else:
-        print("Error, la funcion Dec solo recibe numeros")
+        print("Error, la funcion Dec no esta escrita de manera correcta.")
+        print("La estructura del Dec es: Inc(valor, cantidad a disminuir);")
         sys.exit()
 
 def p_function_FORList(p):
@@ -176,7 +180,8 @@ def p_function_FORList(p):
         flagGame.setHowManyRandoms(p[2])
         random(p[5][1:], p[8][1:], p[10], p[12])
     else:
-        print("Error, para usar el FOR es necesario incluirle la cantidad de repeticiones, la lista y la funcion Random de 3 argumentos")
+        print("Error, la funcion FOR no esta escrita de manera correcta.")
+        print("La estructura del FOR es: FOR 'numero de repeticiones' times using 'lista de banderas' Random(puntaje, cantidad, tiempo) 'instrucciones' FOREND;")
         sys.exit()
 
 def p_function_random(p):
@@ -185,7 +190,8 @@ def p_function_random(p):
     if isinstance(p[3], list) and isinstance(p[5], list) and isinstance(p[7], int) and isinstance(p[9], int):
         random(p[3][1:], p[5][1:], p[7], p[9])
     else:
-        print("Error, la funcion Random debe recibir dos listas, y dos numeros")
+        print("Error, la funcion Random no esta escrita de manera correcta.")
+        print("La estructura del Random es: Random(banderas, puntaje, cantidad, tiempo);")
         sys.exit()
 
 def p_function_spiderWeb(p):
@@ -194,7 +200,8 @@ def p_function_spiderWeb(p):
     if isinstance(p[3], int) and isinstance(p[5], int):
         telarana(p[3], p[5])
     else:
-        print("Error, la funcion TelaAraña recibe unicamente 2 numeros como argumentos")
+        print("Error, la funcion TelaAraña no esta escrita de manera correcta.")
+        print("La estructura correcta es: TelaArana(filas, columnas);")
         sys.exit()
 
 def p_function_asignWord(p):
@@ -206,7 +213,8 @@ def p_function_asignWord(p):
         spiderWebGame.setInstruction(p[10][1:])
         spiderWebGame.setPoints(p[12][1:])
     else:
-        print("Error, la funcion ForAsignWord recibe unicamente 2 numeros y la funcion AsignWord recibe 2 listas")
+        print("Error, la funcion ForAsignWord no esta escrita de manera correcta.")
+        print("La estructura correcta es: ForAsignWord(fila, columna) DO AsignWord(palabras, puntajes);")
         sys.exit()
 
 def p_function_object(p):
@@ -215,7 +223,8 @@ def p_function_object(p):
     if isinstance(p[3], int) and isinstance(p[5], int) and isinstance(p[7], int) and isinstance(p[9], int):
         object(p[3], p[5], p[7], p[9])
     else:
-        print("Error, la funcion Object recibe solamente 3 numeros")
+        print("Error, la funcion Object no esta escrita de manera correcta.")
+        print("La estrucutra correcta es: Object(altura, distancia, profundidad, tiempo);")
         sys.exit()
 
 def p_function_FORInt(p):
@@ -226,7 +235,8 @@ def p_function_FORInt(p):
         objectGame.setDistances(p[10][1:])
         object(p[8], p[10][1], p[15], p[17])
     else:
-        print("Error, la funcion FOR esta definida para usarse con la funcion Object")
+        print("Error, la funcion FOR no esta escrita de manera correcta.")
+        print("La esctructura correcta es: FOR 'numero de repeticiones' times using variable Object(altura, 'lista de distancia'[variable], profundidad, tiempo) 'instrucciones' FEnd;")
         sys.exit()
 
 def p_function_empty(p):
@@ -237,7 +247,7 @@ def p_error(p):
         print("Error de sintaxis de '%s'" % p.value)
         sys.exit()
     else:
-        print("Error de sintaxis en EOF")
+        print("Error de sintaxis en Final de Archivo")
         sys.exit()
 
 yacc.yacc()

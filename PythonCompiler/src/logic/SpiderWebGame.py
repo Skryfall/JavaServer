@@ -38,8 +38,8 @@ class SpiderWebGame(FlagGame):
         return number
 
     def handleSpiderWebLogic(self):
-        if self.row > len(self.web[0]) or self.column > len(self.web[0][0]):
-            print("Error, el valor de fila o columna no es igual al implementado")
+        if self.row != len(self.web[0]) or self.column != len(self.web[0][0]):
+            print("Error, el valor de fila o columna no ForAsignWord no es el mismo al utilizado previamente.")
             sys.exit()
 
         i = 0
