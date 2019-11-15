@@ -6,9 +6,10 @@
 //  Copyright © 2019 Schlafenhase. All rights reserved.
 //
 
+import ARKit
+import AVFoundation
 import Foundation
 import RealityKit
-import ARKit
 
 extension MeshResource {
     

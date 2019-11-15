@@ -10,9 +10,10 @@ import ARKit
 import AVFoundation
 import Combine
 import RealityKit
+import Speech
 import UIKit
 
-class SpiderView: UIViewController, ARSessionDelegate {
+class SpiderView: UIViewController, ARSessionDelegate, SFSpeechRecognizerDelegate {
     
     // MARK: - UI Elements
     
@@ -24,6 +25,10 @@ class SpiderView: UIViewController, ARSessionDelegate {
     
     // Buttons and other elements
     @IBOutlet weak var backButton: UIButton!
+    @IBOutlet weak var categoryAnswerLabel: UILabel!
+    @IBOutlet weak var categoryGuessLabel: UILabel!
+    @IBOutlet weak var categoryPromptLabel: UILabel!
+    @IBOutlet weak var endGameLabel: UILabel!
     @IBOutlet weak var messageLabel: MessageLabel!
     @IBOutlet weak var scoreLabel: UILabel!
     @IBOutlet weak var startButton: UIButton!
@@ -31,7 +36,7 @@ class SpiderView: UIViewController, ARSessionDelegate {
     // Game view words
     @IBOutlet weak var avatarIcon: UIImageView!
     
-    // TEMP
+    // TEMP TEST BUTTONS
     @IBOutlet weak var upbutton: UIButton!
     @IBOutlet weak var downbutton: UIButton!
     @IBOutlet weak var leftbutton: UIButton!
@@ -56,6 +61,12 @@ class SpiderView: UIViewController, ARSessionDelegate {
     
     // MARK: - Attributes
     
+    // Constants
+    let animationDuration = 3.0
+    let fontSizeSmall: CGFloat = 15
+    let fontSizeBig: CGFloat = 2000
+    let gameName = "Spider Web"
+    
     // Entity data
     var bodyAnchorExists = false
     var bodyPosition: simd_float3?
@@ -72,10 +83,10 @@ class SpiderView: UIViewController, ARSessionDelegate {
     var audioPlayer: AVAudioPlayer!
     var collectedWords = [String]()
     var columns: Int?
-    let animationDuration = 3.0
-    let fontSizeSmall: CGFloat = 15
-    let fontSizeBig: CGFloat = 2000
+    var gridView: UIImageView?
     var halfAPress = ("", 0)
+    var hasSpeechRecognition = false
+    var holder: Holder?
     var isFirstTime = true
     var isOnline: Bool?
     var isOver = false
@@ -86,6 +97,12 @@ class SpiderView: UIViewController, ARSessionDelegate {
     var posList = [[graphicalSquare]]()
     var web: SpiderWeb?
     var wordLabelList = [[UILabel]]()
+    
+    // Speech recogntition
+    let audioEngine = AVAudioEngine()
+    var request: SFSpeechAudioBufferRecognitionRequest?
+    var recognitionTask: SFSpeechRecognitionTask?
+    let speechRecognizer = SFSpeechRecognizer(locale: Locale(identifier: "en_US"))
     
     // Reality Composer scene
     var experienceScene = Experience.Scene()
@@ -98,6 +115,30 @@ class SpiderView: UIViewController, ARSessionDelegate {
     }
     
     // MARK: - Functions
+    
+    /// Clears word label list in UI
+    func clearGrid() {
+        // Remove all word labels
+        for i in 0...(wordLabelList.count - 1) {
+            for j in  0...(wordLabelList[0].count - 1) {
+                let label = wordLabelList[i][j]
+                label.removeFromSuperview()
+            }
+        }
+        // Remove grid
+        gridView?.removeFromSuperview()
+    }
+    
+    /// Enables  or disables UI elements while connecting
+    func disableUI(_ block: Bool) {
+        if block {
+            backButton.isEnabled = false
+            startButton.isEnabled = false
+        } else {
+            backButton.isEnabled = true
+            startButton.isEnabled = true
+        }
+    }
     
     /// Draws player in position
     func drawPlayer(_ x: Int, _ y: Int) {
@@ -115,9 +156,9 @@ class SpiderView: UIViewController, ARSessionDelegate {
             
             // If player is over a word, collect it
             let wordToCollect = web?.getWord(x, y)
-            if (web?.path.contains(web!.playerPos))! && wordToCollect != ""{
+            if (web?.wordPath.contains(web!.playerPos))! && wordToCollect != ""{
                 if wordToCollect == "END" {
-                    if collectedWords.count == ((web?.path.count)! - 1) {
+                    if collectedWords.count == ((web?.wordPath.count)! - 1) {
                         // Check if all words have been collected
                         // End game. No more words
                         web?.setWord(x, y, "")
@@ -125,7 +166,7 @@ class SpiderView: UIViewController, ARSessionDelegate {
                         endGame()
                     } else {
                         // There are still words in matrix
-                        messageLabel.displayMessage("Collect all words", duration: 5, "Spider Web")
+                        messageLabel.displayMessage("Collect all words", duration: 5, gameName)
                     }
                 } else {
                     // Collect word
@@ -136,6 +177,12 @@ class SpiderView: UIViewController, ARSessionDelegate {
                     // Animate scale with crossfade
                     enlargeWithCrossFade(wordLabel)
                     
+                    // Speak word out loud
+                    let synthesizer = AVSpeechSynthesizer()
+                    let utterance: AVSpeechUtterance = AVSpeechUtterance(string: wordToCollect!)
+                    synthesizer.speak(utterance)
+                    
+                    // Hide in UI
                     wordLabel.text = ""
                     
                     // Add to score
@@ -161,7 +208,7 @@ class SpiderView: UIViewController, ARSessionDelegate {
         let renderer = UIGraphicsImageRenderer(size: CGSize(width: viewWidth, height: viewHeight))
         var graphicalSquareRow = [graphicalSquare]()
         
-        let img = renderer.image { ctx in
+        let gridImg = renderer.image { ctx in
             ctx.cgContext.setFillColor(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 0))
             ctx.cgContext.setStrokeColor(#colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1))
             ctx.cgContext.setLineWidth(5)
@@ -185,8 +232,8 @@ class SpiderView: UIViewController, ARSessionDelegate {
                 posX = CGFloat(20)
             }
         }
-        let imgView = UIImageView(image: img)
-        gameView.addSubview(imgView)
+        gridView = UIImageView(image: gridImg)
+        gameView.addSubview(gridView!)
         drawWordMatrix()
         gameView.bringSubviewToFront(avatarIcon)
     }
@@ -195,6 +242,8 @@ class SpiderView: UIViewController, ARSessionDelegate {
     func drawWordMatrix() {
         let wordMatrix = web?.matrix
         var wordLabelListRow = [UILabel]()
+        
+        // Create label list
         for i in 0...(wordMatrix!.count - 1) {
             for j in 0...(wordMatrix![0].count - 1) {
                 let wordLabel = UILabel(frame: CGRect(x: posList[i][j].x,
@@ -217,7 +266,6 @@ class SpiderView: UIViewController, ARSessionDelegate {
     func endGame() {
         showWinScreen()
         playSound("yay")
-        startButton.isEnabled = true
     }
     
     /// Enlarges label with cross fade
@@ -265,16 +313,52 @@ class SpiderView: UIViewController, ARSessionDelegate {
     /// Initializes attributes locally
     func initializeOfflineAttributes() {
         // Generate random spider web
-        let dimensionList = [5, 6]
-        let dimensions = dimensionList.randomElement()
+        let possibleDimensionList = [5, 6]
+        let dimensions = possibleDimensionList.randomElement()
         columns = dimensions!
         rows = dimensions!
+        disableUI(true)
+        
+        // Load matrix
+        messageLabel.text = "Loading..."
         web = SpiderWeb(dimensions!, dimensions!, isOnline: false)
+        messageLabel.displayMessage("Ready!", duration: 3, gameName)
+        disableUI(false)
     }
     
     /// Initializes attributes from server
     func initializeOnlineAttributes() {
+        // Connect to server to update holder
+        messageLabel.text = "Connecting..."
         
+        // Try to connect on a separate thread.
+        DispatchQueue.global(qos: .utility).async {
+            do{
+                self.holder = try connectToServer()
+                if !self.holder!.connectionSuccess! {
+                    // Error connecting. Redirect to offline mode
+                    self.isOnline = false
+                    self.initializeOfflineAttributes()
+                    self.messageLabel.displayMessage("Error connecting. Offline.", duration: 10, self.gameName)
+                } else {
+                    // Connection to server success
+                    // Get matrix information from holder
+                    let webRows = self.holder?.spiderWebLetterInstructions?.count
+                    let webColumns = self.holder?.spiderWebLetterInstructions?[0].count
+                    
+                    // Initalize word and score matrix
+                    self.web = SpiderWeb(webRows!, webColumns!, isOnline: true)
+                    self.web?.matrix = self.holder!.spiderWebLetterInstructions!
+                    self.web?.scoreMatrix = self.holder!.spiderWebPointsInstructions!
+                    
+                    self.messageLabel.displayMessage("Connected", duration: 3, self.gameName)
+                }
+            } catch let error{
+                // Catch errors
+                print(error)
+                self.messageLabel.displayMessage("Error. Try again", duration: 10, self.gameName)
+            }
+        }
     }
     
     /// Loads default elements in AR
@@ -376,6 +460,19 @@ class SpiderView: UIViewController, ARSessionDelegate {
         isOver = true
         scoreLabel.text = "Score - " + String(score)
         messageLabel.text = "Congratulations!"
+        
+        // Start speech recognition
+        do {
+            try startSpeechRecognition()
+        } catch {
+            print("Error starting spech recognition")
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(7)) {
+            // Wait 7 seconds to enable next
+            self.startButton.isEnabled = true
+            self.stopSpeechRecognition()
+        }
     }
     
     /// Signal down movement in UI
@@ -389,7 +486,7 @@ class SpiderView: UIViewController, ARSessionDelegate {
             halfAPress.0 = ""
             halfAPress.1 = 0
         } else {
-            messageLabel.displayMessage("Out of bounds. Try again", duration: 3, "Spider Web")
+            messageLabel.displayMessage("Out of bounds. Try again", duration: 3, gameName)
         }
     }
     
@@ -404,7 +501,7 @@ class SpiderView: UIViewController, ARSessionDelegate {
             halfAPress.0 = ""
             halfAPress.1 = 0
         } else {
-            messageLabel.displayMessage("Out of bounds. Try again", duration: 3, "Spider Web")
+            messageLabel.displayMessage("Out of bounds. Try again", duration: 3, gameName)
         }
     }
     
@@ -419,7 +516,7 @@ class SpiderView: UIViewController, ARSessionDelegate {
             halfAPress.0 = ""
             halfAPress.1 = 0
         } else {
-            messageLabel.displayMessage("Out of bounds. Try again", duration: 3, "Spider Web")
+            messageLabel.displayMessage("Out of bounds. Try again", duration: 3, gameName)
         }
     }
     
@@ -434,7 +531,7 @@ class SpiderView: UIViewController, ARSessionDelegate {
             halfAPress.0 = ""
             halfAPress.1 = 0
         } else {
-            messageLabel.displayMessage("Out of bounds. Try again", duration: 3, "Spider Web")
+            messageLabel.displayMessage("Out of bounds. Try again", duration: 3, gameName)
         }
     }
     
@@ -447,6 +544,7 @@ class SpiderView: UIViewController, ARSessionDelegate {
             on: upBall
         ) { event in
             self.signalUp()
+            self.playSound("hit")
         }.store(in: &collisionEventStreams)
         
         // Signal down
@@ -455,6 +553,7 @@ class SpiderView: UIViewController, ARSessionDelegate {
             on: downBall
         ) { event in
             self.signalDown()
+            self.playSound("hit")
         }.store(in: &collisionEventStreams)
         
         // Signal left
@@ -463,6 +562,7 @@ class SpiderView: UIViewController, ARSessionDelegate {
             on: leftBall
         ) { event in
             self.signalLeft()
+            self.playSound("hit")
         }.store(in: &collisionEventStreams)
         
         // Signal right
@@ -471,6 +571,7 @@ class SpiderView: UIViewController, ARSessionDelegate {
             on: rightBall
         ) { event in
             self.signalRight()
+            self.playSound("hit")
         }.store(in: &collisionEventStreams)
     }
     
@@ -479,7 +580,7 @@ class SpiderView: UIViewController, ARSessionDelegate {
         if !isOver {
             if !bodyAnchorExists {
                 // Body doesn't yet exist
-                messageLabel.displayMessage("No person detected", duration: 5, "Spider Web")
+                messageLabel.displayMessage("No person detected", duration: 5, gameName)
             } else {
                 // Draw web in UI
                 drawWeb()
@@ -499,12 +600,17 @@ class SpiderView: UIViewController, ARSessionDelegate {
             isOver = false
             web?.restartWeb(isOnline: self.isOnline!)
             score = 0
+            halfAPress = ("", 0)
+            categoryGuessLabel.text = "Your guess: "
+            categoryAnswerLabel.text = "Answer: "
             
             // Clear lists
             collectedWords.removeAll()
             posList.removeAll()
+            clearGrid()
             wordLabelList.removeAll()
             
+            // Reinitialize attributes
             if isOnline! {
                 initializeOnlineAttributes()
             } else {
@@ -514,6 +620,67 @@ class SpiderView: UIViewController, ARSessionDelegate {
             startGame()
             drawPlayer((web?.midPos[0])!, (web?.midPos[1])!)
         }
+    }
+    
+    /// Starts speech recognition
+    func startSpeechRecognition() throws {
+        // Cancel previous tasks
+        recognitionTask?.cancel()
+        self.recognitionTask = nil
+        
+        // Initialize variables
+        let audioSession = AVAudioSession.sharedInstance()
+        try audioSession.setCategory(.record, mode: .measurement, options:  .duckOthers)
+        try audioSession.setActive(true, options: .notifyOthersOnDeactivation)
+        
+        let inputNode = audioEngine.inputNode
+        inputNode.removeTap(onBus: 0)
+        let recordingFormat = inputNode.outputFormat(forBus: 0)
+        inputNode.installTap(onBus: 0, bufferSize: 1024, format: recordingFormat) { (buffer: AVAudioPCMBuffer, when: AVAudioTime) in
+            self.request?.append(buffer)
+        }
+        
+        audioEngine.prepare()
+        try audioEngine.start()
+        
+        request = SFSpeechAudioBufferRecognitionRequest()
+        guard let request = request else {
+            fatalError("Unable to create request object")
+            
+        }
+        request.shouldReportPartialResults = true
+        
+        // Enable iOS 13 on-device speech recognition
+        if #available(iOS 13, *) {
+            if speechRecognizer?.supportsOnDeviceRecognition ?? false {
+                request.requiresOnDeviceRecognition = true
+            }
+        }
+        
+        // Send and receive request
+        recognitionTask = speechRecognizer?.recognitionTask(with: request) { result, error in
+            if let result = result {
+                DispatchQueue.main.async {
+                    let bestString = result.bestTranscription.formattedString
+                    
+                    // Show guess and answer on UI
+                    self.categoryGuessLabel.text = "Your guess: " + bestString
+                    self.categoryAnswerLabel.text = "Answer: " + self.web!.category
+                }
+            }
+            if error != nil {
+                self.audioEngine.stop()
+                inputNode.removeTap(onBus: 0)
+                self.request = nil
+                self.recognitionTask = nil
+            }
+        }
+    }
+    
+    func stopSpeechRecognition() {
+        self.audioEngine.stop()
+        self.request = nil
+        self.recognitionTask = nil
     }
     
     // MARK: - View Control
@@ -530,6 +697,24 @@ class SpiderView: UIViewController, ARSessionDelegate {
         
         // Load Reality Composer scene and objects
         experienceScene = try! Experience.loadScene()
+        
+        // Set speech recognition
+        speechRecognizer?.delegate = self
+        SFSpeechRecognizer.requestAuthorization { (authStatus) in
+            switch authStatus {
+            case .authorized:
+                self.hasSpeechRecognition = true
+                print("Speech recognition initiated")
+            case .denied:
+                print("User denied access to speech recognition")
+            case .restricted:
+                print("Speech recognition restricted on this device")
+            case .notDetermined:
+                print("Speech recognition not yet authorized")
+            @unknown default:
+                print("Error loading speech recognition")
+            }
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {

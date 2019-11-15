@@ -1,4 +1,3 @@
-
 //
 //  Connection.swift
 //  MotorTherapy
@@ -9,24 +8,34 @@
 
 import Foundation
 
-func connectToServer() throws -> Holder?{
+/// Connects to set server to fetch data
+func connectToServer() throws -> Holder? {
+    // Default server URL
     let urlString = "http://192.168.1.148:9080/MotorTherapy_war_exploded/MotorTherapy/GameData"
+    
+    // Holder contains all updated data from server
     let holder = Holder()
     guard let url = URL(string: urlString) else{
         print("Error: Invalid URL")
         return holder
     }
+    
+    // Decode JSON message
     do{
         let json = try String(contentsOf: url, encoding: .ascii)
         let data = Data(json.utf8)
         let holder = try createHolder(data)
-        return holder
+        holder?.connectionSuccess = true
     } catch let error{
+        // Error connecting
         print(error)
-        return holder
+        holder.connectionSuccess = false
     }
+    return holder
 }
 
+
+/// Initializes holder from JSON message
 func createHolder(_ json: Data) throws -> Holder?{
     do {
         let decoder = JSONDecoder()

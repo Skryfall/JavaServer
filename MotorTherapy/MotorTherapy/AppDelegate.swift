@@ -16,13 +16,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        do{
-            let holder = try connectToServer()
-            print(holder?.balloonInstructions![0])
-        } catch let error{
-            print(error)
-            print("Hola")
-        }
         return true
     }
 

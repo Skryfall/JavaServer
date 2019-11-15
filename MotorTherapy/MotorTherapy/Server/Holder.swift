@@ -8,11 +8,12 @@
 
 import Foundation
 
-class Holder : Codable{
+class Holder : Codable {
     
     // MARK: - Attributes
     
     var balloonInstructions: [[Int]]?
+    var connectionSuccess: Bool?
     var flagColorsInstructions: [[String]]?
     var flagPointsInstructions: [[Int]]?
     var flagTimeInstructions: [Int]?
@@ -22,6 +23,5 @@ class Holder : Codable{
     
     // MARK: - Functions
     init(){}
-    
     
 }
