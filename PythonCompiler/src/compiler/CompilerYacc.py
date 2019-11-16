@@ -86,8 +86,13 @@ def p_expression_name(p):
 #Gramatica que se encarga del manejo del inicializacion y creacion de variables
 def p_initializer_assignOrCreate(p):
     """initializer : assign
-                   | create
-                   |"""
+                   | create"""
+
+#Gramatica vacia
+def p_initializer_empty(p):
+    'initializer : '
+    print("Error, debe al menos tener una variable creada.")
+    sys.exit()
 
 #Gramatica encargada de asignar un numero a un nombre
 def p_assign_int(p):
@@ -342,8 +347,8 @@ def telarana(row, column):
 
 #String del codigo principal
 data = """Begin
-          Game1{
-            int cant = 5;
+          Game1{ //Funcion_del_juego_del_globo
+            int cant = 5; 
             int alt = 3;
             int lat = 7;
             int prof = 1;
@@ -353,7 +358,7 @@ data = """Begin
                 Dec(lat, 2);
             Enddo;  
           }
-          Game2{
+          Game2{ //Funcion_del_juego_de_las_banderas
             int cant = 3;
             int tiempo = 60;
             texto(10) Color[10];
@@ -384,7 +389,7 @@ data = """Begin
                 Dec(tiempo, 5);
             FOREND;
           }
-          Game3{
+          Game3{ //Funcion_del_juego_de_la_telarana
             texto(15) array[9];
             int puntos[9];
             array[1] = "Oceano";
@@ -409,7 +414,7 @@ data = """Begin
             ForAsignWord(3, 3) DO
                 AsignWord(array, puntos);
           }
-          Game4{
+          Game4{ //Funcion_del_juego_del_objeto
             int Dist[5];
             int cnt = 3;
             int tme = 60;

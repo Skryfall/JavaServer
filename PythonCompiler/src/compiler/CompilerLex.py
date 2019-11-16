@@ -4,7 +4,7 @@ import ply.lex as lex
 tokens = ['Number', 'Equals', 'Name', 'int', 'LeftParentesis', 'RightParentesis', 'Balloon', 'Semicolon', 'Coma',
           'Dow', 'Inc', 'Dec', 'Enddo', 'Begin', 'Game1', 'Finish', 'BeginParentesis', 'EndParentesis', 'Game2',
           'texto', 'LeftSquareBracket', 'RightSquareBracket', 'String', 'Random', 'FOR', 'times', 'using', 'FOREND',
-          'Game3', 'Game4', 'TelaArana', 'ForAsignWord', 'DO', 'AsignWord', 'Object', 'FEnd']
+          'Game3', 'Game4', 'TelaArana', 'ForAsignWord', 'DO', 'AsignWord', 'Object', 'FEnd', 'Comment']
 
 #Asignacion de los tokens a indicadores, para que sean reconocidos por el parser
 t_Equals = r'\='
@@ -16,6 +16,10 @@ t_LeftSquareBracket = r'\['
 t_RightSquareBracket = r'\]'
 t_Semicolon = r';'
 t_Coma = r','
+
+def t_Comment(t):
+    r'\//[a-zA-Z_0-9]*'
+    pass
 
 def t_Number(t):
     r'\d+'
