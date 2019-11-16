@@ -78,6 +78,8 @@ class SpiderView: UIViewController, ARSessionDelegate, SFSpeechRecognizerDelegat
     var rightBall = Entity()
     var leftBox = Entity()
     var rightBox = Entity()
+    var leftBoxUp = Entity()
+    var rightBoxUp = Entity()
     
     // Additional variables for control
     var audioPlayer: AVAudioPlayer!
@@ -86,7 +88,7 @@ class SpiderView: UIViewController, ARSessionDelegate, SFSpeechRecognizerDelegat
     var gridView: UIImageView?
     var halfAPress = ("", 0)
     var hasSpeechRecognition = false
-    var holder: Holder?
+    var holder = Holder()
     var isFirstTime = true
     var isOnline: Bool?
     var isOver = false
@@ -188,6 +190,29 @@ class SpiderView: UIViewController, ARSessionDelegate, SFSpeechRecognizerDelegat
                     // Add to score
                     score += (web?.scoreMatrix[x][y])!
                 }
+            }
+        }
+    }
+    
+    /// Draws player in the middle of two positions
+    func drawPlayerInMidPos(_ x: Int, _ y: Int, _ translationType: String) {
+        if x > (posList.count - 1) || x < 0 || y > (posList[0].count - 1) || y < 0{
+            print("Index out of range")
+        } else {
+            // Move avatar icon to position of graphical square
+            let square = posList[x][y]
+            if translationType == "left" {
+                avatarIcon.frame.origin.x = square.x + 2 * (squareWidth! / 5)
+                avatarIcon.frame.origin.y = square.y + (squareWidth! / 5)
+            } else if translationType == "right" {
+                avatarIcon.frame.origin.x = square.x - 2 * (squareWidth! / 5)
+                avatarIcon.frame.origin.y = square.y + (squareWidth! / 5)
+            } else if translationType == "up" {
+                avatarIcon.frame.origin.x = square.x + (squareWidth! / 5)
+                avatarIcon.frame.origin.y = square.y + 4 * (squareWidth! / 5)
+            } else {
+                avatarIcon.frame.origin.x = square.x + (squareWidth! / 5)
+                avatarIcon.frame.origin.y = square.y - (squareWidth! / 5)
             }
         }
     }
@@ -331,32 +356,28 @@ class SpiderView: UIViewController, ARSessionDelegate, SFSpeechRecognizerDelegat
         // Connect to server to update holder
         messageLabel.text = "Connecting..."
         
-        // Try to connect on a separate thread.
-        DispatchQueue.global(qos: .utility).async {
-            do{
-                self.holder = try connectToServer()
-                if !self.holder!.connectionSuccess! {
-                    // Error connecting. Redirect to offline mode
-                    self.isOnline = false
-                    self.initializeOfflineAttributes()
-                    self.messageLabel.displayMessage("Error connecting. Offline.", duration: 10, self.gameName)
-                } else {
-                    // Connection to server success
-                    // Get matrix information from holder
-                    let webRows = self.holder?.spiderWebLetterInstructions?.count
-                    let webColumns = self.holder?.spiderWebLetterInstructions?[0].count
-                    
-                    // Initalize word and score matrix
-                    self.web = SpiderWeb(webRows!, webColumns!, isOnline: true)
-                    self.web?.matrix = self.holder!.spiderWebLetterInstructions!
-                    self.web?.scoreMatrix = self.holder!.spiderWebPointsInstructions!
-                    
-                    self.messageLabel.displayMessage("Connected", duration: 3, self.gameName)
-                }
-            } catch let error{
-                // Catch errors
-                print(error)
-                self.messageLabel.displayMessage("Error. Try again", duration: 10, self.gameName)
+        // Try to connect to server
+        do{
+            holder = connectToServer()
+            if !holder.connectionSuccess! {
+                // Error connecting. Redirect to offline mode
+                isOnline = false
+                initializeOfflineAttributes()
+                messageLabel.displayMessage("Error connecting. Offline.", duration: 10, self.gameName)
+            } else {
+                // Connection to server success
+                // Get matrix information from holder
+                
+                let webInstructions = holder.spiderWebLetterInstructions
+                let scoreInstructions = holder.spiderWebPointsInstructions
+                rows = holder.spiderWebLetterInstructions?.count
+                columns = holder.spiderWebLetterInstructions?[0].count
+                
+                // Initalize word and score matrix
+                web = SpiderWeb(rows!, columns!, isOnline: true)
+                web?.initializeOnlineMatrix(webInstructions!, scoreInstructions!)
+                
+                messageLabel.displayMessage("Connected", duration: 3, self.gameName)
             }
         }
     }
@@ -368,6 +389,8 @@ class SpiderView: UIViewController, ARSessionDelegate, SFSpeechRecognizerDelegat
         downBall = experienceScene.downBall!
         leftBall = experienceScene.leftBall!
         rightBall = experienceScene.rightBall!
+        leftBoxUp = experienceScene.leftBoxUp!
+        rightBoxUp = experienceScene.rightBoxUp!
         leftBox = experienceScene.leftBox!
         rightBox = experienceScene.rightBox!
         
@@ -376,6 +399,8 @@ class SpiderView: UIViewController, ARSessionDelegate, SFSpeechRecognizerDelegat
         characterAnchor.addChild(downBall)
         characterAnchor.addChild(leftBall)
         characterAnchor.addChild(rightBall)
+        characterAnchor.addChild(leftBoxUp)
+        characterAnchor.addChild(rightBoxUp)
         characterAnchor.addChild(leftBox)
         characterAnchor.addChild(rightBox)
         
@@ -460,18 +485,23 @@ class SpiderView: UIViewController, ARSessionDelegate, SFSpeechRecognizerDelegat
         isOver = true
         scoreLabel.text = "Score - " + String(score)
         messageLabel.text = "Congratulations!"
+        disableUI(false)
         
         // Start speech recognition
-        do {
-            try startSpeechRecognition()
-        } catch {
-            print("Error starting spech recognition")
-        }
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(7)) {
-            // Wait 7 seconds to enable next
-            self.startButton.isEnabled = true
-            self.stopSpeechRecognition()
+        if !isOnline! {
+            categoryAnswerLabel.isHidden = false
+            categoryGuessLabel.isHidden = false
+//            do {
+//                try startSpeechRecognition()
+//            } catch {
+//                print("Error starting spech recognition")
+//            }
+//
+//            DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(7)) {
+//                // Wait 7 seconds to enable next
+//                self.startButton.isEnabled = true
+//                self.stopSpeechRecognition()
+//            }
         }
     }
     
@@ -480,13 +510,16 @@ class SpiderView: UIViewController, ARSessionDelegate, SFSpeechRecognizerDelegat
         // Verify that you have to touch twice to advance, to simulate and out of bounds situation
         halfAPress.1 += 1
         if halfAPress.1 == 1 {
+            // Draw player in middle position from origin to target
             halfAPress.0 = "down"
+            drawPlayerInMidPos((web?.playerPos[0])! + 1, (web?.playerPos[1])!, "down")
         } else if halfAPress.1 > 1 && halfAPress.0 == "down" {
+            // Move player in UI
             drawPlayer((web?.playerPos[0])! + 1, (web?.playerPos[1])!)
             halfAPress.0 = ""
             halfAPress.1 = 0
         } else {
-            messageLabel.displayMessage("Out of bounds. Try again", duration: 3, gameName)
+            messageLabel.displayMessage("Out of bounds. Move " + halfAPress.0, duration: 3, gameName)
         }
     }
     
@@ -495,13 +528,16 @@ class SpiderView: UIViewController, ARSessionDelegate, SFSpeechRecognizerDelegat
         // Verify that you have to touch twice to advance, to simulate and out of bounds situation
         halfAPress.1 += 1
         if halfAPress.1 == 1 {
+            // Draw player in middle position from origin to target
             halfAPress.0 = "left"
+            drawPlayerInMidPos((web?.playerPos[0])!, (web?.playerPos[1])! - 1, "left")
         } else if halfAPress.1 > 1 && halfAPress.0 == "left" {
+            // Move player in UI
             drawPlayer((web?.playerPos[0])!, (web?.playerPos[1])! - 1)
             halfAPress.0 = ""
             halfAPress.1 = 0
         } else {
-            messageLabel.displayMessage("Out of bounds. Try again", duration: 3, gameName)
+            messageLabel.displayMessage("Out of bounds. Move " + halfAPress.0, duration: 3, gameName)
         }
     }
     
@@ -510,13 +546,16 @@ class SpiderView: UIViewController, ARSessionDelegate, SFSpeechRecognizerDelegat
         // Verify that you have to touch twice to advance, to simulate and out of bounds situation
         halfAPress.1 += 1
         if halfAPress.1 == 1 {
+            // Draw player in middle position from origin to target
             halfAPress.0 = "right"
+            drawPlayerInMidPos((web?.playerPos[0])!, (web?.playerPos[1])! + 1, "right")
         } else if halfAPress.1 > 1 && halfAPress.0 == "right" {
+            // Move player in UI
             drawPlayer((web?.playerPos[0])!, (web?.playerPos[1])! + 1)
             halfAPress.0 = ""
             halfAPress.1 = 0
         } else {
-            messageLabel.displayMessage("Out of bounds. Try again", duration: 3, gameName)
+            messageLabel.displayMessage("Out of bounds. Move " + halfAPress.0, duration: 3, gameName)
         }
     }
     
@@ -525,13 +564,16 @@ class SpiderView: UIViewController, ARSessionDelegate, SFSpeechRecognizerDelegat
         // Verify that you have to touch twice to advance, to simulate and out of bounds situation
         halfAPress.1 += 1
         if halfAPress.1 == 1 {
+            // Draw player in middle position from origin to target
             halfAPress.0 = "up"
+            drawPlayerInMidPos((web?.playerPos[0])! - 1, (web?.playerPos[1])!, "up")
         } else if halfAPress.1 > 1 && halfAPress.0 == "up" {
+             // Move player in UI
             drawPlayer((web?.playerPos[0])! - 1, (web?.playerPos[1])!)
             halfAPress.0 = ""
             halfAPress.1 = 0
         } else {
-            messageLabel.displayMessage("Out of bounds. Try again", duration: 3, gameName)
+            messageLabel.displayMessage("Out of bounds. Move " + halfAPress.0, duration: 3, gameName)
         }
     }
     
@@ -598,7 +640,12 @@ class SpiderView: UIViewController, ARSessionDelegate, SFSpeechRecognizerDelegat
             // Restart game
             blurView.fadeOut()
             isOver = false
-            web?.restartWeb(isOnline: self.isOnline!)
+            if !isOnline! {
+                web?.restartWeb(isOnline: false)
+            } else {
+                web?.restartWeb(isOnline: true)
+                initializeOnlineAttributes()
+            }
             score = 0
             halfAPress = ("", 0)
             categoryGuessLabel.text = "Your guess: "
@@ -729,7 +776,6 @@ class SpiderView: UIViewController, ARSessionDelegate, SFSpeechRecognizerDelegat
 
         // Run a body tracking configuration for session
         let configuration = ARBodyTrackingConfiguration()
-        configuration.automaticSkeletonScaleEstimationEnabled = true
         
         arView.session.run(configuration)
         
@@ -780,6 +826,8 @@ class SpiderView: UIViewController, ARSessionDelegate, SFSpeechRecognizerDelegat
                 // Obtain position and orientation with anchor data
                 let bodyOrientation = Transform(matrix: bodyAnchor.transform).rotation
                 let leftHandMidStartPos = simd_make_float3(skeleton.jointModelTransforms[29].columns.3)
+                let leftFootPos = simd_make_float3(skeleton.jointModelTransforms[5].columns.3)
+                let rightFootPos = simd_make_float3(skeleton.jointModelTransforms[10].columns.3)
                 let rightHandMidStartPos = simd_make_float3(skeleton.jointModelTransforms[73].columns.3)
                 let rootPos = simd_make_float3(skeleton.jointModelTransforms[0].columns.3)
                 bodyPosition = simd_make_float3(bodyAnchor.transform.columns.3)
@@ -789,17 +837,19 @@ class SpiderView: UIViewController, ARSessionDelegate, SFSpeechRecognizerDelegat
                 characterAnchor.orientation = bodyOrientation
                 
                 // Place balls control panel in the air
-                upBall.position = rootPos + [0, 0, 0.3]
+                upBall.position = rootPos + [-0.4, -0.8, 0.3]
                 leftBall.position = rootPos + [0.7, 0, 0]
                 rightBall.position = rootPos + [-0.7, 0, 0]
-                downBall.position = rootPos + [0, 0, -0.3]
-                leftBox.position = leftHandMidStartPos
-                rightBox.position = rightHandMidStartPos
+                downBall.position = rootPos + [0.4, -0.8, 0.3]
+                leftBox.position = leftFootPos
+                rightBox.position = rightFootPos
+                leftBoxUp.position = leftHandMidStartPos
+                rightBoxUp.position = rightHandMidStartPos
                 
-                // Attach character to anchor
-                if let character = character, character.parent == nil {
-                    characterAnchor.addChild(character)
-                }
+//                // Attach character to anchor
+//                if let character = character, character.parent == nil {
+//                    characterAnchor.addChild(character)
+//                }
             }
         }
     }

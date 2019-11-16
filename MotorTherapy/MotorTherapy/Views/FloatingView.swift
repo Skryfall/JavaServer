@@ -16,9 +16,6 @@ class FloatingView: UIViewController, ARSessionDelegate {
     
     // MARK: - UI Elements
     
-    // TEMP
-    let coachingOverlay = ARCoachingOverlayView()
-    
     // Main UI views
     @IBOutlet var arView: ARView!
     @IBOutlet weak var blurView: UIVisualEffectView!
@@ -47,7 +44,8 @@ class FloatingView: UIViewController, ARSessionDelegate {
     
     var floatingObject = Entity()
     var floatingObjectList = [Entity]()
-    var instrument = Entity()
+    var leftInstrument = Entity()
+    var rightInstrument = Entity()
     var instrumentList = [Entity]()
     
     let characterAnchor = AnchorEntity()
@@ -58,7 +56,7 @@ class FloatingView: UIViewController, ARSessionDelegate {
     // Additional variables for control
     var audioPlayer: AVAudioPlayer!
     var currentIndex = 0
-    var holder: Holder?
+    var holder = Holder()
     var isFirstTime = true
     var isOnline: Bool?
     var isOver = false
@@ -72,7 +70,7 @@ class FloatingView: UIViewController, ARSessionDelegate {
     let possibleRounds = [2, 3, 4, 5]
     let possibletimeList = [5, 6, 7, 9, 10]
     let possibleX = [0.5, 0.2, -0.6, -0.2, 0.6, -0.7]
-    let possibleY = [1, 1.3, 1.2, 1.5,]
+    let possibleY = [1, 1.3, 1.2, 1.5]
     let possibleZ = [0.2, 0.3, -0.2, -0.3, 0.1]
     
     // Position and timer info
@@ -146,13 +144,13 @@ class FloatingView: UIViewController, ARSessionDelegate {
         disableUI(true)
         
         do{
-            holder = try connectToServer()
-            if !holder!.connectionSuccess! {
+            holder = connectToServer()
+            if !holder.connectionSuccess! {
                 // Error connecting. Redirect to offline mode
                 redirectToOfflineMode()
             } else {
                 // Connection to server success
-                let objectInstructions = holder?.objectInstructions
+                let objectInstructions = holder.objectInstructions
                 
                 for i in objectInstructions! {
                     if i.count != 4 {
@@ -160,7 +158,20 @@ class FloatingView: UIViewController, ARSessionDelegate {
                         redirectToOfflineMode()
                     } else {
                         // Sort holder data
-                        let pos = [Float(i[0]), Float(i[1]), Float(i[2])]
+                        var x = Float(i[0]) / 10
+                        var y = Float(i[1]) / 10
+                        var z = Float(i[2]) / 10
+                        
+                        // Correct numbers if out of range to known working values
+                        if x > 0.7 || x < -0.7 {
+                            x = Float(possibleX.randomElement()!)
+                        } else if y > 1.5 || y < 1 {
+                            y = Float(possibleY.randomElement()!)
+                        } else if z > 0.3 || z < -0.3 {
+                            z = Float(possibleZ.randomElement()!)
+                        }
+                        
+                        let pos = [x, y, z]
                         allPosList.append(pos)
                         let time = i[3]
                         timeList.append(time)
@@ -171,10 +182,6 @@ class FloatingView: UIViewController, ARSessionDelegate {
                 
                 self.messageLabel.displayMessage("Connected", duration: 3, gameName)
             }
-        } catch let error {
-            // Catch errors
-            print(error)
-            self.messageLabel.displayMessage("Error. Try again", duration: 10, gameName)
         }
         
         disableUI(false)
@@ -183,22 +190,32 @@ class FloatingView: UIViewController, ARSessionDelegate {
     /// Loads default elements in AR
     func loadReality() {
         // Assign entities
+        let axe = experienceScene.axe1
         let balloon = experienceScene.balloon
+        let bat = experienceScene.bat1
         let racket = experienceScene.racket
+        let racket2 = experienceScene.racket2
+        let tennisBall = experienceScene.tennisBall
+        
+        instrumentList.append(axe!)
+        instrumentList.append(bat!)
+        instrumentList.append(racket!)
+        instrumentList.append(racket2!)
+        floatingObjectList.append(balloon!)
+        floatingObjectList.append(tennisBall!)
         
         // Default instrument and object
-        instrument = racket!
-        floatingObject = balloon!
-        
-        instrumentList.append(instrument)
-        floatingObjectList.append(floatingObject)
+        leftInstrument = bat!
+        rightInstrument = racket!
+        floatingObject = tennisBall!
         
         // Link current object with logical position
         objectPos = floatingObject.position
         
         // Anchor entities
         characterAnchor.addChild(floatingObject)
-        characterAnchor.addChild(instrument)
+        characterAnchor.addChild(leftInstrument)
+        characterAnchor.addChild(rightInstrument)
         
         // Add body tracked character and objects
         arView.scene.addAnchor(characterAnchor)
@@ -300,6 +317,10 @@ class FloatingView: UIViewController, ARSessionDelegate {
                 }
             }
         }
+    }
+    
+    @IBAction func onBackButtonTap(_ sender: Any) {
+        timer.invalidate()
     }
     
     @IBAction func onObjectButtonTap(_ sender: Any) {
@@ -503,7 +524,6 @@ class FloatingView: UIViewController, ARSessionDelegate {
 
         // Run a body tracking configuration for session
         let configuration = ARBodyTrackingConfiguration()
-        configuration.automaticSkeletonScaleEstimationEnabled = true
         
         arView.session.run(configuration)
         
@@ -553,24 +573,29 @@ class FloatingView: UIViewController, ARSessionDelegate {
                 
                 // Obtain position and orientation with anchor data
                 let bodyPosition = simd_make_float3(bodyAnchor.transform.columns.3)
+                let leftHandMidStartPos = simd_make_float3(skeleton.jointModelTransforms[28].columns.3)
+                let leftHandThumbEndPos = simd_make_float3(skeleton.jointModelTransforms[46].columns.3)
                 let rightHandMidStartPos = simd_make_float3(skeleton.jointModelTransforms[72].columns.3)
                 let rightHandThumbEndPos = simd_make_float3(skeleton.jointModelTransforms[90].columns.3)
                 headPos = simd_make_float3(skeleton.jointModelTransforms[51].columns.3)
                 
                 let bodyOrientation = Transform(matrix: bodyAnchor.transform).rotation
-                let instrumentOrientation = simd_quatf(from: rightHandMidStartPos, to: rightHandThumbEndPos)
+                let leftInstrumentOrientation = simd_quatf(from: leftHandMidStartPos, to: leftHandThumbEndPos)
+                let rightInstrumentOrientation = simd_quatf(from: rightHandMidStartPos, to: rightHandThumbEndPos)
                 
                 // Update position and orientation of elements
                 characterAnchor.position = bodyPosition
-                instrument.position = rightHandMidStartPos
+                leftInstrument.position = leftHandMidStartPos
+                rightInstrument.position = rightHandMidStartPos
                 
                 characterAnchor.orientation = bodyOrientation
-                instrument.orientation = instrumentOrientation
+                leftInstrument.orientation = leftInstrumentOrientation
+                rightInstrument.orientation = rightInstrumentOrientation
                 
-                // Attach character to anchor
-                if let character = character, character.parent == nil {
-                    characterAnchor.addChild(character)
-                }
+//                // Attach character to anchor
+//                if let character = character, character.parent == nil {
+//                    characterAnchor.addChild(character)
+//                }
             }
         }
     }

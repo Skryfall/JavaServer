@@ -15,7 +15,6 @@
 		A935C171236CA9B100CA6545 /* SpiderWeb.swift in Sources */ = {isa = PBXBuildFile; fileRef = A935C170236CA9B100CA6545 /* SpiderWeb.swift */; };
 		A935C176236D00BC00CA6545 /* hit.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A935C175236D00BC00CA6545 /* hit.mp3 */; };
 		A935C178236D06F400CA6545 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A935C177236D06F400CA6545 /* Extensions.swift */; };
-		A93CB15D23666B1B0087130E /* FloatingView+CoachingOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = A93CB15C23666B1B0087130E /* FloatingView+CoachingOverlay.swift */; };
 		A9529EB5236911C400733BD1 /* FeetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9529EB4236911C400733BD1 /* FeetView.swift */; };
 		A9529EB7236911D700733BD1 /* BalloonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9529EB6236911D700733BD1 /* BalloonView.swift */; };
 		A9529EB9236911F200733BD1 /* SpiderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9529EB8236911F200733BD1 /* SpiderView.swift */; };
@@ -66,7 +65,6 @@
 		A935C170236CA9B100CA6545 /* SpiderWeb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpiderWeb.swift; sourceTree = "<group>"; };
 		A935C175236D00BC00CA6545 /* hit.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = hit.mp3; sourceTree = "<group>"; };
 		A935C177236D06F400CA6545 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
-		A93CB15C23666B1B0087130E /* FloatingView+CoachingOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FloatingView+CoachingOverlay.swift"; sourceTree = "<group>"; };
 		A9529EB4236911C400733BD1 /* FeetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeetView.swift; sourceTree = "<group>"; };
 		A9529EB6236911D700733BD1 /* BalloonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalloonView.swift; sourceTree = "<group>"; };
 		A9529EB8236911F200733BD1 /* SpiderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpiderView.swift; sourceTree = "<group>"; };
@@ -240,7 +238,6 @@
 			isa = PBXGroup;
 			children = (
 				A9529EBA2369122700733BD1 /* FloatingView.swift */,
-				A93CB15C23666B1B0087130E /* FloatingView+CoachingOverlay.swift */,
 				A9529EB4236911C400733BD1 /* FeetView.swift */,
 				A9529EB6236911D700733BD1 /* BalloonView.swift */,
 				A9529EB8236911F200733BD1 /* SpiderView.swift */,
@@ -367,7 +364,6 @@
 				A986E334234EEC4200A71338 /* ViewController.swift in Sources */,
 				A935C171236CA9B100CA6545 /* SpiderWeb.swift in Sources */,
 				A9529EBB2369122700733BD1 /* FloatingView.swift in Sources */,
-				A93CB15D23666B1B0087130E /* FloatingView+CoachingOverlay.swift in Sources */,
 				A9CB2B262364FCB8000A6F82 /* experience.rcproject in Sources */,
 				A9EF8318236F8F5600737179 /* Connection.swift in Sources */,
 				A935C16E236BEFA100CA6545 /* RoundedCornerView.swift in Sources */,
