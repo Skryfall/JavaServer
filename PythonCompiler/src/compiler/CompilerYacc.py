@@ -40,7 +40,7 @@ def p_statement_main(p):
     holder.setSpiderWebLetterInstructions(master.getSpiderWebInstructions()[0])
     holder.setSpiderWebPointsInstructions(master.getSpiderWebInstructions()[1])
     holder.setObjectInstructions(master.getObjectInstructions())
-   # serverConnection.sendToServer('http://localhost:9080/MotorTherapy_war_exploded/MotorTherapy/GameData', holder.toJSON())
+    serverConnection.sendToServer('http://localhost:9080/MotorTherapy_war_exploded/MotorTherapy/GameData', holder.toJSON())
 
 #Gramatica que cambia la variable que indica el juego que se va a ajustar
 def p_game1_start(p):
