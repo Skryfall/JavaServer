@@ -12,6 +12,7 @@ from src.compiler.CompilerLex import tokens
 from src.server.ConnectionHandler import ConnectionHandler
 from src.server.Holder import Holder
 
+#Instancias de los juegos
 balloonGame = BalloonGame()
 flagGame = FlagGame()
 spiderWebGame = SpiderWebGame()
@@ -20,9 +21,14 @@ serverConnection = ConnectionHandler()
 holder = Holder()
 master = Master()
 
+#Variables
 names = {}
 currentGame = 1
 
+#Gramaticas de Libre Contexto
+
+#Gramatica principal
+#Tambien se encarga de realizar las preparaciones de los datos para enviarlos al server
 def p_statement_main(p):
     """statement : Begin Game1 BeginParentesis initializer add game1 EndParentesis Game2 BeginParentesis initializer add game2 EndParentesis Game3 BeginParentesis initializer add game3 EndParentesis Game4 BeginParentesis initializer add game4 EndParentesis Finish Semicolon"""
     balloonGame.handleBalloonLogic()
@@ -34,8 +40,9 @@ def p_statement_main(p):
     holder.setSpiderWebLetterInstructions(master.getSpiderWebInstructions()[0])
     holder.setSpiderWebPointsInstructions(master.getSpiderWebInstructions()[1])
     holder.setObjectInstructions(master.getObjectInstructions())
-    serverConnection.sendToServer('http://localhost:9080/MotorTherapy_war_exploded/MotorTherapy/GameData', holder.toJSON())
+   # serverConnection.sendToServer('http://localhost:9080/MotorTherapy_war_exploded/MotorTherapy/GameData', holder.toJSON())
 
+#Gramatica que cambia la variable que indica el juego que se va a ajustar
 def p_game1_start(p):
     'game1 : function'
     global currentGame
@@ -56,14 +63,17 @@ def p_game4_start(p):
     global currentGame
     currentGame = 1
 
+#Gramatica que indica como es un numero
 def p_expression_number(p):
     "expression : Number"
     p[0] = p[1]
 
+#Gramatica que indica como es un string
 def p_expression_string(p):
     "expression : String"
     p[0] = p[1]
 
+#Gramatica que indica los nombres de las variables
 def p_expression_name(p):
     "expression : Name"
     try:
@@ -73,20 +83,24 @@ def p_expression_name(p):
         p[0] = 0
         sys.exit()
 
+#Gramatica que se encarga del manejo del inicializacion y creacion de variables
 def p_initializer_assignOrCreate(p):
     """initializer : assign
                    | create
                    |"""
 
+#Gramatica encargada de asignar un numero a un nombre
 def p_assign_int(p):
     """assign : int Name Equals expression Semicolon
               | int Name Equals expression Semicolon assign
               | int Name Equals expression Semicolon create"""
     names[p[2]] = p[4]
 
+#Gramatica vacia
 def p_assign_empty(p):
     'assign : '
 
+#Gramatica que se encarga de crear una lista de strings
 def p_create_textList(p):
     """create : texto LeftParentesis expression RightParentesis Name LeftSquareBracket expression RightSquareBracket Semicolon
               | texto LeftParentesis expression RightParentesis Name LeftSquareBracket expression RightSquareBracket Semicolon assign
@@ -98,6 +112,7 @@ def p_create_textList(p):
         i += 1
     names[p[5]] = array
 
+#Gramatica que se encarga de crear una lista de numeros
 def p_create_intList(p):
     """create : int Name LeftSquareBracket expression RightSquareBracket Semicolon
               | int Name LeftSquareBracket expression RightSquareBracket Semicolon assign
@@ -109,9 +124,11 @@ def p_create_intList(p):
         i += 1
     names[p[2]] = array
 
+#Gramatica vacia
 def p_create_empty(p):
     'create : '
 
+#Gramatica que se encarga de agregar un elemento a una lista
 def p_add_toList(p):
     """add : Name LeftSquareBracket expression RightSquareBracket Equals expression Semicolon
            | Name LeftSquareBracket expression RightSquareBracket Equals expression Semicolon add"""
@@ -124,14 +141,17 @@ def p_add_toList(p):
         print("Error, no se pudo agregar el elemento " + p[6] + " a la lista " + p[1])
         sys.exit()
 
+#Gramatica vacia
 def p_add_empty(p):
     'add : '
 
+#Gramatica para imprimir una variable
 def p_function_printExpression(p):
     """function : expression
                 | expression function"""
     print(p[1])
 
+#Gramatica de la funcion dow
 def p_function_dow(p):
     """function : Dow LeftParentesis expression RightParentesis function Enddo Semicolon
                 | Dow LeftParentesis expression RightParentesis function Enddo Semicolon function"""
@@ -143,6 +163,7 @@ def p_function_dow(p):
         print("La estructura del Dow es: Dow(numero de repeticiones) 'instrucciones' Enddo;")
         sys.exit()
 
+#Gramatica de la funcion balloon
 def p_function_balloon(p):
     """function : Balloon LeftParentesis expression Coma expression Coma expression RightParentesis Semicolon
                 | Balloon LeftParentesis expression Coma expression Coma expression RightParentesis Semicolon function"""
@@ -153,6 +174,7 @@ def p_function_balloon(p):
         print("La estructura del Balloon es: Balloon(altura, latitud, profundidad);")
         sys.exit()
 
+#Gramatica de la funcion inc
 def p_function_inc(p):
     """function : Inc LeftParentesis expression Coma expression RightParentesis Semicolon
                 | Inc LeftParentesis expression Coma expression RightParentesis Semicolon function"""
@@ -163,6 +185,7 @@ def p_function_inc(p):
         print("La estructura del Inc es: Inc(valor, cantidad a aumentar);")
         sys.exit()
 
+#Gramatica de la funcion dec
 def p_function_dec(p):
     """function : Dec LeftParentesis expression Coma expression RightParentesis Semicolon
                 | Dec LeftParentesis expression Coma expression RightParentesis Semicolon function"""
@@ -173,6 +196,7 @@ def p_function_dec(p):
         print("La estructura del Dec es: Inc(valor, cantidad a disminuir);")
         sys.exit()
 
+#Gramatica de la funcion FOR con el Random especial
 def p_function_FORList(p):
     """function : FOR expression times using expression Random LeftParentesis expression Coma expression Coma expression RightParentesis Semicolon function FOREND Semicolon
                 | FOR expression times using expression Random LeftParentesis expression Coma expression Coma expression RightParentesis Semicolon function FOREND Semicolon function"""
@@ -184,6 +208,7 @@ def p_function_FORList(p):
         print("La estructura del FOR es: FOR 'numero de repeticiones' times using 'lista de banderas' Random(puntaje, cantidad, tiempo) 'instrucciones' FOREND;")
         sys.exit()
 
+#Gramatica de la funcion random
 def p_function_random(p):
     """function : Random LeftParentesis expression Coma expression Coma expression Coma expression RightParentesis Semicolon
                 | Random LeftParentesis expression Coma expression Coma expression Coma expression RightParentesis Semicolon function"""
@@ -194,6 +219,7 @@ def p_function_random(p):
         print("La estructura del Random es: Random(banderas, puntaje, cantidad, tiempo);")
         sys.exit()
 
+#Gramatica de la funcion telarana
 def p_function_spiderWeb(p):
     """function : TelaArana LeftParentesis expression Coma expression RightParentesis Semicolon
                 | TelaArana LeftParentesis expression Coma expression RightParentesis Semicolon function"""
@@ -204,6 +230,7 @@ def p_function_spiderWeb(p):
         print("La estructura correcta es: TelaArana(filas, columnas);")
         sys.exit()
 
+#Gramatica de la funcion asignWord
 def p_function_asignWord(p):
     """function : ForAsignWord LeftParentesis expression Coma expression RightParentesis DO AsignWord LeftParentesis expression Coma expression RightParentesis Semicolon
                 | ForAsignWord LeftParentesis expression Coma expression RightParentesis DO AsignWord LeftParentesis expression Coma expression RightParentesis Semicolon function"""
@@ -217,6 +244,7 @@ def p_function_asignWord(p):
         print("La estructura correcta es: ForAsignWord(fila, columna) DO AsignWord(palabras, puntajes);")
         sys.exit()
 
+#Gramatica de la funcion object
 def p_function_object(p):
     """function : Object LeftParentesis expression Coma expression Coma expression Coma expression RightParentesis Semicolon
                 | Object LeftParentesis expression Coma expression Coma expression Coma expression RightParentesis Semicolon function"""
@@ -227,6 +255,7 @@ def p_function_object(p):
         print("La estrucutra correcta es: Object(altura, distancia, profundidad, tiempo);")
         sys.exit()
 
+#Gramatica de la funcion FOR para ser usado con la funcion Object especial
 def p_function_FORInt(p):
     """function : FOR expression times using Name Object LeftParentesis expression Coma expression LeftSquareBracket Name RightSquareBracket Coma expression Coma expression RightParentesis function FEnd Semicolon
                 | FOR expression times using Name Object LeftParentesis expression Coma expression LeftSquareBracket Name RightSquareBracket Coma expression Coma expression RightParentesis function FEnd Semicolon function"""
@@ -239,9 +268,11 @@ def p_function_FORInt(p):
         print("La esctructura correcta es: FOR 'numero de repeticiones' times using variable Object(altura, 'lista de distancia'[variable], profundidad, tiempo) 'instrucciones' FEnd;")
         sys.exit()
 
+#Gramatica vacia
 def p_function_empty(p):
     'function : '
 
+#Manejo de errores en el parseo
 def p_error(p):
     if p:
         print("Error de sintaxis de '%s'" % p.value)
@@ -252,12 +283,15 @@ def p_error(p):
 
 yacc.yacc()
 
+#Funcion que recibe la altura, latitud y profundidad del globo y la inserta en una lista
 def balloon(alt, lat, prof):
     balloonGame.addInstruction((alt, lat, prof))
 
+#Funcion que recibe la altura, latitud, profundidad y tiempo del objeto y lo inserta en una lista
 def object(alt, long, prof, sec):
     objectGame.addInstruction((alt, long, prof, sec))
 
+#Funcion que recibe un numero y la cantidad a incrementarlo, seguidamente lo inserta en una lista dependiendo del juego actual
 def inc(number, increment):
     if currentGame == 1:
         balloonGame.addIteration((number, increment, 'Inc'))
@@ -266,6 +300,7 @@ def inc(number, increment):
     if currentGame == 4:
         objectGame.addIteration((number, increment, 'Inc'))
 
+#Funcion que recibe un numero y la cantidad a decrementarlo, seguidamente lo inserta en una lista dependiendo del juego actual
 def dec(number, decrement):
     if currentGame == 1:
         balloonGame.addIteration((number, decrement, 'Dec'))
@@ -274,6 +309,7 @@ def dec(number, decrement):
     if currentGame == 4:
         objectGame.addIteration((number, decrement, 'Dec'))
 
+#Funcion que recibe la lista de banderas, la lista de los puntos de las banderas, la cantidad de banderas a randomizar y el tiempo de juego, ademas los mete en listas
 def random(flagArray, pointsArray, cant, time):
     if currentGame == 2:
         flagGame.setInstruction(flagArray)
@@ -281,6 +317,7 @@ def random(flagArray, pointsArray, cant, time):
         flagGame.setItemsToRandomize(cant)
         flagGame.setRandomTime(time)
 
+#Funcion que recibe una fila y una columna y crea una matriz con los valores dados
 def telarana(row, column):
     i = 0
     j = 0
@@ -301,6 +338,9 @@ def telarana(row, column):
         j = 0
     spiderWebGame.setWeb([letterMatrix, pointsMatrix])
 
+#Colores de las banderas: green, red, orange, blue, yellow, brown, purple, gray, magenta y cyan
+
+#String del codigo principal
 data = """Begin
           Game1{
             int cant = 5;
@@ -318,37 +358,55 @@ data = """Begin
             int tiempo = 60;
             texto(10) Color[10];
             int puntaje[10];
-            Color[1] = "Azul";
-            Color[2] = "Rojo";
-            Color[3] = "Naranja";
-            Color[4] = "Perro";
+            Color[1] = "green";
+            Color[2] = "grey";
+            Color[3] = "yellow";
+            Color[4] = "purple";
+            Color[5] = "green";
+            Color[6] = "red";
+            Color[7] = "brown";
+            Color[8] = "cyan";
+            Color[9] = "red";
+            Color[10] = "magenta";
             puntaje[1] = 10;
             puntaje[2] = 20;
             puntaje[3] = 13;
             puntaje[4] = 200;
+            puntaje[5] = 1;
+            puntaje[6] = 90;
+            puntaje[7] = 76;
+            puntaje[8] = 12;
+            puntaje[9] = 10;
+            puntaje[10] = 50;
             FOR 5 times using Color
                 Random(puntaje, cant, tiempo);
                 Inc(cant, 3);
-                Dec(tiempo, 10);
+                Dec(tiempo, 5);
             FOREND;
           }
           Game3{
-            texto(15) array[6];
-            int puntos[6];
+            texto(15) array[9];
+            int puntos[9];
             array[1] = "Oceano";
             array[2] = "Azul";
             array[3] = "Casa";
             array[4] = "Plata";
             array[5] = "Cama";
             array[6] = "Ojo";
+            array[7] = "Perro";
+            array[8] = "Nariz";
+            array[9] = "Minecraft";
             puntos[1] = 10;
             puntos[2] = 34;
             puntos[3] = 89;
             puntos[4] = 90;
             puntos[5] = 54;
             puntos[6] = 18;
-            TelaArana(5, 5);
-            ForAsignWord(5, 5) DO
+            puntos[7] = 1;
+            puntos[8] = 50;
+            puntos[9] = 89;
+            TelaArana(3, 3);
+            ForAsignWord(3, 3) DO
                 AsignWord(array, puntos);
           }
           Game4{
