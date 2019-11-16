@@ -1,10 +1,14 @@
 import ply.lex as lex
 
 #Tokens del compilador
+from src.logic.Master import Master
+
 tokens = ['Number', 'Equals', 'Name', 'int', 'LeftParentesis', 'RightParentesis', 'Balloon', 'Semicolon', 'Coma',
           'Dow', 'Inc', 'Dec', 'Enddo', 'Begin', 'Game1', 'Finish', 'BeginParentesis', 'EndParentesis', 'Game2',
           'texto', 'LeftSquareBracket', 'RightSquareBracket', 'String', 'Random', 'FOR', 'times', 'using', 'FOREND',
           'Game3', 'Game4', 'TelaArana', 'ForAsignWord', 'DO', 'AsignWord', 'Object', 'FEnd', 'Comment']
+
+master = Master()
 
 #Asignacion de los tokens a indicadores, para que sean reconocidos por el parser
 t_Equals = r'\='
@@ -19,6 +23,7 @@ t_Coma = r','
 
 def t_Comment(t):
     r'\//[a-zA-Z_0-9]*'
+    master.setComment(True)
     pass
 
 def t_Number(t):
@@ -147,7 +152,7 @@ def t_Random(t):
     return t
 
 def t_Name(t):
-    r'[a-zA-Z_][a-zA-Z_0-9]*'
+    r'[a-zA-Z_@&-][a-zA-Z_0-9@&-]*'
     t.type = 'Name'
     return t
 

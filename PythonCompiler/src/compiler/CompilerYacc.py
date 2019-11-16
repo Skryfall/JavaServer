@@ -31,16 +31,20 @@ currentGame = 1
 #Tambien se encarga de realizar las preparaciones de los datos para enviarlos al server
 def p_statement_main(p):
     """statement : Begin Game1 BeginParentesis initializer add game1 EndParentesis Game2 BeginParentesis initializer add game2 EndParentesis Game3 BeginParentesis initializer add game3 EndParentesis Game4 BeginParentesis initializer add game4 EndParentesis Finish Semicolon"""
-    balloonGame.handleBalloonLogic()
-    flagGame.handleFlagLogic()
-    spiderWebGame.handleSpiderWebLogic()
-    objectGame.handleObjectLogic()
-    holder.setBalloonInstructions(master.getBalloonInstructions())
-    holder.setFlagInstructions(master.getFlagInstructions())
-    holder.setSpiderWebLetterInstructions(master.getSpiderWebInstructions()[0])
-    holder.setSpiderWebPointsInstructions(master.getSpiderWebInstructions()[1])
-    holder.setObjectInstructions(master.getObjectInstructions())
-    serverConnection.sendToServer('http://localhost:9080/MotorTherapy_war_exploded/MotorTherapy/GameData', holder.toJSON())
+    if master.getComment():
+        balloonGame.handleBalloonLogic()
+        flagGame.handleFlagLogic()
+        spiderWebGame.handleSpiderWebLogic()
+        objectGame.handleObjectLogic()
+        holder.setBalloonInstructions(master.getBalloonInstructions())
+        holder.setFlagInstructions(master.getFlagInstructions())
+        holder.setSpiderWebLetterInstructions(master.getSpiderWebInstructions()[0])
+        holder.setSpiderWebPointsInstructions(master.getSpiderWebInstructions()[1])
+        holder.setObjectInstructions(master.getObjectInstructions())
+        # serverConnection.sendToServer('http://localhost:9080/MotorTherapy_war_exploded/MotorTherapy/GameData', holder.toJSON())
+    else:
+        print("Error, el programa debe tener al menos un comentario.")
+        sys.exit()
 
 #Gramatica que cambia la variable que indica el juego que se va a ajustar
 def p_game1_start(p):
@@ -359,7 +363,7 @@ data = """Begin
             Enddo;  
           }
           Game2{ //Funcion_del_juego_de_las_banderas
-            int cant = 3;
+            int cont = 3;
             int tiempo = 60;
             texto(10) Color[10];
             int puntaje[10];
@@ -384,8 +388,8 @@ data = """Begin
             puntaje[9] = 10;
             puntaje[10] = 50;
             FOR 5 times using Color
-                Random(puntaje, cant, tiempo);
-                Inc(cant, 3);
+                Random(puntaje, cont, tiempo);
+                Inc(cont, 3);
                 Dec(tiempo, 5);
             FOREND;
           }

@@ -4,6 +4,7 @@ class Master(object):
     flagInstructions = []
     spiderWebInstructions = []
     objectInstructions = []
+    comment = False
 
     def __new__(cls):
         if Master.master is None:
@@ -33,6 +34,12 @@ class Master(object):
 
     def setObjectInstructions(self, instructions):
         self.objectInstructions = instructions
+
+    def getComment(self):
+        return self.comment
+
+    def setComment(self, comment):
+        self.comment = comment
 
     #Funcion que incrementa un numero cierta cantidad
     def increment(self, number, cuantity):
