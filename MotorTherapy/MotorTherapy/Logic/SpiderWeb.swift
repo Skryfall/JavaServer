@@ -28,26 +28,29 @@ class SpiderWeb {
         self.columns = columns
         self.rows = rows
         
-        // Initialize attributes
-        if isOnline {
-            initializeOnlineMatrix()
-        } else {
-            initializeOfflineMatrix()
-        }
-        
         // Search for start/center position in matrix
         midPos[0] = (rows - 1) / 2
         midPos[1] = (columns - 1) / 2
-        matrix[midPos[0]][midPos[1]] = "START"
-        wordPath.append(midPos)
         
-        // Starting pos is center of matrix
-        playerPos[0] = midPos[0]
-        playerPos[1] = midPos[1]
-        print(matrix)
-        print(wordPath)
-        print(category)
-        print(scoreMatrix)
+        // Initialize attributes
+        if !isOnline {
+            // Create matrix
+            initializeOfflineMatrix()
+            
+            // Set position in middle to start
+            matrix[midPos[0]][midPos[1]] = "START"
+            wordPath.append(midPos)
+            
+            // Starting pos is center of matrix
+            playerPos[0] = midPos[0]
+            playerPos[1] = midPos[1]
+            
+            print("WEB INIT INFO")
+            print(matrix)
+            print(wordPath)
+            print(category)
+            print(scoreMatrix)
+        }
     }
     
     /// Generate random word from English dictionary
@@ -215,29 +218,49 @@ class SpiderWeb {
         wordPath.append([randomX, randomY])
     }
     
-    /// Initializes online word matrix
-    func initializeOnlineMatrix() {
-        var currentRow = [String]()
-        var currentScoreRow = [Int]()
-        let mRows = rows!
-        let mColumns = columns!
+    /// Initializes online matrix from inputs
+    func initializeOnlineMatrix(_ nMatrix: [[String]],_ nScoreMatrix: [[Int]]) {
+        // Assign incoming info
+        matrix = nMatrix
+        scoreMatrix = nScoreMatrix
         
-        // Fill matrix with random words
-        for _ in 0...(mRows - 1) {
-            for _ in 0...(mColumns - 1) {
-                // Get random word
-                let word = ""
-                currentRow.append(word)
-                
-                // Assign score
-                let score = word.count
-                currentScoreRow.append(score)
+        // Set position in middle to start
+        matrix[midPos[0]][midPos[1]] = "START"
+        wordPath.append(midPos)
+        
+        // Search for words and add them to matrix
+        for i in 0...(matrix.count - 1) {
+            for j in 0...(matrix[0].count - 1) {
+                let word = matrix[i][j]
+                if word != "" && word != "START" {
+                    wordPath.append([i, j])
+                }
             }
-            matrix.append(currentRow)
-            scoreMatrix.append(currentScoreRow)
-            currentRow.removeAll()
-            currentScoreRow.removeAll()
         }
+        
+        // Add end at random position on border
+        // Add "END" at random border position
+        var randomX = 0
+        var randomY = 0
+        let randomOrientation = Int.random(in: 0...1)
+        if randomOrientation == 0 {
+            // Horizontal
+            randomX = Int.random(in: 0...(columns! - 1))
+            randomY = [0, rows! - 1].randomElement()!
+        } else {
+            // Vertical
+            randomX = Int.random(in: 0...(rows! - 1))
+            randomY = [0, columns! - 1].randomElement()!
+        }
+        
+        if matrix[randomX][randomY] != "" {
+            matrix[randomX][randomY] = "END"
+        } else {
+            matrix[randomX][randomY] = "END"
+            wordPath.append([randomX, randomY])
+        }
+        
+        scoreMatrix[randomX][randomY] = 0
     }
 
     /// Checks if position being tried to add is already on path
@@ -257,9 +280,7 @@ class SpiderWeb {
         matrix.removeAll()
         wordPath.removeAll()
         scoreMatrix.removeAll()
-        if isOnline {
-            initializeOnlineMatrix()
-        } else {
+        if !isOnline {
             initializeOfflineMatrix()
         }
     }

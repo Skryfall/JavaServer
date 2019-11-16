@@ -9,9 +9,9 @@
 import Foundation
 
 /// Connects to set server to fetch data
-func connectToServer() throws -> Holder? {
+func connectToServer() -> Holder {
     // Default server URL
-    let urlString = "http://192.168.1.148:9080/MotorTherapy_war_exploded/MotorTherapy/GameData"
+    let urlString = "http://192.168.100.11:9080/MotorTherapy_war_exploded/MotorTherapy/GameData"
     
     // Holder contains all updated data from server
     let holder = Holder()
@@ -26,12 +26,13 @@ func connectToServer() throws -> Holder? {
         let data = Data(json.utf8)
         let holder = try createHolder(data)
         holder?.connectionSuccess = true
+        return holder!
     } catch let error{
         // Error connecting
         print(error)
         holder.connectionSuccess = false
+        return holder
     }
-    return holder
 }
 
 

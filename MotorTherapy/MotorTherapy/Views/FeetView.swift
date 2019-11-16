@@ -121,10 +121,11 @@ class FeetView: UIViewController, ARSessionDelegate {
     
     // Additional variables for control
     var audioPlayer = AVAudioPlayer()
-    var holder: Holder?
+    var holder = Holder()
     var isFirstTime = true
     var isOnline: Bool?
     var isOver = false
+    var passPlayer = AVAudioPlayer()
     var tickPlayer = AVAudioPlayer()
     
     // Offline posibilities for variables
@@ -266,6 +267,7 @@ class FeetView: UIViewController, ARSessionDelegate {
         loadReality()
         loadRobot()
         loadTickSound()
+        loadPassSound()
     }
     
     /// Initializes attributes from local random generation
@@ -314,15 +316,15 @@ class FeetView: UIViewController, ARSessionDelegate {
         disableUI(true)
         
         do {
-            holder = try connectToServer()
-            if !holder!.connectionSuccess! {
+            holder = connectToServer()
+            if !holder.connectionSuccess! {
                 // Error connecting. Redirect to offline mode
                 redirectToOfflineMode()
             } else {
                 // Connection to server success
-                let colorInstructions = holder?.flagColorsInstructions
-                let scoreInstructions = holder?.flagPointsInstructions
-                let timeInstructions = holder?.flagTimeInstructions
+                let colorInstructions = holder.flagColorsInstructions
+                let scoreInstructions = holder.flagPointsInstructions
+                let timeInstructions = holder.flagTimeInstructions
                 let roundCount: Int?
                 
                 if colorInstructions?.count != scoreInstructions?.count {
@@ -335,12 +337,17 @@ class FeetView: UIViewController, ARSessionDelegate {
                     for i in 0...(roundCount! - 1) {
                         let currentColorInstruction = colorInstructions![i]
                         let currentScoreInstruction = scoreInstructions![i]
+                        let currentTimeInstruction = timeInstructions!
                         
                         var currentColorList = [String]()
                         var currentNScoreList = [Int]()
                         var currentTimeList = [Int]()
                         
-                        if currentColorInstruction.count != currentNScoreList.count {
+                        // Divide session time equally for each ball
+                        let sessionTime = currentTimeInstruction[i]
+                        let ballTime = sessionTime / currentColorInstruction.count
+                        
+                        if currentColorInstruction.count != currentScoreInstruction.count {
                             // Error. Round in round count doesn't match convention
                             redirectToOfflineMode()
                             break
@@ -351,21 +358,22 @@ class FeetView: UIViewController, ARSessionDelegate {
                             // Sort colors
                             for i in 0...(roundsInRound - 1) {
                                 let color = currentColorInstruction[i]
-                                
-                                if !possibleColors.contains(color) {
-                                    // Error. Wrong color, doesn't match convention
-                                    redirectToOfflineMode()
-                                    breakVar = true
-                                    break
-                                } else {
-                                    let nScore = currentScoreInstruction[i]
-                                    let randomTime = (timeInstructions?.randomElement())!
                                     
-                                    // Sort holder data
-                                    currentColorList.append(color)
-                                    currentNScoreList.append(nScore)
-                                    currentTimeList.append(randomTime)
-                                    totalScore += nScore
+                                if color != "" {
+                                    if !possibleColors.contains(color) {
+                                        // Error. Wrong color, doesn't match convention
+                                        redirectToOfflineMode()
+                                        breakVar = true
+                                        break
+                                    } else {
+                                        let nScore = currentScoreInstruction[i]
+                                        
+                                        // Sort holder data
+                                        currentColorList.append(color)
+                                        currentNScoreList.append(nScore)
+                                        currentTimeList.append(ballTime)
+                                        totalScore += nScore
+                                    }
                                 }
                             }
                             
@@ -382,10 +390,6 @@ class FeetView: UIViewController, ARSessionDelegate {
                 
                 self.messageLabel.displayMessage("Connected", duration: 3, gameName)
             }
-        } catch let error {
-            // Catch errors
-            print(error)
-            self.messageLabel.displayMessage("Error. Try again", duration: 10, gameName)
         }
         
         disableUI(false)
@@ -471,6 +475,24 @@ class FeetView: UIViewController, ARSessionDelegate {
          }
     }
     
+    // Loads pass sound
+    func loadPassSound() {
+        if let soundURL = Bundle.main.url(forResource: "pass", withExtension: "mp3") {
+            do {
+                passPlayer = try AVAudioPlayer(contentsOf: soundURL)
+            }
+            catch {
+                print(error)
+            }
+         } else {
+            print("Unable to locate audio file")
+         }
+    }
+    
+    @IBAction func onBackButtonTap(_ sender: Any) {
+        timer.invalidate()
+    }
+    
     @IBAction func onStartButtonTap(_ sender: Any) {
         startGame()
     }
@@ -522,17 +544,6 @@ class FeetView: UIViewController, ARSessionDelegate {
              } else {
                 print("Unable to locate audio file")
              }
-        case "pass":
-           if let soundURL = Bundle.main.url(forResource: "pass", withExtension: "mp3") {
-               do {
-                   audioPlayer = try AVAudioPlayer(contentsOf: soundURL)
-               }
-               catch {
-                   print(error)
-               }
-            } else {
-               print("Unable to locate audio file")
-            }
          default:
              print("No sound found")
          }
@@ -564,7 +575,7 @@ class FeetView: UIViewController, ARSessionDelegate {
                         currentScoreList = allScoreList[0]
                         currentTimeList = allTimeList[0]
                         seconds = currentTimeList[0]
-                        playSound("pass")
+                        passPlayer.play()
                     }
                 } else {
                     // Set variable to be showed in UI
@@ -814,7 +825,6 @@ class FeetView: UIViewController, ARSessionDelegate {
 
         // Run a body tracking configuration for session
         let configuration = ARBodyTrackingConfiguration()
-        configuration.automaticSkeletonScaleEstimationEnabled = true
         
         arView.session.run(configuration)
         
@@ -894,10 +904,10 @@ class FeetView: UIViewController, ARSessionDelegate {
                 leftBoxUp.position = leftHandPos
                 rightBoxUp.position = rightHandPos
                 
-                // Attach character to anchor
-                if let character = character, character.parent == nil {
-                    characterAnchor.addChild(character)
-                }
+//                // Attach character to anchor
+//                if let character = character, character.parent == nil {
+//                    characterAnchor.addChild(character)
+//                }
             }
         }
     }

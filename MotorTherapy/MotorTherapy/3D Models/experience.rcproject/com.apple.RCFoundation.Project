@@ -94,6 +94,110 @@
               "material" : "concrete",
               "overrides" : {
                 "children" : {
+                  "0A443E4A-9A57-4433-89D4-AC388511ACDD" : {
+                    "overrides" : {
+                      "arguments" : [
+                        [
+                          "item",
+                          {
+                            "typeName" : "String",
+                            "value" : "Tennis Racket"
+                          }
+                        ],
+                        [
+                          "material",
+                          {
+                            "typeName" : "String",
+                            "value" : "gold"
+                          }
+                        ],
+                        [
+                          "style",
+                          {
+                            "typeName" : "String",
+                            "value" : "Iconic"
+                          }
+                        ]
+                      ],
+                      "children" : {
+                        "iconicItem" : {
+                          "overrides" : {
+                            "factory" : null,
+                            "runtimeAttributes" : [
+                              [
+                                "RuntimeIdentifier",
+                                {
+                                  "typeName" : "UUID",
+                                  "value" : "3A07862C-662D-4F45-9D7C-60F24473FEA0"
+                                }
+                              ]
+                            ]
+                          }
+                        },
+                        "item" : {
+                          "overrides" : {
+                            "factory" : null,
+                            "runtimeAttributes" : [
+                              [
+                                "RuntimeIdentifier",
+                                {
+                                  "typeName" : "UUID",
+                                  "value" : "08B359A7-5B7A-4241-B446-FFEC827FC6A9"
+                                }
+                              ]
+                            ]
+                          }
+                        }
+                      },
+                      "factory" : {
+                        "identifier" : "com.apple.rc.af.TennisRacket.e0ba9d80-e06c-43f6-9207-cddc8797463c",
+                        "version" : "1.0"
+                      },
+                      "runtimeAttributes" : [
+                        [
+                          "RuntimeIdentifier",
+                          {
+                            "typeName" : "UUID",
+                            "value" : "D5BC3E59-C203-4FEF-86AF-FBDB6CFF2590"
+                          }
+                        ],
+                        [
+                          "entityName",
+                          {
+                            "typeName" : "String",
+                            "value" : "Racket2"
+                          }
+                        ],
+                        [
+                          "rigidBody-enabled",
+                          {
+                            "typeName" : "Bool",
+                            "value" : true
+                          }
+                        ]
+                      ]
+                    },
+                    "transform" : {
+                      "matrix" : [
+                        1.0006927251815796,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1.0006927251815796,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1.0006927251815796,
+                        0,
+                        0,
+                        0,
+                        6.5192587328510854e-08,
+                        1
+                      ]
+                    }
+                  },
                   "1DAC797E-E786-4C1E-BD11-40D2D9CBDF29" : {
                     "overrides" : {
                       "arguments" : [
@@ -212,8 +316,8 @@
                             "typeName" : "double4",
                             "value" : [
                               1,
-                              0.69696968793869019,
-                              0.3333333432674408,
+                              0.63636362552642822,
+                              0.20000000298023224,
                               1
                             ]
                           }
@@ -288,7 +392,7 @@
                         1,
                         0,
                         0,
-                        -2.9802325940408991e-08,
+                        -5.2154067731180476e-08,
                         0,
                         1
                       ]
@@ -488,7 +592,90 @@
                         1,
                         0,
                         0,
-                        -2.9802325940408991e-08,
+                        -5.4016712880411433e-08,
+                        0,
+                        1
+                      ]
+                    }
+                  },
+                  "6B56503A-4CBC-4929-9CDA-07997B64679A" : {
+                    "overrides" : {
+                      "arguments" : [
+                        [
+                          "item",
+                          {
+                            "typeName" : "String",
+                            "value" : "Axe"
+                          }
+                        ],
+                        [
+                          "style",
+                          {
+                            "typeName" : "String",
+                            "value" : "Stylized"
+                          }
+                        ]
+                      ],
+                      "children" : {
+                        "item" : {
+                          "overrides" : {
+                            "factory" : null,
+                            "runtimeAttributes" : [
+                              [
+                                "RuntimeIdentifier",
+                                {
+                                  "typeName" : "UUID",
+                                  "value" : "232FCCBB-01E9-4367-817C-365373E6026C"
+                                }
+                              ]
+                            ]
+                          }
+                        }
+                      },
+                      "factory" : {
+                        "identifier" : "com.apple.rc.af.Axe.e00e4c5f-082c-4fea-a7e6-70ad0604869a",
+                        "version" : "1.0"
+                      },
+                      "runtimeAttributes" : [
+                        [
+                          "RuntimeIdentifier",
+                          {
+                            "typeName" : "UUID",
+                            "value" : "D1255CC4-5A9C-479F-A938-E877976A1CDB"
+                          }
+                        ],
+                        [
+                          "entityName",
+                          {
+                            "typeName" : "String",
+                            "value" : "Axe1"
+                          }
+                        ],
+                        [
+                          "rigidBody-enabled",
+                          {
+                            "typeName" : "Bool",
+                            "value" : true
+                          }
+                        ]
+                      ]
+                    },
+                    "transform" : {
+                      "matrix" : [
+                        0.90817630290985107,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0.90817630290985107,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0.90817630290985107,
+                        0,
+                        0,
+                        0,
                         0,
                         1
                       ]
@@ -593,7 +780,7 @@
                         1,
                         0,
                         0,
-                        -5.9604651880817983e-08,
+                        0,
                         0,
                         1
                       ]
@@ -679,7 +866,7 @@
                         0.9999997615814209,
                         0,
                         0,
-                        1.4901162970204496e-08,
+                        7.4505814851022478e-09,
                         0,
                         1
                       ]
@@ -784,7 +971,7 @@
                         1,
                         0,
                         0,
-                        -2.9802320611338473e-08,
+                        0,
                         0,
                         1
                       ]
@@ -812,9 +999,9 @@
                           {
                             "typeName" : "double4",
                             "value" : [
-                              0.9272727370262146,
+                              0.93939393758773804,
                               1,
-                              0.20000000298023224,
+                              0.3333333432674408,
                               1
                             ]
                           }
@@ -889,7 +1076,7 @@
                         1,
                         0,
                         0,
-                        -2.9802325940408991e-08,
+                        -5.4016712880411433e-08,
                         0,
                         1
                       ]
@@ -990,6 +1177,89 @@
                       ]
                     }
                   },
+                  "802A4BFC-0BDF-4AAA-8A4D-3E390DA9B75A" : {
+                    "overrides" : {
+                      "arguments" : [
+                        [
+                          "item",
+                          {
+                            "typeName" : "String",
+                            "value" : "Tennis Ball"
+                          }
+                        ],
+                        [
+                          "style",
+                          {
+                            "typeName" : "String",
+                            "value" : "Stylized"
+                          }
+                        ]
+                      ],
+                      "children" : {
+                        "item" : {
+                          "overrides" : {
+                            "factory" : null,
+                            "runtimeAttributes" : [
+                              [
+                                "RuntimeIdentifier",
+                                {
+                                  "typeName" : "UUID",
+                                  "value" : "455A2364-95AA-4154-8462-E5C01CCA8B67"
+                                }
+                              ]
+                            ]
+                          }
+                        }
+                      },
+                      "factory" : {
+                        "identifier" : "com.apple.rc.af.TennisBall.0bee3e4f-946c-4b6d-96d1-9dbf6eea99ab",
+                        "version" : "1.0"
+                      },
+                      "runtimeAttributes" : [
+                        [
+                          "RuntimeIdentifier",
+                          {
+                            "typeName" : "UUID",
+                            "value" : "92B31C82-FD29-48B4-AB8C-DCA608A8645A"
+                          }
+                        ],
+                        [
+                          "entityName",
+                          {
+                            "typeName" : "String",
+                            "value" : "Tennis Ball"
+                          }
+                        ],
+                        [
+                          "rigidBody-enabled",
+                          {
+                            "typeName" : "Bool",
+                            "value" : true
+                          }
+                        ]
+                      ]
+                    },
+                    "transform" : {
+                      "matrix" : [
+                        5.0787038803100586,
+                        0,
+                        0,
+                        0,
+                        0,
+                        5.0787038803100586,
+                        0,
+                        0,
+                        0,
+                        0,
+                        5.0787038803100586,
+                        0,
+                        0,
+                        -1.4901162970204496e-08,
+                        0,
+                        1
+                      ]
+                    }
+                  },
                   "961B4310-D85D-49B1-BF66-DEE8B7985701" : {
                     "overrides" : {
                       "arguments" : [
@@ -1070,7 +1340,7 @@
                         1,
                         0,
                         0,
-                        2.2351743567128324e-08,
+                        5.329070941717225e-15,
                         0,
                         1
                       ]
@@ -1247,6 +1517,89 @@
                       ]
                     }
                   },
+                  "72855892-F403-486C-BFA2-AF6E3AE8615E" : {
+                    "overrides" : {
+                      "arguments" : [
+                        [
+                          "item",
+                          {
+                            "typeName" : "String",
+                            "value" : "Baseball Bat"
+                          }
+                        ],
+                        [
+                          "style",
+                          {
+                            "typeName" : "String",
+                            "value" : "Stylized"
+                          }
+                        ]
+                      ],
+                      "children" : {
+                        "item" : {
+                          "overrides" : {
+                            "factory" : null,
+                            "runtimeAttributes" : [
+                              [
+                                "RuntimeIdentifier",
+                                {
+                                  "typeName" : "UUID",
+                                  "value" : "1974BA94-E0E5-475F-9C93-F6C856B5C90F"
+                                }
+                              ]
+                            ]
+                          }
+                        }
+                      },
+                      "factory" : {
+                        "identifier" : "com.apple.rc.af.BaseballBat.184a6a1a-8b37-4c32-81c5-a131a3de0c37",
+                        "version" : "1.0"
+                      },
+                      "runtimeAttributes" : [
+                        [
+                          "RuntimeIdentifier",
+                          {
+                            "typeName" : "UUID",
+                            "value" : "79B593B0-AB3A-48B5-B973-9BBBC4F34C06"
+                          }
+                        ],
+                        [
+                          "entityName",
+                          {
+                            "typeName" : "String",
+                            "value" : "Bat1"
+                          }
+                        ],
+                        [
+                          "rigidBody-enabled",
+                          {
+                            "typeName" : "Bool",
+                            "value" : true
+                          }
+                        ]
+                      ]
+                    },
+                    "transform" : {
+                      "matrix" : [
+                        0.80865591764450073,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0.80865591764450073,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0.80865591764450073,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                      ]
+                    }
+                  },
                   "A7749425-F255-4DBA-9E7F-B020C0BC8830" : {
                     "overrides" : {
                       "arguments" : [
@@ -1346,7 +1699,7 @@
                         1,
                         0,
                         0,
-                        1.4901162970204496e-08,
+                        1.862645371275562e-09,
                         0,
                         1
                       ]
@@ -1548,7 +1901,7 @@
                         1,
                         0,
                         0,
-                        2.9802325940408991e-08,
+                        1.4901162970204496e-08,
                         0,
                         1
                       ]
@@ -1634,7 +1987,7 @@
                         1,
                         0,
                         0,
-                        2.2351743567128324e-08,
+                        5.5879358917820809e-09,
                         0,
                         1
                       ]
@@ -1662,9 +2015,9 @@
                           {
                             "typeName" : "double4",
                             "value" : [
-                              0.25,
-                              0.15909090638160706,
-                              0.05000000074505806,
+                              0.55000001192092896,
+                              0.34999999403953552,
+                              0.10999999940395355,
                               1
                             ]
                           }
@@ -1739,7 +2092,7 @@
                         1,
                         0,
                         0,
-                        -2.9802325940408991e-08,
+                        -4.4703487134256648e-08,
                         0,
                         1
                       ]
@@ -1844,7 +2197,7 @@
                         1,
                         0,
                         0,
-                        0,
+                        7.4505814851022478e-09,
                         0,
                         1
                       ]
@@ -1949,7 +2302,7 @@
                         1,
                         0,
                         0,
-                        0,
+                        1.4901162970204496e-08,
                         0,
                         1
                       ]
@@ -2054,7 +2407,7 @@
                         1,
                         0,
                         0,
-                        -4.4703487134256648e-08,
+                        0,
                         0,
                         1
                       ]
@@ -2066,21 +2419,21 @@
               "title" : "Scene",
               "viewTransform" : {
                 "cameraTransform" : [
-                  0.7147059440612793,
-                  1.0430812125150624e-07,
-                  -0.69942498207092285,
+                  0.89025157690048218,
+                  6.7055211161459738e-08,
+                  -0.45546907186508179,
                   0,
-                  -0.44176942110061646,
-                  0.77527976036071777,
-                  -0.45142105221748352,
+                  -0.15143230557441711,
+                  0.9431118369102478,
+                  -0.29598689079284668,
                   0,
-                  0.54224997758865356,
-                  0.6316179633140564,
-                  0.55409711599349976,
+                  0.42955800890922546,
+                  0.33247554302215576,
+                  0.83960694074630737,
                   0,
-                  6.2975497245788574,
-                  6.5026016235351562,
-                  4.2493562698364258,
+                  0.85950189828872681,
+                  0.8028186559677124,
+                  1.4576135873794556,
                   1
                 ],
                 "sceneTransform" : [
