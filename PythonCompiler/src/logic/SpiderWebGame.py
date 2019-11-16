@@ -28,6 +28,7 @@ class SpiderWebGame(FlagGame):
     def setWeb(self, web):
         self.web = web
 
+    #Funcion que busca el punto de inicio de la matriz
     def startingMatrixPoint(self, number, list):
         i = 0
         while list[i + 1] != '':
@@ -37,6 +38,9 @@ class SpiderWebGame(FlagGame):
                 break
         return number
 
+    # Metodo que se encarga de realizar las preparaciones del juego de la telarana
+    # Itera lo requerido por el usuario
+    # Al final lo almacena en una lista para que sea serializado
     def handleSpiderWebLogic(self):
         if self.row != len(self.web[0]) or self.column != len(self.web[0][0]):
             print("Error, el valor de fila o columna no ForAsignWord no es el mismo al utilizado previamente.")

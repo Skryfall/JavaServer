@@ -11,6 +11,9 @@ class ObjectGame(BalloonGame):
     def setDistances(self, distances):
         self.distances = distances
 
+    # Metodo que se encarga de realizar las preparaciones del juego del objeto
+    # Itera lo requerido por el usuario
+    # Al final lo almacena en una lista para que sea serializado
     def handleObjectLogic(self):
         startIndex = 1
         while self.repetitions != 1:

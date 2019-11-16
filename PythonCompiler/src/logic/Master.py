@@ -34,14 +34,17 @@ class Master(object):
     def setObjectInstructions(self, instructions):
         self.objectInstructions = instructions
 
+    #Funcion que incrementa un numero cierta cantidad
     def increment(self, number, cuantity):
         number += cuantity
         return number
 
+    #Funcion que decrementa un numero cierta cantidad
     def decrement(self, number, cuantity):
         number -= cuantity
         return number
 
+    #Funcion que busca un numero en una lista
     def findNumberInList(self, list, number):
         for i in list:
             if i == number:

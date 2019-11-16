@@ -54,6 +54,7 @@ class Holder:
     def setObjectInstructions(self, instructions):
         self.objectInstructions = instructions
 
+    #Funcion que prepara la lista del juego de las banderas para que pueda ser serializada correctamente
     def setFlagInstructions(self, instructions):
         colors = []
         points = []
@@ -66,6 +67,6 @@ class Holder:
         self.flagPointsInstructions = points
         self.flagTimeInstructions = time
 
-
+    #Funcion que serializa la instancia de la clase a json
     def toJSON(self):
         return json.dumps(self, default = lambda o: o.__dict__)

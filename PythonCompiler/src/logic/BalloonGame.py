@@ -32,6 +32,9 @@ class BalloonGame:
     def addInstruction(self, instruction):
         self.instructions.append(instruction)
 
+    #Metodo que se encarga de realizar las preparaciones del juego del globo
+    #Itera lo requerido por el usuario
+    #Al final lo almacena en una lista para que sea serializado
     def handleBalloonLogic(self):
         while self.repetitions != 0:
             newAlt = self.instructions[0][0]

@@ -1,11 +1,12 @@
 import ply.lex as lex
 
-
+#Tokens del compilador
 tokens = ['Number', 'Equals', 'Name', 'int', 'LeftParentesis', 'RightParentesis', 'Balloon', 'Semicolon', 'Coma',
           'Dow', 'Inc', 'Dec', 'Enddo', 'Begin', 'Game1', 'Finish', 'BeginParentesis', 'EndParentesis', 'Game2',
           'texto', 'LeftSquareBracket', 'RightSquareBracket', 'String', 'Random', 'FOR', 'times', 'using', 'FOREND',
           'Game3', 'Game4', 'TelaArana', 'ForAsignWord', 'DO', 'AsignWord', 'Object', 'FEnd']
 
+#Asignacion de los tokens a indicadores, para que sean reconocidos por el parser
 t_Equals = r'\='
 t_LeftParentesis = r'\('
 t_RightParentesis = r'\)'

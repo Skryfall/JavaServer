@@ -35,6 +35,7 @@ class FlagGame(BalloonGame):
     def setRandomTime(self, times):
         self.randomTime = times
 
+    #Funcion que se encarga de revisar cuantas banderas hay en la lista
     def checkAmountofFlags(self):
         counter = 0
         for i in self.instructions:
@@ -44,6 +45,7 @@ class FlagGame(BalloonGame):
                 break
         return counter
 
+    #Funcion que se encarga de randomizar la cantidad de banderas solicitadas por el usuario
     def randomizeFlags(self, flags, points, time, quantity, limit):
         index = quantity
         if quantity > limit:
@@ -67,6 +69,9 @@ class FlagGame(BalloonGame):
             index += 1
         return [temporalFlags, temporalPoints, time]
 
+    # Metodo que se encarga de realizar las preparaciones del juego de las banderas
+    # Itera lo requerido por el usuario
+    # Al final lo almacena en una lista para que sea serializado
     def handleFlagLogic(self):
         self.itemsToRandomize -= 1
         temporalInstructions = self.instructions
